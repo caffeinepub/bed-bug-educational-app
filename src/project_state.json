@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 37,
-  "summary": "Bed bug education app expanding to additional pests, with a cross-platform Photo Scanner and growing educational content to include pests like cockroaches, head lice, spiders, moths/larvae, beetles (including wood beetles), black stink bugs, and now also ants (black ants, red ants, army ants, and carpenter ants).",
+  "projectStateVersion": 39,
+  "summary": "Bed bug education app expanding to additional pests, with a cross-platform Photo Scanner and growing educational content to include pests like cockroaches, head lice, spiders (including black widow, brown recluse, and wolf spider guidance), moths/larvae, beetles (including wood beetles), black stink bugs, ants (black ants, red ants, army ants, and carpenter ants), and now also earwigs.",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Simple black ant icon illustration, clean line style, transparent background (black-ant-icon.dim_128x128.png, 128x128)\n- Simple red ant icon illustration, clean line style, transparent background (red-ant-icon.dim_128x128.png, 128x128)\n- Simple army ant icon illustration, clean line style, transparent background (army-ant-icon.dim_128x128.png, 128x128)\n- Simple carpenter ant icon illustration, clean line style, transparent background (carpenter-ant-icon.dim_128x128.png, 128x128)",
+  "imageRequirements": "## Required Images\n- Simple earwig icon illustration, clean line style, transparent background (earwig-icon.dim_128x128.png, 128x128)",
   "existing_features": [
     {
       "id": "feature-add-a-new-photo-scanner-feature-that-works-on-mobile-and-desktop-browsers-allowing-users-on-all-phones-to-capture-a-photo-with-the-camera-or-upload-an-existing-image-from-their-device",
@@ -382,6 +382,38 @@
         "REQ-48"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-new-earwigs-educational-content-component-that-follows-the-existing-pest-content-layout-patterns-cards-alerts-and-provides-clear-user-facing-english-guidance-covering-1-basic-identification-cues-and-common-signs-indoors-2-where-earwigs-are-commonly-found-and-what-attracts-them-especially-moisture-3-prevention-steps-and-4-what-to-do-if-found-safe-clean-up-control-steps-monitoring-and-when-to-call-a-professional",
+      "title": "Add a new Earwigs educational content component that follows the existing pest content layout patterns (cards + alerts) and provides clear, user-facing English guidance covering: (1) basic identification cues and common signs indoors, (2) where earwigs are commonly found and what attracts them (especially moisture), (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional).",
+      "reqIds": [
+        "REQ-49"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-earwigs-into-the-pest-selection-ui-in-frontend-src-components-educationalcontent-tsx-across-the-identify-habitats-prevention-and-treatment-tabs-consistent-with-the-existing-pattern-selection-button-in-the-grid-conditional-rendering-via-the-selectedpest-switch",
+      "title": "Integrate Earwigs into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection button in the grid + conditional rendering via the selectedPest switch).",
+      "reqIds": [
+        "REQ-50"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expand-the-existing-spiders-educational-content-frontend-src-components-pests-spiderscontent-tsx-to-include-clearer-more-detailed-guidance-specifically-for-black-widow-spiders-brown-recluse-spiders-and-wolf-spiders-add-distinct-subsections-that-include-identification-cues-typical-indoor-outdoor-hiding-spots-safety-medical-cautions-and-what-to-do-if-found-including-when-to-call-a-professional-keep-all-user-facing-text-in-english-and-consistent-in-tone-with-the-existing-safety-warning-medical-attention-callouts",
+      "title": "Expand the existing Spiders educational content (frontend/src/components/pests/SpidersContent.tsx) to include clearer, more detailed guidance specifically for Black Widow spiders, Brown Recluse spiders, and Wolf spiders. Add distinct subsections that include identification cues, typical indoor/outdoor hiding spots, safety/medical cautions, and what to do if found (including when to call a professional). Keep all user-facing text in English and consistent in tone with the existing Safety Warning/Medical Attention callouts.",
+      "reqIds": [
+        "REQ-51"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-and-use-a-new-static-earwig-icon-image-asset-under-frontend-public-assets-generated-and-use-it-in-the-earwigs-selection-control-via-an-img-tag-with-appropriate-alt-text-consistent-with-existing-pest-icon-usage-e-g-cockroach-head-lice-spider-icons",
+      "title": "Add and use a new static Earwig icon image asset under frontend/public/assets/generated, and use it in the Earwigs selection control via an <img> tag with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
+      "reqIds": [
+        "REQ-52"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -546,6 +578,24 @@
     {
       "id": "AR-30",
       "summary": "Integrate ant categories (black ants, red ants, army ants, and carpenter ants) into the pest selection UI across EducationalContent tabs (consistent with existing pest integration).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Add earwigs as a new pest category with educational content (identification cues, signs, prevention, and what to do if found) in clear, user-facing English.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-32",
+      "summary": "Integrate Earwigs into the pest selection UI across EducationalContent tabs (consistent with existing pest integration) and include an earwig icon asset for the selection control.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-33",
+      "summary": "Expand the Spiders educational content to also include clear guidance for black widow spiders, brown recluse spiders, and wolf spiders (ID cues, safety notes, and what to do if found).",
       "reqIds": [],
       "status": "pending"
     }

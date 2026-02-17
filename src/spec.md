@@ -1,11 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Add four ant pest types (Black, Red, Army, Carpenter) to the Pest ID Guide with educational content and selection icons.
+**Goal:** Add Earwigs as a new educational pest topic and expand spider species guidance for Black Widow, Brown Recluse, and Wolf spiders.
 
 **Planned changes:**
-- Create four new educational content React components under `frontend/src/components/pests/` for Black Ants, Red Ants, Army Ants, and Carpenter Ants, following the existing cards + alerts layout and covering identification, habitats/attractants, prevention, and what to do if found (including safety notes; carpenter ants include structural-damage caution).
-- Update `frontend/src/components/EducationalContent.tsx` to include the four new ant types in the pest selection UI and ensure they render correctly across Identify, Habitats, Prevention, and Treatment tabs using the existing selection + `renderPestContent` pattern.
-- Add four new static ant icon assets under `frontend/public/assets/generated` and wire them into the pest selection buttons via `<img>` tags with appropriate English alt text.
+- Create a new Earwigs educational content component using the existing pest content layout (Cards + Alerts) with English guidance for identification, habitats/attractants (including moisture), prevention, and what to do if found.
+- Integrate Earwigs into the pest selection UI so it can be selected and displayed across the Identify, Habitats, Prevention, and Treatment tabs.
+- Expand the existing Spiders content to add clearly labeled subsections for Black Widow, Brown Recluse, and Wolf spiders, including identification cues, likely hiding spots, safety/medical cautions, and recommended next steps.
+- Add a new static earwig icon asset and use it in the Earwigs selection control with appropriate alt text.
 
-**User-visible outcome:** Users can select Black Ants, Red Ants, Army Ants, or Carpenter Ants in the educational UI to view tailored guidance in each tab, with matching icons in the selection grid.
+**User-visible outcome:** Users can select Earwigs to read practical guidance across all educational tabs, and they’ll see more detailed, species-specific guidance for Black Widow, Brown Recluse, and Wolf spiders within the Spiders content.

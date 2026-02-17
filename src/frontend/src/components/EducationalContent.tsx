@@ -20,13 +20,14 @@ import { BlackAntsContent } from './pests/BlackAntsContent';
 import { RedAntsContent } from './pests/RedAntsContent';
 import { ArmyAntsContent } from './pests/ArmyAntsContent';
 import { CarpenterAntsContent } from './pests/CarpenterAntsContent';
+import { EarwigsContent } from './pests/EarwigsContent';
 import { Bug, Home, Shield, Flame, GraduationCap, FileDown, Camera, Rat } from 'lucide-react';
 import { QuizSectionType } from '../backend';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 export function EducationalContent() {
-  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice' | 'cockroaches' | 'headlice' | 'spiders' | 'mothslarvae' | 'beetles' | 'woodbeetles' | 'blackstinkbugs' | 'blackants' | 'redants' | 'armyants' | 'carpenterants'>('bedbugs');
+  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice' | 'cockroaches' | 'headlice' | 'spiders' | 'mothslarvae' | 'beetles' | 'woodbeetles' | 'blackstinkbugs' | 'blackants' | 'redants' | 'armyants' | 'carpenterants' | 'earwigs'>('bedbugs');
 
   const renderPestSelectionButtons = () => (
     <div className="grid gap-3 grid-cols-2 sm:grid-cols-5 lg:grid-cols-10">
@@ -186,6 +187,18 @@ export function EducationalContent() {
         />
         <span className="text-xs">Carpenter Ants</span>
       </Button>
+      <Button
+        variant={selectedPest === 'earwigs' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('earwigs')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/earwig-icon.dim_128x128.png" 
+          alt="Earwigs" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Earwigs</span>
+      </Button>
     </div>
   );
 
@@ -219,6 +232,8 @@ export function EducationalContent() {
         return <ArmyAntsContent />;
       case 'carpenterants':
         return <CarpenterAntsContent />;
+      case 'earwigs':
+        return <EarwigsContent />;
       default:
         return null;
     }

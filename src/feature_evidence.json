@@ -2,13 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-four-new-ant-educational-content-components-for-black-ants-red-ants-army-ants-interpret-user-text-arm-ants-as-army-ants-and-carpenter-ants-each-component-must-use-clear-user-facing-english-text-and-follow-the-existing-pest-content-layout-patterns-cards-alerts-to-cover-1-basic-identification-cues-and-common-signs-2-where-they-are-commonly-found-and-what-attracts-them-3-prevention-steps-and-4-what-to-do-if-found-safe-clean-up-control-steps-monitoring-and-when-to-call-a-professional-include-a-prominent-safety-note-about-stings-allergic-reactions-where-relevant-and-include-a-prominent-structural-damage-caution-for-carpenter-ants",
-      "featureTitle": "Add four new ant educational content components for: Black Ants, Red Ants, Army Ants (interpret user text \"arm ants\" as \"army ants\"), and Carpenter Ants. Each component must use clear, user-facing English text and follow the existing pest content layout patterns (cards + alerts) to cover: (1) basic identification cues and common signs, (2) where they are commonly found and what attracts them, (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional). Include a prominent safety note about stings/allergic reactions where relevant, and include a prominent structural-damage caution for Carpenter Ants.",
+      "featureId": "feature-add-a-new-earwigs-educational-content-component-that-follows-the-existing-pest-content-layout-patterns-cards-alerts-and-provides-clear-user-facing-english-guidance-covering-1-basic-identification-cues-and-common-signs-indoors-2-where-earwigs-are-commonly-found-and-what-attracts-them-especially-moisture-3-prevention-steps-and-4-what-to-do-if-found-safe-clean-up-control-steps-monitoring-and-when-to-call-a-professional",
+      "featureTitle": "Add a new Earwigs educational content component that follows the existing pest content layout patterns (cards + alerts) and provides clear, user-facing English guidance covering: (1) basic identification cues and common signs indoors, (2) where earwigs are commonly found and what attracts them (especially moisture), (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional).",
       "files": [
-        "frontend/src/components/pests/ArmyAntsContent.tsx",
-        "frontend/src/components/pests/BlackAntsContent.tsx",
-        "frontend/src/components/pests/CarpenterAntsContent.tsx",
-        "frontend/src/components/pests/RedAntsContent.tsx"
+        "frontend/src/components/pests/EarwigsContent.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -20,13 +17,13 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-46"
+        "REQ-49"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-integrate-black-ants-red-ants-army-ants-and-carpenter-ants-into-the-pest-selection-ui-in-frontend-src-components-educationalcontent-tsx-across-the-identify-habitats-prevention-and-treatment-tabs-consistent-with-the-existing-pattern-selection-buttons-conditional-rendering-via-renderpestcontent",
-      "featureTitle": "Integrate Black Ants, Red Ants, Army Ants, and Carpenter Ants into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection buttons + conditional rendering via renderPestContent).",
+      "featureId": "feature-integrate-earwigs-into-the-pest-selection-ui-in-frontend-src-components-educationalcontent-tsx-across-the-identify-habitats-prevention-and-treatment-tabs-consistent-with-the-existing-pattern-selection-button-in-the-grid-conditional-rendering-via-the-selectedpest-switch",
+      "featureTitle": "Integrate Earwigs into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection button in the grid + conditional rendering via the selectedPest switch).",
       "files": [
         "frontend/src/components/EducationalContent.tsx"
       ],
@@ -40,13 +37,33 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-47"
+        "REQ-50"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-static-icon-image-assets-for-black-ants-red-ants-army-ants-and-carpenter-ants-under-frontend-public-assets-generated-and-use-them-in-the-pest-selection-controls-via-img-tags-with-appropriate-alt-text-consistent-with-existing-pest-icon-usage-e-g-cockroach-head-lice-spider-icons",
-      "featureTitle": "Add static icon image assets for Black Ants, Red Ants, Army Ants, and Carpenter Ants under frontend/public/assets/generated and use them in the pest selection controls via <img> tags with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
+      "featureId": "feature-expand-the-existing-spiders-educational-content-frontend-src-components-pests-spiderscontent-tsx-to-include-clearer-more-detailed-guidance-specifically-for-black-widow-spiders-brown-recluse-spiders-and-wolf-spiders-add-distinct-subsections-that-include-identification-cues-typical-indoor-outdoor-hiding-spots-safety-medical-cautions-and-what-to-do-if-found-including-when-to-call-a-professional-keep-all-user-facing-text-in-english-and-consistent-in-tone-with-the-existing-safety-warning-medical-attention-callouts",
+      "featureTitle": "Expand the existing Spiders educational content (frontend/src/components/pests/SpidersContent.tsx) to include clearer, more detailed guidance specifically for Black Widow spiders, Brown Recluse spiders, and Wolf spiders. Add distinct subsections that include identification cues, typical indoor/outdoor hiding spots, safety/medical cautions, and what to do if found (including when to call a professional). Keep all user-facing text in English and consistent in tone with the existing Safety Warning/Medical Attention callouts.",
+      "files": [
+        "frontend/src/components/pests/SpidersContent.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-51"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-and-use-a-new-static-earwig-icon-image-asset-under-frontend-public-assets-generated-and-use-it-in-the-earwigs-selection-control-via-an-img-tag-with-appropriate-alt-text-consistent-with-existing-pest-icon-usage-e-g-cockroach-head-lice-spider-icons",
+      "featureTitle": "Add and use a new static Earwig icon image asset under frontend/public/assets/generated, and use it in the Earwigs selection control via an <img> tag with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
       "files": [
         "frontend/src/components/EducationalContent.tsx"
       ],
@@ -60,7 +77,7 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-48"
+        "REQ-52"
       ],
       "confidence": "high"
     }

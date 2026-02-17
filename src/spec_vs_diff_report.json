@@ -1,79 +1,26 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T21:25:39.650Z",
-  "summary": "Four new ant educational content components were added and EducationalContent.tsx was updated to import them and extend the selectedPest union. However, the diff summary does not show the required new static ant icon assets under frontend/public/assets/generated, nor does it clearly evidence that the ant icons are used in the selection UI and that all tabs render the correct ant content via the existing renderPestContent switch pattern. The diff summary also indicates several unrelated UI/content changes outside the ant scope.",
+  "generatedAt": "2026-02-17T21:33:12.886Z",
+  "summary": "EarwigsContent component was added and EducationalContent.tsx was updated to include an 'earwigs' option in selectedPest and import EarwigsContent. SpidersContent.tsx was modified to add at least a clearly labeled Black Widow subsection and preserve the top-level Safety Warning alert. However, the required static earwig icon asset is not present in the diff summary, and the Earwigs selection button’s use of that icon cannot be confirmed from the truncated EducationalContent.tsx diff.",
   "missing_requirements": [
     {
-      "id": "REQ-48",
-      "requirement": "Add static icon image assets for Black Ants, Red Ants, Army Ants, and Carpenter Ants under frontend/public/assets/generated with the exact specified filenames, and use them in the pest selection controls via <img> tags with appropriate alt text.",
-      "reason": "No new files under frontend/public/assets/generated are shown as added/modified, and the visible EducationalContent.tsx snippet only shows <img> usage for existing pests (e.g., cockroaches/head lice/spiders) but not for the new ant pests.",
+      "id": "REQ-52",
+      "requirement": "Add a new static Earwig icon image asset under frontend/public/assets/generated (earwig-icon.dim_128x128.png) and use it in the Earwigs selection control via an <img> tag with appropriate alt text.",
+      "reason": "The diff summary shows only one added file (EarwigsContent.tsx) and does not show the required PNG asset being added under frontend/public/assets/generated. Also, the truncated EducationalContent.tsx snippet does not include an Earwigs selection button using an <img> tag with the earwig icon path and alt text.",
       "evidence": [
-        "frontend/src/components/EducationalContent.tsx (truncated; shows <img> for cockroaches/head lice/spiders but no ant icon usage in the visible portion)",
-        "File diff summary: ADDED FILES list does not include any frontend/public/assets/generated/*.png"
-      ]
-    },
-    {
-      "id": "REQ-47",
-      "requirement": "Integrate Black Ants, Red Ants, Army Ants, and Carpenter Ants into the pest selection UI across Identify, Habitats, Prevention, and Treatment tabs using the existing pattern (selection buttons + conditional rendering via renderPestContent).",
-      "reason": "While imports and the selectedPest union were updated, the diff summary snippet is truncated before showing the ant selection buttons and does not show the renderPestContent switch/conditional rendering updates across tabs.",
-      "evidence": [
-        "frontend/src/components/EducationalContent.tsx (truncated; shows imports and selectedPest union update, but not the ant buttons nor the renderPestContent switch/conditional rendering)"
+        "File diff summary: Added files list contains only frontend/src/components/pests/EarwigsContent.tsx; no frontend/public/assets/generated/earwig-icon.dim_128x128.png is listed",
+        "frontend/src/components/EducationalContent.tsx (truncated before showing any Earwigs button/icon usage)"
       ]
     }
   ],
-  "hallucinated_features": [
-    {
-      "description": "Header rebranding to broader \"Pest ID & Guide\" branding.",
-      "reason": "Not requested by REQ-46/47/48; scope is adding ant pest types content + icons and integrating into existing EducationalContent pattern.",
-      "evidence": [
-        "frontend-file-summaries.txt (mentions updated header branding)"
-      ]
-    },
-    {
-      "description": "Changes to bed bug Identify/Habitats/Prevention sections to use a custom quick tip icon instead of existing Lucide icons.",
-      "reason": "Non-goal: do not change existing Bed Bugs quiz/guide section types or content retrieval behavior; also not required for adding ant pests.",
-      "evidence": [
-        "frontend-file-summaries.txt (IdentifySection/HabitatsSection/PreventionSection summaries mention icon swaps)"
-      ]
-    },
-    {
-      "description": "Treatment section changes adding/adjusting an interactive, locally-persisted room preparation checklist with safety confirmation and a new 'During Treatment' item.",
-      "reason": "Not requested in the ant content + icon integration requirements.",
-      "evidence": [
-        "frontend-file-summaries.txt (TreatmentSection summary describes checklist gating and new checklist item)"
-      ]
-    },
-    {
-      "description": "Global theme/CSS palette updates (OKLCH color palette and checklist utility styling).",
-      "reason": "Not requested by this build; requirements focus on ant content components, selection UI integration, and static icons.",
-      "evidence": [
-        "frontend-file-summaries.txt (frontend/src/index.css summary)"
-      ]
-    },
-    {
-      "description": "React Query hooks adjustments and Quiz/PrintableGuides changes to use QuizSectionType/ContentType correctly.",
-      "reason": "Not part of the ant educational content + icons request and risks unintended behavior changes.",
-      "evidence": [
-        "frontend-file-summaries.txt (useQueries.ts, Quiz.tsx, PrintableGuides.tsx summaries)"
-      ]
-    },
-    {
-      "description": "PhotoScanner expansion (image editing tools, local gallery, collapsible Spider Photo Help panel, spider tagging).",
-      "reason": "Not requested in this build; also BuildRequest non-goals include not adding AI/ML identification (even though this is not explicitly AI, it is unrelated scope).",
-      "evidence": [
-        "frontend-file-summaries.txt (PhotoScanner.tsx summary)"
-      ]
-    }
-  ],
-  "confidence": 0.67,
+  "hallucinated_features": [],
+  "confidence": 0.62,
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/src/components/EducationalContent.tsx",
-    "frontend/src/components/pests/ArmyAntsContent.tsx",
-    "frontend/src/components/pests/BlackAntsContent.tsx",
-    "frontend/src/components/pests/CarpenterAntsContent.tsx",
-    "frontend/src/components/pests/RedAntsContent.tsx",
+    "frontend/src/components/pests/EarwigsContent.tsx",
+    "frontend/src/components/pests/SpidersContent.tsx",
     "project_state.json"
   ]
 }

@@ -1,89 +1,74 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Ant Pest Types (Black, Red, Army, Carpenter) With Educational Content + Icons",
+  "title": "Add Earwigs pest content and expand spider species guidance",
   "requirements": [
     {
-      "id": "REQ-46",
-      "summary": "Create four new ant educational content React components following existing cards + alerts layout, including safety and carpenter structural-damage cautions.",
+      "id": "REQ-49",
+      "summary": "Create a new Earwigs educational content component using existing Card/Alert layout patterns with English guidance for identification, habitats/attractants (moisture), prevention, and what-to-do steps.",
       "acceptanceCriteria": [
-        "New React components exist under frontend/src/components/pests/ for all four ant types and are exportable (consistent with other *Content.tsx components).",
-        "Each ant component includes sections for identification, habitats/attractants, prevention, and what to do if found, written in English.",
-        "Carpenter Ants content includes a clear warning about potential wood/structural damage and advises when to contact a licensed professional.",
-        "Content includes a safety note about stings and seeking medical care for severe reactions/allergies (as appropriate) without claiming medical diagnosis."
+        "A new React component exists at frontend/src/components/pests/EarwigsContent.tsx (or an equivalent pests folder file consistent with the existing naming pattern) and renders without runtime errors.",
+        "All user-facing text in the new Earwigs content is in English.",
+        "The Earwigs content includes sections for identification, habitats/attractants, prevention, and what-to-do steps, using the same Card/Alert patterns used by other pest content components (e.g., CockroachesContent, SpidersContent)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/pests/BlackAntsContent.tsx",
+          "path": "frontend/src/components/pests/EarwigsContent.tsx",
           "operation": "create",
-          "description": "Add Black Ants educational content component using existing shadcn-ui Card/Alert patterns (cards + alerts) and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/pests/RedAntsContent.tsx",
-          "operation": "create",
-          "description": "Add Red Ants educational content component using existing shadcn-ui Card/Alert patterns (cards + alerts) and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include a prominent sting/allergy safety note (without medical diagnosis language). Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/pests/ArmyAntsContent.tsx",
-          "operation": "create",
-          "description": "Add Army Ants educational content component (treat any reference to \"arm ants\" as \"army ants\") using existing shadcn-ui Card/Alert patterns and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/pests/CarpenterAntsContent.tsx",
-          "operation": "create",
-          "description": "Add Carpenter Ants educational content component using existing shadcn-ui Card/Alert patterns and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include a prominent structural/wood-damage caution and guidance on when to contact a licensed professional, plus an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
+          "description": "Implement Earwigs educational content using the existing Card/Alert layout patterns (matching other pest content components) with clear English sections for: identification cues + common indoor signs; common locations/attractants emphasizing moisture; prevention steps; and what to do if found (safe clean-up/control, monitoring, and when to call a professional)."
         }
       ]
     },
     {
-      "id": "REQ-47",
-      "summary": "Integrate the four ant types into EducationalContent pest selection and conditional rendering across Identify/Habitats/Prevention/Treatment tabs.",
+      "id": "REQ-50",
+      "summary": "Add Earwigs to the EducationalContent pest selection UI and wire selection to render Earwigs content across Identify/Habitats/Prevention/Treatment tabs.",
       "acceptanceCriteria": [
-        "EducationalContent.tsx includes the four new ant pests in the selectedPest state union/type and updates the default/rendering logic accordingly.",
-        "The pest selection grid includes buttons for each new ant type with clear labels in English.",
-        "Selecting each new ant type renders the correct corresponding ant content component in Identify/Habitats/Prevention/Treatment tabs (and bedbugs behavior remains unchanged)."
+        "EducationalContent.tsx includes an 'earwigs' option in the selectedPest state union/type and default logic remains unchanged.",
+        "A new Earwigs selection button appears alongside existing pests in the selection grid and is usable on mobile and desktop.",
+        "Selecting Earwigs renders the Earwigs content component in Identify/Habitats/Prevention/Treatment when selectedPest is earwigs (and bed bug sections still render for bedbugs)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Update the selectedPest union/type to include blackants, redants, armyants, and carpenterants; import and wire the four new *Content components into the existing renderPestContent switch; add four new selection buttons consistent with the existing grid/button pattern so each tab renders the correct component when selected while keeping bedbugs behavior unchanged. Verify the component's usage instructions before implementing."
+          "description": "Integrate Earwigs into the existing pest selection pattern: extend the selectedPest union to include 'earwigs' (keeping default as bedbugs), import and render EarwigsContent in the selectedPest switch, and add an Earwigs selection button to the existing grid so it appears in Identify/Habitats/Prevention/Treatment tabs."
         }
       ]
     },
     {
-      "id": "REQ-48",
-      "summary": "Add four static ant icon assets and display them in the pest selection controls with accessible alt text and consistent sizing.",
+      "id": "REQ-51",
+      "summary": "Expand Spiders educational content with distinct, detailed subsections for Black Widow, Brown Recluse, and Wolf spiders while preserving existing safety/medical messaging and styling.",
       "acceptanceCriteria": [
-        "Four icon files are present under frontend/public/assets/generated with the exact filenames specified in the image requirements.",
-        "The new pest selection buttons use the new icons via <img src=\"/assets/generated/...\" ...> and include appropriate alt text for accessibility.",
-        "Icons render correctly at the same size and style as the existing pest icons in the selection grid."
+        "SpidersContent includes clearly labeled subsections for Black Widow, Brown Recluse, and Wolf Spider guidance (not just a single bullet mention).",
+        "Each of the three subsections contains at least: identification cues, likely habitats/hiding spots, and recommended next steps (safe handling avoidance + when to call a professional).",
+        "The existing top-level Safety Warning and Medical Attention messaging remains present and the overall content remains readable and consistent with current styling."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/black-ant-icon.dim_128x128.png",
-          "operation": "create",
-          "description": "Add the generated static icon asset at frontend/public/assets/generated/black-ant-icon.dim_128x128.png (128x128, transparent background) for Black Ants selection control."
-        },
+          "path": "frontend/src/components/pests/SpidersContent.tsx",
+          "operation": "modify",
+          "description": "Add clearly labeled subsections (within the existing Card/Alert styling) for Black Widow, Brown Recluse, and Wolf spiders, each covering identification cues, typical hiding spots (indoor/outdoor), safety/medical cautions, and what to do if found (avoid handling, monitoring, and when to call a professional), while keeping the existing top-level Safety Warning and the Medical Attention callout intact."
+        }
+      ]
+    },
+    {
+      "id": "REQ-52",
+      "summary": "Add a static earwig icon asset and use it in the Earwigs selection button via an img tag with proper alt text, consistent with existing pest icon usage.",
+      "acceptanceCriteria": [
+        "A new earwig icon file exists at frontend/public/assets/generated/earwig-icon.dim_128x128.png.",
+        "The Earwigs selection button in EducationalContent uses the new icon via an <img> tag and includes an alt value like \"Earwigs\".",
+        "No backend fetching is used for the earwig icon (served as a static asset)."
+      ],
+      "file_operations": [
         {
-          "path": "frontend/public/assets/generated/red-ant-icon.dim_128x128.png",
+          "path": "frontend/public/assets/generated/earwig-icon.dim_128x128.png",
           "operation": "create",
-          "description": "Add the generated static icon asset at frontend/public/assets/generated/red-ant-icon.dim_128x128.png (128x128, transparent background) for Red Ants selection control."
-        },
-        {
-          "path": "frontend/public/assets/generated/army-ant-icon.dim_128x128.png",
-          "operation": "create",
-          "description": "Add the generated static icon asset at frontend/public/assets/generated/army-ant-icon.dim_128x128.png (128x128, transparent background) for Army Ants selection control."
-        },
-        {
-          "path": "frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png",
-          "operation": "create",
-          "description": "Add the generated static icon asset at frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png (128x128, transparent background) for Carpenter Ants selection control."
+          "description": "Add the required static Earwig icon asset at frontend/public/assets/generated/earwig-icon.dim_128x128.png (transparent background, clean line style) for use in the pest selection UI."
         },
         {
           "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Update the four new ant selection buttons to use the new static icons via <img> tags (served from frontend/public/assets/generated) with appropriate English alt text and the same size/style classes used by existing pest icon buttons for consistent rendering. Verify the component's usage instructions before implementing."
+          "description": "Update the new Earwigs selection control to display the static icon via an <img> tag referencing frontend/public/assets/generated/earwig-icon.dim_128x128.png and include appropriate alt text (e.g., \"Earwigs\"), consistent with the existing cockroach/head-lice/spider icon usage."
         }
       ]
     }

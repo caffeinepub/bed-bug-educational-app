@@ -1,35 +1,29 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T21:25:39.655Z",
+  "generatedAt": "2026-02-17T21:33:12.891Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-46",
-        "summary": "Add four new ant educational content components for: Black Ants, Red Ants, Army Ants (interpret user text \"arm ants\" as \"army ants\"), and Carpenter Ants. Each component must use clear, user-facing English text and follow the existing pest content layout patterns (cards + alerts) to cover: (1) basic identification cues and common signs, (2) where they are commonly found and what attracts them, (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional). Include a prominent safety note about stings/allergic reactions where relevant, and include a prominent structural-damage caution for Carpenter Ants.",
+        "id": "REQ-49",
+        "summary": "Add a new Earwigs educational content component that follows the existing pest content layout patterns (cards + alerts) and provides clear, user-facing English guidance covering: (1) basic identification cues and common signs indoors, (2) where earwigs are commonly found and what attracts them (especially moisture), (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/pests/BlackAntsContent.tsx",
-          "frontend/src/components/pests/RedAntsContent.tsx",
-          "frontend/src/components/pests/ArmyAntsContent.tsx",
-          "frontend/src/components/pests/CarpenterAntsContent.tsx"
+          "frontend/src/components/pests/EarwigsContent.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/pests/BlackAntsContent.tsx",
-          "frontend/src/components/pests/RedAntsContent.tsx",
-          "frontend/src/components/pests/ArmyAntsContent.tsx",
-          "frontend/src/components/pests/CarpenterAntsContent.tsx"
+          "frontend/src/components/pests/EarwigsContent.tsx"
         ]
       },
       {
-        "id": "REQ-47",
-        "summary": "Integrate Black Ants, Red Ants, Army Ants, and Carpenter Ants into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection buttons + conditional rendering via renderPestContent).",
+        "id": "REQ-50",
+        "summary": "Integrate Earwigs into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection button in the grid + conditional rendering via the selectedPest switch).",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/components/EducationalContent.tsx"
@@ -39,14 +33,22 @@
         ]
       },
       {
-        "id": "REQ-48",
-        "summary": "Add static icon image assets for Black Ants, Red Ants, Army Ants, and Carpenter Ants under frontend/public/assets/generated and use them in the pest selection controls via <img> tags with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
+        "id": "REQ-51",
+        "summary": "Expand the existing Spiders educational content (frontend/src/components/pests/SpidersContent.tsx) to include clearer, more detailed guidance specifically for Black Widow spiders, Brown Recluse spiders, and Wolf spiders. Add distinct subsections that include identification cues, typical indoor/outdoor hiding spots, safety/medical cautions, and what to do if found (including when to call a professional). Keep all user-facing text in English and consistent in tone with the existing Safety Warning/Medical Attention callouts.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/black-ant-icon.dim_128x128.png",
-          "frontend/public/assets/generated/red-ant-icon.dim_128x128.png",
-          "frontend/public/assets/generated/army-ant-icon.dim_128x128.png",
-          "frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png",
+          "frontend/src/components/pests/SpidersContent.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/pests/SpidersContent.tsx"
+        ]
+      },
+      {
+        "id": "REQ-52",
+        "summary": "Add and use a new static Earwig icon image asset under frontend/public/assets/generated, and use it in the Earwigs selection control via an <img> tag with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/earwig-icon.dim_128x128.png",
           "frontend/src/components/EducationalContent.tsx"
         ],
         "matchedFiles": [
@@ -60,15 +62,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/army-ant-icon.dim_128x128.png, 128x128",
-    "frontend/public/assets/generated/black-ant-icon.dim_128x128.png, 128x128",
-    "frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png, 128x128",
-    "frontend/public/assets/generated/red-ant-icon.dim_128x128.png, 128x128",
+    "frontend/public/assets/generated/earwig-icon.dim_128x128.png, 128x128",
     "frontend/src/components/EducationalContent.tsx",
-    "frontend/src/components/pests/ArmyAntsContent.tsx",
-    "frontend/src/components/pests/BlackAntsContent.tsx",
-    "frontend/src/components/pests/CarpenterAntsContent.tsx",
-    "frontend/src/components/pests/RedAntsContent.tsx",
+    "frontend/src/components/pests/EarwigsContent.tsx",
+    "frontend/src/components/pests/SpidersContent.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

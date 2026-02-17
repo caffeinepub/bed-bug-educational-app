@@ -2,10 +2,13 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-new-spiders-educational-content-component-with-clear-user-facing-english-text-covering-1-basic-identification-cues-and-common-signs-of-spider-activity-indoors-2-prevention-steps-to-reduce-spiders-in-around-the-home-and-3-what-to-do-if-you-find-a-spider-safe-capture-removal-options-cleaning-steps-and-when-to-call-a-professional-include-a-prominent-safety-note-advising-users-not-to-handle-unknown-spiders-with-bare-hands-and-to-seek-medical-help-immediately-for-severe-reactions-or-concerning-bites",
-      "featureTitle": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
+      "featureId": "feature-add-four-new-ant-educational-content-components-for-black-ants-red-ants-army-ants-interpret-user-text-arm-ants-as-army-ants-and-carpenter-ants-each-component-must-use-clear-user-facing-english-text-and-follow-the-existing-pest-content-layout-patterns-cards-alerts-to-cover-1-basic-identification-cues-and-common-signs-2-where-they-are-commonly-found-and-what-attracts-them-3-prevention-steps-and-4-what-to-do-if-found-safe-clean-up-control-steps-monitoring-and-when-to-call-a-professional-include-a-prominent-safety-note-about-stings-allergic-reactions-where-relevant-and-include-a-prominent-structural-damage-caution-for-carpenter-ants",
+      "featureTitle": "Add four new ant educational content components for: Black Ants, Red Ants, Army Ants (interpret user text \"arm ants\" as \"army ants\"), and Carpenter Ants. Each component must use clear, user-facing English text and follow the existing pest content layout patterns (cards + alerts) to cover: (1) basic identification cues and common signs, (2) where they are commonly found and what attracts them, (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional). Include a prominent safety note about stings/allergic reactions where relevant, and include a prominent structural-damage caution for Carpenter Ants.",
       "files": [
-        "frontend/src/components/pests/SpidersContent.tsx"
+        "frontend/src/components/pests/ArmyAntsContent.tsx",
+        "frontend/src/components/pests/BlackAntsContent.tsx",
+        "frontend/src/components/pests/CarpenterAntsContent.tsx",
+        "frontend/src/components/pests/RedAntsContent.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -17,13 +20,13 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-35"
+        "REQ-46"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-integrate-spiders-into-the-pest-selection-ui-across-educationalcontent-tabs-identify-habitats-prevention-treatment-so-users-can-select-spiders-and-view-the-new-spiders-educational-content-consistent-with-how-cockroaches-and-head-lice-are-integrated",
-      "featureTitle": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
+      "featureId": "feature-integrate-black-ants-red-ants-army-ants-and-carpenter-ants-into-the-pest-selection-ui-in-frontend-src-components-educationalcontent-tsx-across-the-identify-habitats-prevention-and-treatment-tabs-consistent-with-the-existing-pattern-selection-buttons-conditional-rendering-via-renderpestcontent",
+      "featureTitle": "Integrate Black Ants, Red Ants, Army Ants, and Carpenter Ants into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection buttons + conditional rendering via renderPestContent).",
       "files": [
         "frontend/src/components/EducationalContent.tsx"
       ],
@@ -37,13 +40,13 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-36"
+        "REQ-47"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-static-spider-icon-image-under-frontend-public-assets-generated-and-use-it-in-the-spiders-selection-control-consistent-with-the-cockroaches-head-lice-selection-control-pattern-use-an-img-tag-with-appropriate-alt-text",
-      "featureTitle": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+      "featureId": "feature-add-static-icon-image-assets-for-black-ants-red-ants-army-ants-and-carpenter-ants-under-frontend-public-assets-generated-and-use-them-in-the-pest-selection-controls-via-img-tags-with-appropriate-alt-text-consistent-with-existing-pest-icon-usage-e-g-cockroach-head-lice-spider-icons",
+      "featureTitle": "Add static icon image assets for Black Ants, Red Ants, Army Ants, and Carpenter Ants under frontend/public/assets/generated and use them in the pest selection controls via <img> tags with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
       "files": [
         "frontend/src/components/EducationalContent.tsx"
       ],
@@ -57,47 +60,7 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-37"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-extend-the-photo-scanner-ui-to-provide-spider-specific-photo-based-guidance-when-a-user-wants-help-identifying-a-spider-from-a-captured-uploaded-image-add-an-in-scanner-spider-photo-help-section-that-explains-how-to-take-a-useful-spider-photo-and-provides-a-simple-non-automated-checklist-to-compare-visible-features-e-g-body-shape-leg-length-positioning-markings-plus-next-step-guidance-safe-removal-monitoring-when-to-call-a-professional-do-not-claim-automated-identification-or-use-ai-ml-classification",
-      "featureTitle": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
-      "files": [
-        "frontend/src/components/PhotoScanner.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-38"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-an-optional-one-click-action-in-the-photo-scanner-flow-to-tag-the-current-saved-scan-with-spider-or-spiders-when-the-user-is-using-spider-help-leveraging-the-existing-saved-scan-tags-system-and-keeping-all-behavior-local-to-the-browser",
-      "featureTitle": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
-      "files": [
-        "frontend/src/components/PhotoScanner.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-39"
+        "REQ-48"
       ],
       "confidence": "high"
     }

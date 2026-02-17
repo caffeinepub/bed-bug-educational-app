@@ -12,13 +12,217 @@ import { MiceContent } from './pests/MiceContent';
 import { CockroachesContent } from './pests/CockroachesContent';
 import { HeadLiceContent } from './pests/HeadLiceContent';
 import { SpidersContent } from './pests/SpidersContent';
+import { MothsLarvaeContent } from './pests/MothsLarvaeContent';
+import { BeetlesContent } from './pests/BeetlesContent';
+import { WoodBeetlesContent } from './pests/WoodBeetlesContent';
+import { BlackStinkBugsContent } from './pests/BlackStinkBugsContent';
+import { BlackAntsContent } from './pests/BlackAntsContent';
+import { RedAntsContent } from './pests/RedAntsContent';
+import { ArmyAntsContent } from './pests/ArmyAntsContent';
+import { CarpenterAntsContent } from './pests/CarpenterAntsContent';
 import { Bug, Home, Shield, Flame, GraduationCap, FileDown, Camera, Rat } from 'lucide-react';
 import { QuizSectionType } from '../backend';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 export function EducationalContent() {
-  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice' | 'cockroaches' | 'headlice' | 'spiders'>('bedbugs');
+  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice' | 'cockroaches' | 'headlice' | 'spiders' | 'mothslarvae' | 'beetles' | 'woodbeetles' | 'blackstinkbugs' | 'blackants' | 'redants' | 'armyants' | 'carpenterants'>('bedbugs');
+
+  const renderPestSelectionButtons = () => (
+    <div className="grid gap-3 grid-cols-2 sm:grid-cols-5 lg:grid-cols-10">
+      <Button
+        variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('bedbugs')}
+        className="h-20 flex-col gap-2"
+      >
+        <Bug className="h-6 w-6" />
+        <span className="text-xs">Bed Bugs</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'scorpions' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('scorpions')}
+        className="h-20 flex-col gap-2"
+      >
+        <Bug className="h-6 w-6" />
+        <span className="text-xs">Scorpions</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'mice' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('mice')}
+        className="h-20 flex-col gap-2"
+      >
+        <Rat className="h-6 w-6" />
+        <span className="text-xs">Mice</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('cockroaches')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/cockroach-icon.dim_128x128.png" 
+          alt="Cockroaches" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Cockroaches</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'headlice' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('headlice')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/head-lice-icon.dim_128x128.png" 
+          alt="Head Lice" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Head Lice</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'spiders' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('spiders')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/spider-icon.dim_128x128.png" 
+          alt="Spiders" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Spiders</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'mothslarvae' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('mothslarvae')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/moths-larvae-icon.dim_128x128.png" 
+          alt="Moths & Larvae" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Moths & Larvae</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'beetles' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('beetles')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/beetle-icon.dim_128x128.png" 
+          alt="Beetles" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Beetles</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'woodbeetles' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('woodbeetles')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/wood-beetle-icon.dim_128x128.png" 
+          alt="Wood Beetles" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Wood Beetles</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'blackstinkbugs' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('blackstinkbugs')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/black-stink-bug-icon.dim_128x128.png" 
+          alt="Black Stink Bugs" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Stink Bugs</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'blackants' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('blackants')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/black-ant-icon.dim_128x128.png" 
+          alt="Black Ants" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Black Ants</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'redants' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('redants')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/red-ant-icon.dim_128x128.png" 
+          alt="Red Ants" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Red Ants</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'armyants' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('armyants')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/army-ant-icon.dim_128x128.png" 
+          alt="Army Ants" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Army Ants</span>
+      </Button>
+      <Button
+        variant={selectedPest === 'carpenterants' ? 'default' : 'outline'}
+        onClick={() => setSelectedPest('carpenterants')}
+        className="h-20 flex-col gap-2"
+      >
+        <img 
+          src="/assets/generated/carpenter-ant-icon.dim_128x128.png" 
+          alt="Carpenter Ants" 
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Carpenter Ants</span>
+      </Button>
+    </div>
+  );
+
+  const renderPestContent = () => {
+    switch (selectedPest) {
+      case 'bedbugs':
+        return null; // Will render section-specific content
+      case 'scorpions':
+        return <ScorpionsContent />;
+      case 'mice':
+        return <MiceContent />;
+      case 'cockroaches':
+        return <CockroachesContent />;
+      case 'headlice':
+        return <HeadLiceContent />;
+      case 'spiders':
+        return <SpidersContent />;
+      case 'mothslarvae':
+        return <MothsLarvaeContent />;
+      case 'beetles':
+        return <BeetlesContent />;
+      case 'woodbeetles':
+        return <WoodBeetlesContent />;
+      case 'blackstinkbugs':
+        return <BlackStinkBugsContent />;
+      case 'blackants':
+        return <BlackAntsContent />;
+      case 'redants':
+        return <RedAntsContent />;
+      case 'armyants':
+        return <ArmyAntsContent />;
+      case 'carpenterants':
+        return <CarpenterAntsContent />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="container py-8">
@@ -82,77 +286,11 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-6">
-                  <Button
-                    variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('bedbugs')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Bed Bugs</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'scorpions' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('scorpions')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Scorpions</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'mice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('mice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Rat className="h-6 w-6" />
-                    <span>Mice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('cockroaches')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
-                      alt="Cockroaches" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Cockroaches</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('headlice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
-                      alt="Head Lice" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Head Lice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('spiders')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/spider-icon.dim_128x128.png" 
-                      alt="Spiders" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Spiders</span>
-                  </Button>
-                </div>
+                {renderPestSelectionButtons()}
               </CardContent>
             </Card>
 
-            {selectedPest === 'bedbugs' && <IdentifySection />}
-            {selectedPest === 'scorpions' && <ScorpionsContent />}
-            {selectedPest === 'mice' && <MiceContent />}
-            {selectedPest === 'cockroaches' && <CockroachesContent />}
-            {selectedPest === 'headlice' && <HeadLiceContent />}
-            {selectedPest === 'spiders' && <SpidersContent />}
+            {selectedPest === 'bedbugs' ? <IdentifySection /> : renderPestContent()}
           </TabsContent>
 
           <TabsContent value="habitats" className="mt-6">
@@ -162,77 +300,11 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-6">
-                  <Button
-                    variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('bedbugs')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Bed Bugs</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'scorpions' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('scorpions')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Scorpions</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'mice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('mice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Rat className="h-6 w-6" />
-                    <span>Mice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('cockroaches')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
-                      alt="Cockroaches" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Cockroaches</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('headlice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
-                      alt="Head Lice" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Head Lice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('spiders')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/spider-icon.dim_128x128.png" 
-                      alt="Spiders" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Spiders</span>
-                  </Button>
-                </div>
+                {renderPestSelectionButtons()}
               </CardContent>
             </Card>
 
-            {selectedPest === 'bedbugs' && <HabitatsSection />}
-            {selectedPest === 'scorpions' && <ScorpionsContent />}
-            {selectedPest === 'mice' && <MiceContent />}
-            {selectedPest === 'cockroaches' && <CockroachesContent />}
-            {selectedPest === 'headlice' && <HeadLiceContent />}
-            {selectedPest === 'spiders' && <SpidersContent />}
+            {selectedPest === 'bedbugs' ? <HabitatsSection /> : renderPestContent()}
           </TabsContent>
 
           <TabsContent value="prevention" className="mt-6">
@@ -242,77 +314,11 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-6">
-                  <Button
-                    variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('bedbugs')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Bed Bugs</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'scorpions' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('scorpions')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Scorpions</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'mice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('mice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Rat className="h-6 w-6" />
-                    <span>Mice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('cockroaches')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
-                      alt="Cockroaches" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Cockroaches</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('headlice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
-                      alt="Head Lice" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Head Lice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('spiders')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/spider-icon.dim_128x128.png" 
-                      alt="Spiders" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Spiders</span>
-                  </Button>
-                </div>
+                {renderPestSelectionButtons()}
               </CardContent>
             </Card>
 
-            {selectedPest === 'bedbugs' && <PreventionSection />}
-            {selectedPest === 'scorpions' && <ScorpionsContent />}
-            {selectedPest === 'mice' && <MiceContent />}
-            {selectedPest === 'cockroaches' && <CockroachesContent />}
-            {selectedPest === 'headlice' && <HeadLiceContent />}
-            {selectedPest === 'spiders' && <SpidersContent />}
+            {selectedPest === 'bedbugs' ? <PreventionSection /> : renderPestContent()}
           </TabsContent>
 
           <TabsContent value="treatment" className="mt-6">
@@ -322,149 +328,19 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-6">
-                  <Button
-                    variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('bedbugs')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Bed Bugs</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'scorpions' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('scorpions')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Bug className="h-6 w-6" />
-                    <span>Scorpions</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'mice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('mice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <Rat className="h-6 w-6" />
-                    <span>Mice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('cockroaches')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
-                      alt="Cockroaches" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Cockroaches</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('headlice')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
-                      alt="Head Lice" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Head Lice</span>
-                  </Button>
-                  <Button
-                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
-                    onClick={() => setSelectedPest('spiders')}
-                    className="h-20 flex-col gap-2"
-                  >
-                    <img 
-                      src="/assets/generated/spider-icon.dim_128x128.png" 
-                      alt="Spiders" 
-                      className="h-6 w-6 object-contain"
-                    />
-                    <span>Spiders</span>
-                  </Button>
-                </div>
+                {renderPestSelectionButtons()}
               </CardContent>
             </Card>
 
-            {selectedPest === 'bedbugs' && <TreatmentSection />}
-            {selectedPest === 'scorpions' && <ScorpionsContent />}
-            {selectedPest === 'mice' && <MiceContent />}
-            {selectedPest === 'cockroaches' && <CockroachesContent />}
-            {selectedPest === 'headlice' && <HeadLiceContent />}
-            {selectedPest === 'spiders' && <SpidersContent />}
+            {selectedPest === 'bedbugs' ? <TreatmentSection /> : renderPestContent()}
           </TabsContent>
 
           <TabsContent value="quiz" className="mt-6">
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="mb-2 text-2xl font-bold">Test Your Knowledge</h3>
-                <p className="text-muted-foreground">
-                  Choose a topic below to quiz yourself on what you've learned about bed bugs
-                </p>
-              </div>
-
-              <Tabs defaultValue="identify-quiz" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
-                  <TabsTrigger value="identify-quiz">Identify</TabsTrigger>
-                  <TabsTrigger value="habitats-quiz">Habitats</TabsTrigger>
-                  <TabsTrigger value="prevention-quiz">Prevention</TabsTrigger>
-                  <TabsTrigger value="treatment-quiz">Treatment</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="identify-quiz" className="mt-6">
-                  <Quiz sectionType={QuizSectionType.identifyBedBugs} sectionTitle="Identify Bed Bugs" />
-                </TabsContent>
-
-                <TabsContent value="habitats-quiz" className="mt-6">
-                  <Quiz sectionType={QuizSectionType.habitatsHabits} sectionTitle="Habitats & Habits" />
-                </TabsContent>
-
-                <TabsContent value="prevention-quiz" className="mt-6">
-                  <Quiz sectionType={QuizSectionType.prevention} sectionTitle="Prevention" />
-                </TabsContent>
-
-                <TabsContent value="treatment-quiz" className="mt-6">
-                  <Quiz sectionType={QuizSectionType.treatmentPreparation} sectionTitle="Treatment Preparation" />
-                </TabsContent>
-              </Tabs>
-            </div>
+            <Quiz sectionType={QuizSectionType.identifyBedBugs} sectionTitle="Bed Bug Identification" />
           </TabsContent>
 
           <TabsContent value="guides" className="mt-6">
-            <div className="space-y-6">
-              <div className="text-center">
-                <h3 className="mb-2 text-2xl font-bold">Printable Guides</h3>
-                <p className="text-muted-foreground">
-                  Download PDF guides for offline reference and printing
-                </p>
-              </div>
-
-              <Tabs defaultValue="identify-guides" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4">
-                  <TabsTrigger value="identify-guides">Identify</TabsTrigger>
-                  <TabsTrigger value="habitats-guides">Habitats</TabsTrigger>
-                  <TabsTrigger value="prevention-guides">Prevention</TabsTrigger>
-                  <TabsTrigger value="treatment-guides">Treatment</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="identify-guides" className="mt-6">
-                  <PrintableGuides sectionType={QuizSectionType.identifyBedBugs} sectionTitle="Identify Bed Bugs" />
-                </TabsContent>
-
-                <TabsContent value="habitats-guides" className="mt-6">
-                  <PrintableGuides sectionType={QuizSectionType.habitatsHabits} sectionTitle="Habitats & Habits" />
-                </TabsContent>
-
-                <TabsContent value="prevention-guides" className="mt-6">
-                  <PrintableGuides sectionType={QuizSectionType.prevention} sectionTitle="Prevention" />
-                </TabsContent>
-
-                <TabsContent value="treatment-guides" className="mt-6">
-                  <PrintableGuides sectionType={QuizSectionType.treatmentPreparation} sectionTitle="Treatment Preparation" />
-                </TabsContent>
-              </Tabs>
-            </div>
+            <PrintableGuides sectionType={QuizSectionType.identifyBedBugs} sectionTitle="Bed Bug Guides" />
           </TabsContent>
         </Tabs>
       </div>

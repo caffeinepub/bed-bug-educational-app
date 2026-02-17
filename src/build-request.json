@@ -1,115 +1,82 @@
 {
   "kind": "build_request",
-  "title": "Add Spiders pest content, selection icon, and photo-based guidance",
+  "title": "Add Ant Pest Types (Black, Red, Army, Carpenter) With Educational Content + Icons",
   "projectName": "Pest ID Guide",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-35",
-      "text": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
+      "id": "REQ-46",
+      "text": "Add four new ant educational content components for: Black Ants, Red Ants, Army Ants (interpret user text \"arm ants\" as \"army ants\"), and Carpenter Ants. Each component must use clear, user-facing English text and follow the existing pest content layout patterns (cards + alerts) to cover: (1) basic identification cues and common signs, (2) where they are commonly found and what attracts them, (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional). Include a prominent safety note about stings/allergic reactions where relevant, and include a prominent structural-damage caution for Carpenter Ants.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+          "black ants and red ants arm ants and carpenter ants"
         ]
       },
       "acceptanceCriteria": [
-        "A new SpidersContent React component exists under the existing pests components pattern (e.g., frontend/src/components/pests/SpidersContent.tsx).",
-        "The component uses the existing UI building blocks (Card/Alert/etc.) and contains sections for Identification, Prevention, and What to Do If You Find One.",
-        "All user-facing text is in English and includes a clear, visible safety warning about not handling unknown spiders and when to seek professional/medical help."
+        "New React components exist under frontend/src/components/pests/ for all four ant types and are exportable (consistent with other *Content.tsx components).",
+        "Each ant component includes sections for identification, habitats/attractants, prevention, and what to do if found, written in English.",
+        "Carpenter Ants content includes a clear warning about potential wood/structural damage and advises when to contact a licensed professional.",
+        "Content includes a safety note about stings and seeking medical care for severe reactions/allergies (as appropriate) without claiming medical diagnosis."
       ]
     },
     {
-      "id": "REQ-36",
-      "text": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
+      "id": "REQ-47",
+      "text": "Integrate Black Ants, Red Ants, Army Ants, and Carpenter Ants into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection buttons + conditional rendering via renderPestContent).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+          "black ants and red ants arm ants and carpenter ants"
         ]
       },
       "acceptanceCriteria": [
-        "EducationalContent pest selector includes a new “Spiders” option alongside existing pests in each relevant tab.",
-        "Selecting “Spiders” renders the SpidersContent component.",
-        "The selected pest state type/logic supports the new spiders option without breaking existing pest selections."
+        "EducationalContent.tsx includes the four new ant pests in the selectedPest state union/type and updates the default/rendering logic accordingly.",
+        "The pest selection grid includes buttons for each new ant type with clear labels in English.",
+        "Selecting each new ant type renders the correct corresponding ant content component in Identify/Habitats/Prevention/Treatment tabs (and bedbugs behavior remains unchanged)."
       ]
     },
     {
-      "id": "REQ-37",
-      "text": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+      "id": "REQ-48",
+      "text": "Add static icon image assets for Black Ants, Red Ants, Army Ants, and Carpenter Ants under frontend/public/assets/generated and use them in the pest selection controls via <img> tags with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+          "black ants and red ants arm ants and carpenter ants"
         ]
       },
       "acceptanceCriteria": [
-        "A spider icon image file exists at frontend/public/assets/generated/spider-icon.dim_128x128.png.",
-        "The Spiders selection button uses the static spider icon via /assets/generated/spider-icon.dim_128x128.png with alt text \"Spiders\".",
-        "No backend fetching is used for the icon asset."
-      ]
-    },
-    {
-      "id": "REQ-38",
-      "text": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
-        ]
-      },
-      "acceptanceCriteria": [
-        "PhotoScanner includes a clearly labeled “Spider Photo Help” panel/section available in the scanner flow (at minimum when an image is selected, and/or via a simple toggle).",
-        "The guidance includes: (1) tips for capturing a clear spider image (lighting, distance, multiple angles, include an object for scale), (2) a checklist of visible features to note, and (3) safety/next steps including when to call a professional.",
-        "Copy does not claim the app can automatically identify spider species from the photo.",
-        "Existing scanner functionality (capture/upload, edit, save, download, clear) remains intact."
-      ]
-    },
-    {
-      "id": "REQ-39",
-      "text": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
-        ]
-      },
-      "acceptanceCriteria": [
-        "When viewing spider help in the scanner and saving to gallery, the UI offers a one-click way to add a spider-related tag to that saved scan (or to quickly add the tag after saving).",
-        "The tag is persisted using the existing localStorage-backed saved scans model and appears in the Saved Scans Gallery tag UI/filtering.",
-        "If the user does not use the spider tag action, saving behavior is unchanged."
+        "Four icon files are present under frontend/public/assets/generated with the exact filenames specified in the image requirements.",
+        "The new pest selection buttons use the new icons via <img src=\"/assets/generated/...\" ...> and include appropriate alt text for accessibility.",
+        "Icons render correctly at the same size and style as the existing pest icons in the selection grid."
       ]
     }
   ],
   "constraints": [
+    "Frontend must not modify any paths listed in frontend.immutablePaths.",
     "Keep all user-facing text in English.",
-    "Do not modify files under frontend/src/components/ui (compose and reuse existing UI components instead).",
-    "Do not implement AI/ML or any backend-based image recognition for spider identification; provide guidance/checklists only.",
-    "Add new static images as files under frontend/public/assets/generated and reference them directly from the frontend (no backend fetch)."
+    "Do not route static icons through the backend; icons must be served as static assets from frontend/public/assets/generated.",
+    "Respect the existing EducationalContent.tsx pest selection pattern (buttons + renderPestContent switch)."
   ],
   "nonGoals": [
-    "Automated spider species classification from photos.",
-    "Real-time chat or messaging with experts.",
-    "Adding new backend schemas or Motoko endpoints specifically for spiders (unless later requested)."
+    "Do not add AI/ML or automated identification for ants.",
+    "Do not add new backend APIs or backend schema changes for ant content as part of this request.",
+    "Do not change existing Bed Bugs quiz/guide section types or content retrieval behavior."
   ],
   "imageRequirements": {
     "required": [
-      "Simple spider icon illustration, clean line style, transparent background (spider-icon.dim_128x128.png, 128x128)"
+      "Simple black ant icon illustration, clean line style, transparent background (black-ant-icon.dim_128x128.png, 128x128)",
+      "Simple red ant icon illustration, clean line style, transparent background (red-ant-icon.dim_128x128.png, 128x128)",
+      "Simple army ant icon illustration, clean line style, transparent background (army-ant-icon.dim_128x128.png, 128x128)",
+      "Simple carpenter ant icon illustration, clean line style, transparent background (carpenter-ant-icon.dim_128x128.png, 128x128)"
     ],
     "edits": []
   }

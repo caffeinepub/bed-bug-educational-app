@@ -1,91 +1,89 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Spiders pest content, icon, and photo-based guidance",
+  "title": "Add Ant Pest Types (Black, Red, Army, Carpenter) With Educational Content + Icons",
   "requirements": [
     {
-      "id": "REQ-35",
-      "summary": "Create a new Spiders educational content component with Identification, Prevention, and What to Do sections plus a prominent safety warning.",
+      "id": "REQ-46",
+      "summary": "Create four new ant educational content React components following existing cards + alerts layout, including safety and carpenter structural-damage cautions.",
       "acceptanceCriteria": [
-        "A new SpidersContent React component exists under the existing pests components pattern (e.g., frontend/src/components/pests/SpidersContent.tsx).",
-        "The component uses the existing UI building blocks (Card/Alert/etc.) and contains sections for Identification, Prevention, and What to Do If You Find One.",
-        "All user-facing text is in English and includes a clear, visible safety warning about not handling unknown spiders and when to seek professional/medical help."
+        "New React components exist under frontend/src/components/pests/ for all four ant types and are exportable (consistent with other *Content.tsx components).",
+        "Each ant component includes sections for identification, habitats/attractants, prevention, and what to do if found, written in English.",
+        "Carpenter Ants content includes a clear warning about potential wood/structural damage and advises when to contact a licensed professional.",
+        "Content includes a safety note about stings and seeking medical care for severe reactions/allergies (as appropriate) without claiming medical diagnosis."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/pests/SpidersContent.tsx",
+          "path": "frontend/src/components/pests/BlackAntsContent.tsx",
           "operation": "create",
-          "description": "Add the SpidersContent React component using existing UI building blocks (e.g., Card, Alert) with clear English sections for (1) identification cues and indoor signs, (2) prevention steps, and (3) what to do if you find a spider (safe capture/removal, cleaning, when to call a professional), including a prominent safety note (no bare-hand handling; seek medical help for severe reactions/concerning bites)."
+          "description": "Add Black Ants educational content component using existing shadcn-ui Card/Alert patterns (cards + alerts) and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/pests/RedAntsContent.tsx",
+          "operation": "create",
+          "description": "Add Red Ants educational content component using existing shadcn-ui Card/Alert patterns (cards + alerts) and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include a prominent sting/allergy safety note (without medical diagnosis language). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/pests/ArmyAntsContent.tsx",
+          "operation": "create",
+          "description": "Add Army Ants educational content component (treat any reference to \"arm ants\" as \"army ants\") using existing shadcn-ui Card/Alert patterns and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/pests/CarpenterAntsContent.tsx",
+          "operation": "create",
+          "description": "Add Carpenter Ants educational content component using existing shadcn-ui Card/Alert patterns and clear English sections: identification/signs, habitats/attractants, prevention, and what to do if found; include a prominent structural/wood-damage caution and guidance on when to contact a licensed professional, plus an appropriate sting/allergy safety note. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-36",
-      "summary": "Integrate “Spiders” into the EducationalContent pest selector and selected pest rendering across Identify/Habitats/Prevention/Treatment tabs.",
+      "id": "REQ-47",
+      "summary": "Integrate the four ant types into EducationalContent pest selection and conditional rendering across Identify/Habitats/Prevention/Treatment tabs.",
       "acceptanceCriteria": [
-        "EducationalContent pest selector includes a new “Spiders” option alongside existing pests in each relevant tab.",
-        "Selecting “Spiders” renders the SpidersContent component.",
-        "The selected pest state type/logic supports the new spiders option without breaking existing pest selections."
+        "EducationalContent.tsx includes the four new ant pests in the selectedPest state union/type and updates the default/rendering logic accordingly.",
+        "The pest selection grid includes buttons for each new ant type with clear labels in English.",
+        "Selecting each new ant type renders the correct corresponding ant content component in Identify/Habitats/Prevention/Treatment tabs (and bedbugs behavior remains unchanged)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Extend the selected pest union/state to include a spiders option; add a “Spiders” selection control (consistent with existing cockroaches/head lice button patterns) in each relevant tab’s pest selector grid; wire selectedPest === 'spiders' to render the new SpidersContent component in Identify/Habitats/Prevention/Treatment tabs."
+          "description": "Update the selectedPest union/type to include blackants, redants, armyants, and carpenterants; import and wire the four new *Content components into the existing renderPestContent switch; add four new selection buttons consistent with the existing grid/button pattern so each tab renders the correct component when selected while keeping bedbugs behavior unchanged. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-37",
-      "summary": "Add a static spider icon and use it in the Spiders selection button with proper alt text and no backend fetching.",
+      "id": "REQ-48",
+      "summary": "Add four static ant icon assets and display them in the pest selection controls with accessible alt text and consistent sizing.",
       "acceptanceCriteria": [
-        "A spider icon image file exists at frontend/public/assets/generated/spider-icon.dim_128x128.png.",
-        "The Spiders selection button uses the static spider icon via /assets/generated/spider-icon.dim_128x128.png with alt text \"Spiders\".",
-        "No backend fetching is used for the icon asset."
+        "Four icon files are present under frontend/public/assets/generated with the exact filenames specified in the image requirements.",
+        "The new pest selection buttons use the new icons via <img src=\"/assets/generated/...\" ...> and include appropriate alt text for accessibility.",
+        "Icons render correctly at the same size and style as the existing pest icons in the selection grid."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/spider-icon.dim_128x128.png",
+          "path": "frontend/public/assets/generated/black-ant-icon.dim_128x128.png",
           "operation": "create",
-          "description": "Add the required generated static spider icon asset at exactly frontend/public/assets/generated/spider-icon.dim_128x128.png for direct frontend referencing (no backend fetch)."
+          "description": "Add the generated static icon asset at frontend/public/assets/generated/black-ant-icon.dim_128x128.png (128x128, transparent background) for Black Ants selection control."
+        },
+        {
+          "path": "frontend/public/assets/generated/red-ant-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated static icon asset at frontend/public/assets/generated/red-ant-icon.dim_128x128.png (128x128, transparent background) for Red Ants selection control."
+        },
+        {
+          "path": "frontend/public/assets/generated/army-ant-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated static icon asset at frontend/public/assets/generated/army-ant-icon.dim_128x128.png (128x128, transparent background) for Army Ants selection control."
+        },
+        {
+          "path": "frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated static icon asset at frontend/public/assets/generated/carpenter-ant-icon.dim_128x128.png (128x128, transparent background) for Carpenter Ants selection control."
         },
         {
           "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Update the new “Spiders” pest selector button to render an <img> using the static asset frontend/public/assets/generated/spider-icon.dim_128x128.png (referenced via /assets/generated/spider-icon.dim_128x128.png) with alt text \"Spiders\", matching the existing icon button styling pattern."
-        }
-      ]
-    },
-    {
-      "id": "REQ-38",
-      "summary": "Add a “Spider Photo Help” guidance panel inside the Photo Scanner flow with capture tips, a feature checklist, and safety/next steps (no automated identification claims).",
-      "acceptanceCriteria": [
-        "PhotoScanner includes a clearly labeled “Spider Photo Help” panel/section available in the scanner flow (at minimum when an image is selected, and/or via a simple toggle).",
-        "The guidance includes: (1) tips for capturing a clear spider image (lighting, distance, multiple angles, include an object for scale), (2) a checklist of visible features to note, and (3) safety/next steps including when to call a professional.",
-        "Copy does not claim the app can automatically identify spider species from the photo.",
-        "Existing scanner functionality (capture/upload, edit, save, download, clear) remains intact."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/PhotoScanner.tsx",
-          "operation": "modify",
-          "description": "Add a clearly labeled “Spider Photo Help” section to the scanner UI (shown at least when an image is selected and/or via a simple toggle) using existing UI building blocks (e.g., Card/Alert). Include English-only guidance for taking useful spider photos (lighting, distance, multiple angles, include an object for scale), a non-automated checklist of visible features to compare, and safety/next steps (safe removal, monitoring, when to call a professional). Ensure copy explicitly avoids claims of automated identification. Preserve all existing scanner actions (capture/upload, edit, save, download, clear) and continue using the selected camera hook as-is. Use the selected component: camera (useCamera hook) to keep camera flow intact—Verify the component's usage instructions before implementing."
-        }
-      ]
-    },
-    {
-      "id": "REQ-39",
-      "summary": "Add an optional one-click action in Photo Scanner to tag a saved scan with “spider” when using spider help, persisted via the existing localStorage saved scans model.",
-      "acceptanceCriteria": [
-        "When viewing spider help in the scanner and saving to gallery, the UI offers a one-click way to add a spider-related tag to that saved scan (or to quickly add the tag after saving).",
-        "The tag is persisted using the existing localStorage-backed saved scans model and appears in the Saved Scans Gallery tag UI/filtering.",
-        "If the user does not use the spider tag action, saving behavior is unchanged."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/PhotoScanner.tsx",
-          "operation": "modify",
-          "description": "When “Spider Photo Help” is active, add an optional one-click UI action to apply a “spider” (or “spiders”) tag to the saved scan using the existing saved scans tags system (useSavedScans.saveScan returning an id plus useSavedScans.addTag), keeping all behavior local to the browser. Ensure default Save to Gallery behavior remains unchanged if the user does not choose the spider tag action."
+          "description": "Update the four new ant selection buttons to use the new static icons via <img> tags (served from frontend/public/assets/generated) with appropriate English alt text and the same size/style classes used by existing pest icon buttons for consistent rendering. Verify the component's usage instructions before implementing."
         }
       ]
     }

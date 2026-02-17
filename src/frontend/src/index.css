@@ -84,3 +84,9 @@
     }
 }
 
+@layer utilities {
+    /* Checklist completed item styling */
+    .checklist-item-completed {
+        @apply text-muted-foreground line-through decoration-muted-foreground/50;
+    }
+}

@@ -1,12 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
 
 export function HabitatsSection() {
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <Info className="h-4 w-4 text-primary" />
+        <img 
+          src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
+          alt="Quick tip" 
+          className="h-4 w-4"
+        />
         <AlertDescription className="text-sm">
           Understanding where bed bugs live and how they behave helps you target inspections and treatments
           more effectively.

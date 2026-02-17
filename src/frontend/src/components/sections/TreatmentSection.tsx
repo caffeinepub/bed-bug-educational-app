@@ -1,10 +1,127 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Flame, AlertTriangle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Flame, AlertTriangle, RotateCcw, Info } from 'lucide-react';
+import { useHeatTreatmentChecklistProgress } from '@/hooks/useHeatTreatmentChecklistProgress';
+import { useHeatTreatmentChecklistReminder } from '@/hooks/useHeatTreatmentChecklistReminder';
+import { HeatTreatmentChecklistReminderDialog } from './HeatTreatmentChecklistReminderDialog';
+
+// Checklist data structure
+const CHECKLIST_DATA = {
+  before: [
+    'Remove all bedding, curtains, and washable items for dryer treatment',
+    'Clear clutter from floors, closets, and under beds',
+    'Pull furniture away from walls (at least 3 feet)',
+    'Remove items from drawers and closets',
+    'Open all drawers, closets, and cabinets to allow heat circulation',
+    'Spread out contents of drawers and closets so heat can reach all surfaces',
+    'Vacuum thoroughly, then seal and dispose of vacuum bag outside',
+    'Remove or protect heat-sensitive items (electronics, computers, tablets, phones, TVs, gaming consoles)',
+    'Remove pressurized containers (aerosol cans, fire extinguishers, propane tanks, compressed air)',
+    'Remove candles, crayons, vinyl records, and wax-based items that may melt',
+    'Remove medications, vitamins, and supplements (heat can reduce effectiveness)',
+    'Remove perishable food items, chocolate, and temperature-sensitive groceries',
+    'Remove houseplants (high heat will damage or kill them)',
+    'Relocate pets, fish tanks, and pet supplies to a safe location',
+    'Remove artwork, photographs, and important documents that may be damaged by heat',
+    'Remove batteries and battery-powered devices',
+    'Turn off or adjust thermostats and HVAC systems as directed by treatment provider',
+    'Disable smoke detectors temporarily (coordinate with treatment provider and local fire department if required)',
+    'Unplug power strips, surge protectors, and non-essential electronics',
+    'Remove window treatments or open blinds to allow even heat distribution',
+    'Ensure clear access to all rooms, including attics, basements, and crawl spaces',
+    'Remove all firearms and ammunition and any other items that could explode',
+  ],
+  during: [
+    'Maintain room temperature above 120°F for at least 4 hours (professional treatment)',
+    'Use fans to circulate heat evenly throughout the space',
+    'Monitor temperatures with thermometers in multiple locations',
+    'Keep doors and windows closed to maintain heat',
+    'Only the heat treatment technician is allowed in the home while it is being heat treated',
+  ],
+  after: [
+    'Allow room to cool before re-entering',
+    'Inspect for any surviving bed bugs',
+    'Install mattress encasements on treated beds',
+    'Only return sealed, treated items to the room',
+    'Continue monitoring for 2-3 weeks to ensure complete elimination',
+  ],
+};
+
+// Generate stable IDs for each checklist item
+const generateItemId = (phase: string, index: number) => `${phase}-${index}`;
 
 export function TreatmentSection() {
+  const { toggleItem, isItemCompleted, resetAll, getCompletionStats, isLoaded } =
+    useHeatTreatmentChecklistProgress();
+
+  const {
+    isConfirmed,
+    isReminderOpen,
+    isLoaded: isReminderLoaded,
+    confirm,
+    cancel,
+    showReminder,
+  } = useHeatTreatmentChecklistReminder();
+
+  // Calculate all item IDs for stats
+  const allItemIds = [
+    ...CHECKLIST_DATA.before.map((_, i) => generateItemId('before', i)),
+    ...CHECKLIST_DATA.during.map((_, i) => generateItemId('during', i)),
+    ...CHECKLIST_DATA.after.map((_, i) => generateItemId('after', i)),
+  ];
+
+  const stats = getCompletionStats(allItemIds);
+
+  // Checklist is locked until user confirms the reminder
+  const isChecklistLocked = !isConfirmed;
+
+  const handleToggleItem = (itemId: string) => {
+    // Only allow toggling if checklist is unlocked
+    if (!isChecklistLocked) {
+      toggleItem(itemId);
+    }
+  };
+
+  const renderChecklistItems = (items: string[], phase: string) => {
+    return items.map((item, index) => {
+      const itemId = generateItemId(phase, index);
+      const isCompleted = isItemCompleted(itemId);
+
+      return (
+        <li key={itemId} className="flex items-start gap-2 group">
+          <Checkbox
+            id={itemId}
+            checked={isCompleted}
+            onCheckedChange={() => handleToggleItem(itemId)}
+            className="mt-0.5 flex-shrink-0"
+            aria-label={item}
+            disabled={isChecklistLocked}
+            aria-disabled={isChecklistLocked}
+          />
+          <Label
+            htmlFor={itemId}
+            className={`text-sm leading-relaxed ${
+              isCompleted ? 'checklist-item-completed' : ''
+            } ${isChecklistLocked ? 'cursor-default opacity-60' : 'cursor-pointer'}`}
+          >
+            {item}
+          </Label>
+        </li>
+      );
+    });
+  };
+
   return (
     <div className="space-y-6">
+      <HeatTreatmentChecklistReminderDialog
+        open={isReminderOpen}
+        onConfirm={confirm}
+        onCancel={cancel}
+      />
+
       <Alert className="border-primary/50 bg-primary/5">
         <Flame className="h-4 w-4 text-primary" />
         <AlertDescription className="text-sm">
@@ -23,7 +140,14 @@ export function TreatmentSection() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Heat Treatment Basics</CardTitle>
+          <CardTitle className="flex items-center gap-3">
+            <img
+              src="/assets/generated/high-heat-treatment-icon.dim_128x128.png"
+              alt="High heat treatment"
+              className="h-8 w-8 object-contain"
+            />
+            Heat Treatment Basics
+          </CardTitle>
           <CardDescription>Why heat works against bed bugs</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
@@ -165,74 +289,90 @@ export function TreatmentSection() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Room Preparation Checklist</CardTitle>
-          <CardDescription>Steps before heat treatment</CardDescription>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <CardTitle>Room Preparation Checklist</CardTitle>
+              <CardDescription>
+                Steps before heat treatment
+                {isLoaded && stats.total > 0 && (
+                  <span className="ml-2 text-xs font-medium">
+                    ({stats.completed}/{stats.total} completed · {stats.percentage}%)
+                  </span>
+                )}
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {isReminderLoaded && isConfirmed && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={showReminder}
+                  className="text-muted-foreground hover:text-foreground"
+                  title="Show safety reminder"
+                >
+                  <Info className="h-4 w-4" />
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={resetAll}
+                disabled={!isLoaded || stats.completed === 0}
+                className="flex-shrink-0"
+              >
+                <RotateCcw className="h-4 w-4 mr-2" />
+                Reset
+              </Button>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <div className="space-y-2">
-            <p className="font-semibold text-foreground">Before Treatment:</p>
-            <ul className="ml-4 space-y-1 list-disc">
-              <li>Remove all bedding, curtains, and washable items for dryer treatment</li>
-              <li>Clear clutter from floors, closets, and under beds</li>
-              <li>Pull furniture away from walls (at least 3 feet)</li>
-              <li>Remove items from drawers and closets</li>
-              <li>Vacuum thoroughly, then seal and dispose of vacuum bag outside</li>
-              <li>Remove or protect heat-sensitive items (electronics, candles, medications)</li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <p className="font-semibold text-foreground">During Treatment:</p>
-            <ul className="ml-4 space-y-1 list-disc">
-              <li>Maintain room temperature above 120°F for at least 4 hours (professional treatment)</li>
-              <li>Use fans to circulate heat evenly throughout the space</li>
-              <li>Monitor temperatures with thermometers in multiple locations</li>
-              <li>Keep doors and windows closed to maintain heat</li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <p className="font-semibold text-foreground">After Treatment:</p>
-            <ul className="ml-4 space-y-1 list-disc">
-              <li>Allow room to cool before re-entering</li>
-              <li>Inspect for any surviving bed bugs</li>
-              <li>Install mattress encasements on treated beds</li>
-              <li>Only return sealed, treated items to the room</li>
-              <li>Continue monitoring for 2-3 weeks to ensure complete elimination</li>
-            </ul>
+        <CardContent className="space-y-4">
+          {isChecklistLocked && (
+            <Alert className="border-amber-500/50 bg-amber-500/5">
+              <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+              <AlertDescription className="text-sm">
+                <strong className="font-semibold">Safety Reminder Required:</strong> Please review and
+                acknowledge the safety reminder before using this checklist.{' '}
+                <Button
+                  variant="link"
+                  size="sm"
+                  onClick={showReminder}
+                  className="h-auto p-0 text-amber-700 dark:text-amber-400 underline"
+                >
+                  Show reminder
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-base font-semibold mb-3 text-foreground">Before Treatment</h3>
+              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.before, 'before')}</ul>
+            </div>
+
+            <div>
+              <h3 className="text-base font-semibold mb-3 text-foreground">During Treatment</h3>
+              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.during, 'during')}</ul>
+            </div>
+
+            <div>
+              <h3 className="text-base font-semibold mb-3 text-foreground">After Treatment</h3>
+              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.after, 'after')}</ul>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Additional Non-Chemical Methods</CardTitle>
-          <CardDescription>Supplementary treatment options</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          <p>
-            <strong className="font-semibold text-foreground">Freezing:</strong> Items can be frozen at 0°F
-            (-18°C) for at least 4 days to kill bed bugs. Ensure your freezer maintains this temperature.
-          </p>
-          <p>
-            <strong className="font-semibold text-foreground">Diatomaceous Earth:</strong> Food-grade DE can
-            be applied to cracks and crevices. It damages bed bug exoskeletons, causing dehydration over
-            several days.
-          </p>
-          <p>
-            <strong className="font-semibold text-foreground">Mattress Encasements:</strong> Trap bed bugs
-            inside mattresses and box springs, preventing feeding and eventually causing starvation (can take
-            up to 18 months).
-          </p>
-          <p>
-            <strong className="font-semibold text-foreground">Interceptors:</strong> Place under bed legs to
-            trap bed bugs attempting to climb up or down, helping monitor treatment effectiveness.
-          </p>
-          <p>
-            <strong className="font-semibold text-foreground">Professional Treatment:</strong> For severe
-            infestations, professional heat treatment or integrated pest management (IPM) combining multiple
-            methods is most effective.
-          </p>
-        </CardContent>
-      </Card>
+      <Alert className="border-muted-foreground/30">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertDescription className="text-sm">
+          <strong>Professional Treatment Recommended:</strong> While these methods can be effective for minor
+          infestations, professional heat treatment services use specialized equipment to ensure complete
+          elimination. Professionals can monitor temperatures throughout the space and guarantee that all areas
+          reach lethal temperatures for the required duration.
+        </AlertDescription>
+      </Alert>
     </div>
   );
 }

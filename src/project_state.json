@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 27,
   "summary": "Bed bug education app with plans to add a cross-platform photo scanner and expand content to include other pests (e.g., scorpions, mice).",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Simple ‘quick tip’ icon, clean line style, lightbulb + small bed bug silhouette, transparent background (bed-bugs-quick-tip-icon.dim_128x128.png)",
   "existing_features": [
     {
       "id": "feature-add-a-new-photo-scanner-feature-that-works-on-mobile-and-desktop-browsers-allowing-users-on-all-phones-to-capture-a-photo-with-the-camera-or-upload-an-existing-image-from-their-device",
@@ -117,6 +118,110 @@
         "REQ-15"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-generate-a-new-high-heat-treatment-icon-as-a-static-image-asset-for-the-bed-bugs-issues-icons-set",
+      "title": "Generate a new “high heat treatment” icon as a static image asset for the Bed Bugs issues/icons set.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-new-high-heat-treatment-icon-to-the-bed-bugs-issues-icons-ui-where-bed-bug-issues-treatment-icons-are-presented-using-the-generated-static-asset-do-not-fetch-via-backend",
+      "title": "Add the new “high heat treatment” icon to the Bed Bugs issues/icons UI where bed bug issues/treatment icons are presented, using the generated static asset (do not fetch via backend).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expand-the-bed-bug-heat-treatment-educational-content-to-add-more-detailed-homeowner-preparation-steps-to-the-existing-room-preparation-checklist-focused-on-prep-work-for-the-home-before-heat-is-applied-keeping-all-user-facing-text-in-english",
+      "title": "Expand the bed bug “Heat Treatment” educational content to add more detailed homeowner preparation steps to the existing “Room Preparation Checklist” (focused on prep work for the home before heat is applied), keeping all user-facing text in English.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-interactive-checklist-mode-to-the-room-preparation-checklist-in-the-treatment-section-so-users-can-mark-individual-preparation-tasks-as-completed",
+      "title": "Add an interactive checklist mode to the \"Room Preparation Checklist\" in the Treatment section so users can mark individual preparation tasks as completed.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-the-heat-treatment-checklist-completion-state-locally-in-the-browser-and-provide-a-clear-way-to-reset-progress-for-the-checklist",
+      "title": "Persist the Heat Treatment checklist completion state locally in the browser and provide a clear way to reset progress for the checklist.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-reminder-confirmation-step-before-a-user-can-start-interacting-with-the-heat-treatment-room-preparation-checklist-in-the-treatment-section-so-the-user-explicitly-acknowledges-the-key-safety-prep-reminder-before-checking-off-items",
+      "title": "Add a simple reminder/confirmation step before a user can start interacting with the Heat Treatment \"Room Preparation Checklist\" in the Treatment section, so the user explicitly acknowledges the key safety/prep reminder before checking off items.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clear-warning-in-the-heat-treatment-checklist-reminder-the-confirmation-dialog-shown-before-users-can-interact-with-the-room-preparation-checklist-advising-users-not-to-throw-out-furniture-or-beds-because-bed-bugs-can-spread-by-hitchhiking-and-infest-other-homes-keep-the-warning-text-in-plain-english-and-consistent-with-the-existing-reminder-dialog-style",
+      "title": "Add a clear warning in the Heat Treatment checklist reminder (the confirmation dialog shown before users can interact with the Room Preparation Checklist) advising users not to throw out furniture or beds, because bed bugs can spread by hitchhiking and infest other homes; keep the warning text in plain English and consistent with the existing reminder dialog style.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-heat-treatment-checklist-safety-reminder-dialog-to-include-a-clear-plain-english-warning-that-users-should-remove-all-firearms-and-ammunition-and-remove-relocate-any-other-items-that-could-explode-before-heat-treatment-begins-while-keeping-the-tone-and-formatting-consistent-with-the-existing-reminder-paragraphs",
+      "title": "Update the Heat Treatment checklist safety reminder dialog to include a clear, plain-English warning that users should remove all firearms and ammunition and remove/relocate any other items that could explode before heat treatment begins, while keeping the tone and formatting consistent with the existing reminder paragraphs.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-item-to-the-heat-treatment-room-preparation-checklist-before-treatment-section-instructing-users-to-remove-all-firearms-and-ammunition-and-any-other-items-that-could-explode-before-heat-is-applied",
+      "title": "Add a new item to the Heat Treatment Room Preparation Checklist (Before Treatment section) instructing users to remove all firearms and ammunition and any other items that could explode before heat is applied.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-checklist-item-to-the-heat-treatment-during-treatment-phase-stating-that-only-the-heat-treatment-technician-is-allowed-in-the-home-while-it-is-being-heat-treated-use-clear-english-user-facing-text",
+      "title": "Add a new checklist item to the Heat Treatment \"During Treatment\" phase stating that only the heat treatment technician is allowed in the home while it is being heat treated (use clear English user-facing text).",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-heat-treatment-checklist-safety-reminder-dialog-to-include-a-clear-warning-that-only-the-heat-treatment-technician-is-allowed-in-the-home-while-the-home-is-being-heat-treated-keeping-the-tone-and-formatting-consistent-with-the-existing-reminder-paragraphs",
+      "title": "Update the Heat Treatment checklist safety reminder dialog to include a clear warning that only the heat treatment technician is allowed in the home while the home is being heat treated, keeping the tone and formatting consistent with the existing reminder paragraphs.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-a-new-static-quick-tip-icon-image-asset-for-the-bed-bugs-educational-content",
+      "title": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-lucide-icon-in-the-bed-bugs-tip-alert-callout-at-the-top-of-each-bed-bugs-section-component-with-the-new-static-quick-tip-icon-without-changing-the-existing-user-facing-text-in-those-alerts",
+      "title": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -161,6 +266,54 @@
     {
       "id": "AR-10",
       "summary": "Add simple tagging for saved scans/photos to make it easier to organize and find items in the saved-photo gallery.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add a \"high heat treatment\" icon to the bed bug issues/icons section.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add educational content for “high heat treatment” that covers prep work homeowners should do before heat is applied to the home.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Add a checklist toggle for the Heat Treatment room preparation checklist so users can mark prep tasks as completed.",
+      "reqIds": [],
+      "status": "in_progress"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Add a simple reminder/confirmation step before starting the Heat Treatment room preparation checklist.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Add a prep-flow reminder/warning advising users not to throw out furniture or beds (to prevent bed bugs from hitchhiking and infesting other homes), using clear English user-facing text.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Add an additional safety/prep warning in the Heat Treatment checklist reminder/prep flow to remove firearms and ammunition and any other items that could explode before heat is applied.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Add a Heat Treatment safety/prep warning/step stating that only the heat treatment technician is allowed in the home while it is being heat treated (clear English user-facing text, consistent with existing checklist/reminder style).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Add a “quick tip” icon for the Bed Bugs section (static icon asset for use in the UI).",
       "reqIds": [],
       "status": "pending"
     }

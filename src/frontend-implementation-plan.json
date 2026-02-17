@@ -1,63 +1,47 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add simple tagging and tag filtering for Saved Scans",
+  "title": "Add Bed Bugs Quick Tip Icon",
   "requirements": [
     {
-      "id": "REQ-13",
-      "summary": "Extend SavedScan localStorage persistence to include per-scan user-defined tags with backward-compatible loading.",
+      "id": "REQ-27",
+      "summary": "Add a generated static “Quick Tip” icon asset for Bed Bugs content under the required generated-assets directory.",
       "acceptanceCriteria": [
-        "Existing saved scans already stored under the current localStorage key load without errors and are treated as having an empty tags list.",
-        "Newly saved scans can store tags in the same localStorage record structure (no new storage mechanism required).",
-        "Tags are persisted across reloads and reflected consistently in in-memory state and localStorage."
+        "A new image file exists under frontend/public/assets/generated with the exact filename specified in imageRequirements.required.",
+        "The icon is visually legible at small sizes (16–24px) and has a transparent background."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/hooks/useSavedScans.ts",
-          "operation": "modify",
-          "description": "Update the SavedScan type to include tags (string[]). Add backward-compatible migration on load (missing tags => []). Add tag mutation helpers (e.g., addTag/removeTag/updateTag/setTags) that update in-memory state and persist to localStorage under the existing STORAGE_KEY."
-        },
-        {
-          "path": "frontend/src/components/PhotoScanner.tsx",
-          "operation": "modify",
-          "description": "Wire new tag mutation callbacks from useSavedScans into SavedScansGallery props so tag edits update the single source of truth and persist across reloads."
-        }
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "summary": "Add per-scan tag management controls (create/edit/remove) in the Saved Scans gallery with clear English labels and keyboard-only support.",
-      "acceptanceCriteria": [
-        "Each saved scan item in the gallery has an affordance to manage tags (add/remove/edit) without opening developer tools.",
-        "Tag entry supports keyboard-only use (can add a tag, remove a tag, and exit the control).",
-        "All new/updated user-facing text related to tagging is in English."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/SavedScansGallery.tsx",
-          "operation": "modify",
-          "description": "Add a visible 'Tags' section per saved scan item that lists existing tags and provides controls to add, edit, and remove tags with clear English labels. Ensure keyboard-only support (Enter to add/save, Escape to exit/blur, focusable remove/edit buttons with accessible aria-labels). Use existing shadcn-ui components already used in the gallery (e.g., Button/Card) where appropriate; verify the component's usage instructions before implementing."
-        },
-        {
-          "path": "frontend/src/components/SavedScanTagsEditor.tsx",
+          "path": "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png",
           "operation": "create",
-          "description": "Create a focused, reusable per-scan tags editor component used by SavedScansGallery. It should handle tag input, inline edit mode, tag removal, and keyboard interactions while delegating persistence via callbacks. Use existing shadcn-ui components already present in the project where appropriate; verify the component's usage instructions before implementing."
+          "description": "Add the generated static quick tip icon image asset (transparent background) for Bed Bugs as required: frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png."
         }
       ]
     },
     {
-      "id": "REQ-15",
-      "summary": "Add tag-based filtering/search in Saved Scans gallery to narrow scans by selected tag or entered tag text, with safe empty-state behavior.",
+      "id": "REQ-28",
+      "summary": "Replace the Bed Bugs section alert Lucide icons with the new static quick tip icon image while keeping existing alert text unchanged.",
       "acceptanceCriteria": [
-        "When a filter is applied, only scans whose tags match the selected/entered tag are shown.",
-        "Clearing the filter restores the full gallery list.",
-        "If there are no saved scans, the existing empty-state UI still renders correctly and does not show broken filter controls."
+        "In frontend/src/components/sections/IdentifySection.tsx, the Alert icon (currently AlertCircle) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "In frontend/src/components/sections/HabitatsSection.tsx, the Alert icon (currently Info) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "In frontend/src/components/sections/PreventionSection.tsx, the Alert icon (currently ShieldCheck) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "The new icon is sized consistently with the previous icon (e.g., matching the existing h-4 w-4 footprint) and aligns correctly with the alert text across mobile and desktop."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/SavedScansGallery.tsx",
+          "path": "frontend/src/components/sections/IdentifySection.tsx",
           "operation": "modify",
-          "description": "Add a simple filter UI above the grid when there are saved scans (e.g., 'Filter by tag' text input and optional quick-pick chips from known tags). Implement client-side filtering of the rendered list based on tag text match, and provide a clear 'Clear filter' action. Ensure the current empty-state branch remains unchanged and does not render filter controls when savedScans.length === 0. Use existing shadcn-ui components already used in the gallery (e.g., Button/Card) where appropriate; verify the component's usage instructions before implementing."
+          "description": "Replace the Lucide AlertCircle icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
+        },
+        {
+          "path": "frontend/src/components/sections/HabitatsSection.tsx",
+          "operation": "modify",
+          "description": "Replace the Lucide Info icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
+        },
+        {
+          "path": "frontend/src/components/sections/PreventionSection.tsx",
+          "operation": "modify",
+          "description": "Replace the Lucide ShieldCheck icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
         }
       ]
     }

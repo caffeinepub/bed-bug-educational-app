@@ -2,12 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-extend-the-saved-scan-data-model-persisted-in-localstorage-to-support-user-defined-tags-per-saved-scan-while-maintaining-backward-compatibility-with-already-saved-scans-that-have-no-tags",
-      "featureTitle": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
-      "files": [
-        "frontend/src/components/PhotoScanner.tsx",
-        "frontend/src/hooks/useSavedScans.ts"
-      ],
+      "featureId": "feature-generate-a-new-static-quick-tip-icon-image-asset-for-the-bed-bugs-educational-content",
+      "featureTitle": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
+      "files": [],
       "components": [
         "blob-storage@4.0.0",
         "core-infrastructure@1.0.2",
@@ -18,16 +15,17 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-13"
+        "REQ-27"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-ui-controls-in-the-saved-scans-gallery-to-create-edit-and-remove-tags-on-a-per-scan-basis-using-clear-english-user-facing-labels",
-      "featureTitle": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+      "featureId": "feature-replace-the-current-lucide-icon-in-the-bed-bugs-tip-alert-callout-at-the-top-of-each-bed-bugs-section-component-with-the-new-static-quick-tip-icon-without-changing-the-existing-user-facing-text-in-those-alerts",
+      "featureTitle": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
       "files": [
-        "frontend/src/components/SavedScanTagsEditor.tsx",
-        "frontend/src/components/SavedScansGallery.tsx"
+        "frontend/src/components/sections/HabitatsSection.tsx",
+        "frontend/src/components/sections/IdentifySection.tsx",
+        "frontend/src/components/sections/PreventionSection.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -39,27 +37,7 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-14"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-a-simple-tag-based-filtering-search-capability-in-the-saved-scans-gallery-so-users-can-quickly-narrow-the-list-to-scans-matching-a-selected-tag-or-entered-tag-text",
-      "featureTitle": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
-      "files": [
-        "frontend/src/components/SavedScansGallery.tsx"
-      ],
-      "components": [
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "camera@1.0.0"
-      ],
-      "testIds": [
-        "REQ-15"
+        "REQ-28"
       ],
       "confidence": "high"
     }

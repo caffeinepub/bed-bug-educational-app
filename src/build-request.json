@@ -1,82 +1,59 @@
 {
   "kind": "build_request",
-  "title": "Add simple tagging for saved scans",
-  "projectName": "Pest Scanner",
+  "title": "Add Bed Bugs Quick Tip Icon",
+  "projectName": "Pest Education",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-13",
-      "text": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
+      "id": "REQ-27",
+      "text": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3",
           "msg-4"
         ],
         "quotes": [
-          "Your update with the delete option is ready — want to add simple tagging for easier photo organization next?",
-          "yes"
+          "add a quick tip icon for bed bugs.."
         ]
       },
       "acceptanceCriteria": [
-        "Existing saved scans already stored under the current localStorage key load without errors and are treated as having an empty tags list.",
-        "Newly saved scans can store tags in the same localStorage record structure (no new storage mechanism required).",
-        "Tags are persisted across reloads and reflected consistently in in-memory state and localStorage."
+        "A new image file exists under frontend/public/assets/generated with the exact filename specified in imageRequirements.required.",
+        "The icon is visually legible at small sizes (16–24px) and has a transparent background."
       ]
     },
     {
-      "id": "REQ-14",
-      "text": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+      "id": "REQ-28",
+      "text": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-3",
           "msg-4"
         ],
         "quotes": [
-          "want to add simple tagging for easier photo organization next?",
-          "yes"
+          "add a quick tip icon for bed bugs.."
         ]
       },
       "acceptanceCriteria": [
-        "Each saved scan item in the gallery has an affordance to manage tags (add/remove/edit) without opening developer tools.",
-        "Tag entry supports keyboard-only use (can add a tag, remove a tag, and exit the control).",
-        "All new/updated user-facing text related to tagging is in English."
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-3",
-          "msg-4"
-        ],
-        "quotes": [
-          "simple tagging for easier photo organization",
-          "yes"
-        ]
-      },
-      "acceptanceCriteria": [
-        "When a filter is applied, only scans whose tags match the selected/entered tag are shown.",
-        "Clearing the filter restores the full gallery list.",
-        "If there are no saved scans, the existing empty-state UI still renders correctly and does not show broken filter controls."
+        "In frontend/src/components/sections/IdentifySection.tsx, the Alert icon (currently AlertCircle) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "In frontend/src/components/sections/HabitatsSection.tsx, the Alert icon (currently Info) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "In frontend/src/components/sections/PreventionSection.tsx, the Alert icon (currently ShieldCheck) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
+        "The new icon is sized consistently with the previous icon (e.g., matching the existing h-4 w-4 footprint) and aligns correctly with the alert text across mobile and desktop."
       ]
     }
   ],
   "constraints": [
-    "Frontend must not modify any files under frontend/src/components/ui or the immutable hook files listed in SYSTEM_CONTEXT.",
-    "Keep saved scans persistence client-side (localStorage) consistent with the existing approach (no new backend canister storage for scans).",
-    "Use English for any user-facing text."
+    "Store generated images as static assets in frontend/public/assets/generated and reference them directly from the frontend (do not fetch via backend).",
+    "Do not edit files under frontend/immutablePaths (not needed for this change).",
+    "Keep all user-facing text in English."
   ],
   "nonGoals": [
-    "Syncing tags across devices or accounts.",
-    "Backend storage or querying of saved scans/tags.",
-    "AI-based pest identification or automatic tag suggestions."
+    "Do not change the Heat Treatment icon asset or Heat Treatment checklist behavior.",
+    "Do not add new pests, tabs, or new educational sections as part of this request."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Simple ‘quick tip’ icon, clean line style, lightbulb + small bed bug silhouette, transparent background (bed-bugs-quick-tip-icon.dim_128x128.png)"
+    ],
     "edits": []
   }
 }

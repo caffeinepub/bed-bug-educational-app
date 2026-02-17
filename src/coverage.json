@@ -1,50 +1,39 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T19:18:55.563Z",
+  "generatedAt": "2026-02-17T20:34:07.285Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-13",
-        "summary": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
+        "id": "REQ-27",
+        "summary": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/useSavedScans.ts",
-          "frontend/src/components/PhotoScanner.tsx"
+          "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useSavedScans.ts",
-          "frontend/src/components/PhotoScanner.tsx"
+          "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
         ]
       },
       {
-        "id": "REQ-14",
-        "summary": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+        "id": "REQ-28",
+        "summary": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/components/SavedScanTagsEditor.tsx"
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/components/SavedScanTagsEditor.tsx"
-        ]
-      },
-      {
-        "id": "REQ-15",
-        "summary": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx"
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx"
         ]
       }
     ]
@@ -54,10 +43,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/PhotoScanner.tsx",
-    "frontend/src/components/SavedScanTagsEditor.tsx",
-    "frontend/src/components/SavedScansGallery.tsx",
-    "frontend/src/hooks/useSavedScans.ts",
+    "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png",
+    "frontend/src/components/sections/HabitatsSection.tsx",
+    "frontend/src/components/sections/IdentifySection.tsx",
+    "frontend/src/components/sections/PreventionSection.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

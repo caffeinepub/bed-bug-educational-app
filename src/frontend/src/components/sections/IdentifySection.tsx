@@ -1,12 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
 
 export function IdentifySection() {
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <AlertCircle className="h-4 w-4 text-primary" />
+        <img 
+          src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
+          alt="Quick tip" 
+          className="h-4 w-4"
+        />
         <AlertDescription className="text-sm">
           Early detection is crucial. Learning to identify bed bugs and their signs can help you catch an
           infestation before it becomes severe.

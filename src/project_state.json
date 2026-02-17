@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 27,
-  "summary": "Bed bug education app with plans to add a cross-platform photo scanner and expand content to include other pests (e.g., scorpions, mice).",
+  "projectStateVersion": 33,
+  "summary": "Bed bug education app expanding to additional pests, with a cross-platform Photo Scanner and growing educational content to include pests like cockroaches, head lice, and now spiders (including prevention and what to do if found, potentially using the Photo Scanner for identification guidance).",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Simple ‘quick tip’ icon, clean line style, lightbulb + small bed bug silhouette, transparent background (bed-bugs-quick-tip-icon.dim_128x128.png)",
+  "imageRequirements": "## Required Images\n- Simple spider icon illustration, clean line style, transparent background (spider-icon.dim_128x128.png, 128x128)",
   "existing_features": [
     {
       "id": "feature-add-a-new-photo-scanner-feature-that-works-on-mobile-and-desktop-browsers-allowing-users-on-all-phones-to-capture-a-photo-with-the-camera-or-upload-an-existing-image-from-their-device",
@@ -222,6 +222,94 @@
         "REQ-28"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-generate-a-new-static-cockroach-icon-image-asset-and-add-it-to-the-app-as-a-static-file-under-frontend-public-assets-generated",
+      "title": "Generate a new static cockroach icon image asset and add it to the app as a static file under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-cockroaches-educational-content-component-with-clear-english-guidance-on-1-identifying-common-cockroaches-and-signs-of-infestation-2-where-they-hide-and-why-they-appear-3-step-by-step-extermination-control-options-suitable-for-homeowners-and-4-prevention-strategies-to-reduce-future-infestations",
+      "title": "Add a new Cockroaches educational content component with clear English guidance on (1) identifying common cockroaches and signs of infestation, (2) where they hide and why they appear, (3) step-by-step extermination/control options suitable for homeowners, and (4) prevention strategies to reduce future infestations.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-cockroaches-into-the-pest-selection-ui-across-the-educationalcontent-tabs-so-users-can-select-cockroaches-and-view-the-cockroaches-content-use-the-generated-cockroach-icon-image-in-the-cockroaches-selection-control",
+      "title": "Integrate cockroaches into the pest selection UI across the EducationalContent tabs so users can select Cockroaches and view the Cockroaches content; use the generated cockroach icon image in the Cockroaches selection control.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-head-lice-educational-content-component-with-clear-user-facing-english-text-that-explains-what-head-lice-are-common-signs-of-infestation-and-practical-prevention-steps-families-can-follow",
+      "title": "Add a new Head Lice educational content component with clear, user-facing English text that explains what head lice are, common signs of infestation, and practical prevention steps families can follow.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-head-lice-into-the-pest-selection-ui-across-the-educationalcontent-tabs-identify-habitats-prevention-treatment-so-users-can-select-head-lice-and-view-the-new-head-lice-content",
+      "title": "Integrate Head Lice into the pest selection UI across the EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Head Lice” and view the new Head Lice content.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-static-head-lice-icon-image-under-frontend-public-assets-generated-and-use-it-in-the-head-lice-selection-control-consistent-with-the-cockroaches-selection-control-pattern",
+      "title": "Add a static Head Lice icon image under frontend/public/assets/generated and use it in the Head Lice selection control (consistent with the Cockroaches selection control pattern).",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-spiders-educational-content-component-with-clear-user-facing-english-text-covering-1-basic-identification-cues-and-common-signs-of-spider-activity-indoors-2-prevention-steps-to-reduce-spiders-in-around-the-home-and-3-what-to-do-if-you-find-a-spider-safe-capture-removal-options-cleaning-steps-and-when-to-call-a-professional-include-a-prominent-safety-note-advising-users-not-to-handle-unknown-spiders-with-bare-hands-and-to-seek-medical-help-immediately-for-severe-reactions-or-concerning-bites",
+      "title": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-spiders-into-the-pest-selection-ui-across-educationalcontent-tabs-identify-habitats-prevention-treatment-so-users-can-select-spiders-and-view-the-new-spiders-educational-content-consistent-with-how-cockroaches-and-head-lice-are-integrated",
+      "title": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-static-spider-icon-image-under-frontend-public-assets-generated-and-use-it-in-the-spiders-selection-control-consistent-with-the-cockroaches-head-lice-selection-control-pattern-use-an-img-tag-with-appropriate-alt-text",
+      "title": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-photo-scanner-ui-to-provide-spider-specific-photo-based-guidance-when-a-user-wants-help-identifying-a-spider-from-a-captured-uploaded-image-add-an-in-scanner-spider-photo-help-section-that-explains-how-to-take-a-useful-spider-photo-and-provides-a-simple-non-automated-checklist-to-compare-visible-features-e-g-body-shape-leg-length-positioning-markings-plus-next-step-guidance-safe-removal-monitoring-when-to-call-a-professional-do-not-claim-automated-identification-or-use-ai-ml-classification",
+      "title": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-one-click-action-in-the-photo-scanner-flow-to-tag-the-current-saved-scan-with-spider-or-spiders-when-the-user-is-using-spider-help-leveraging-the-existing-saved-scan-tags-system-and-keeping-all-behavior-local-to-the-browser",
+      "title": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -314,6 +402,42 @@
     {
       "id": "AR-18",
       "summary": "Add a “quick tip” icon for the Bed Bugs section (static icon asset for use in the UI).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Add a cockroach icon as a static image asset for the pests/issues/icons set and use it in the UI.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Add educational content for cockroaches covering how to exterminate and help prevent cockroach infestations (clear English user-facing text).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add educational content for head lice, including clear prevention guidance (user-facing text in English).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Add Spiders as a new pest category with educational content focused on prevention and what to do if you find a spider (clear, user-facing English guidance).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Integrate Spiders into the pest selection UI across EducationalContent tabs (and include a spider icon asset for the selection control, consistent with other pests).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Extend the Photo Scanner flow to support spider photo-based identification guidance (users can upload/capture a spider photo and get in-app help on identifying and how to get rid of them).",
       "reqIds": [],
       "status": "pending"
     }

@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
-import { Camera, Upload, RotateCw, Sparkles, Download, X, SwitchCamera, Trash2, Save } from 'lucide-react';
+import { Camera, Upload, RotateCw, Sparkles, Download, X, SwitchCamera, Trash2, Save, Info, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useCamera } from '../camera/useCamera';
 import { useImageEditor } from '../hooks/useImageEditor';
 import { useSavedScans } from '../hooks/useSavedScans';
@@ -10,10 +10,12 @@ import { SavedScansGallery } from './SavedScansGallery';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export function PhotoScanner() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
+  const [showSpiderHelp, setShowSpiderHelp] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -107,6 +109,7 @@ export function PhotoScanner() {
     // Clear state
     setSelectedImage(null);
     setShowCamera(false);
+    setShowSpiderHelp(false);
     resetEditor();
     
     // Clear file input
@@ -119,6 +122,7 @@ export function PhotoScanner() {
 
   const handleReset = useCallback(() => {
     setSelectedImage(null);
+    setShowSpiderHelp(false);
     resetEditor();
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -148,9 +152,19 @@ export function PhotoScanner() {
     }
   }, [processedImage, selectedImage, saveScan]);
 
+  const handleSaveWithSpiderTag = useCallback(async () => {
+    const imageToSave = processedImage || selectedImage;
+    if (imageToSave) {
+      const scanId = saveScan(imageToSave);
+      addTag(scanId, 'spider');
+      toast.success('Scan saved with spider tag');
+    }
+  }, [processedImage, selectedImage, saveScan, addTag]);
+
   const handleOpenSavedScan = useCallback((scan: { imageDataUrl: string }) => {
     setSelectedImage(scan.imageDataUrl);
     setShowCamera(false);
+    setShowSpiderHelp(false);
     toast.success('Scan opened');
   }, []);
 
@@ -307,6 +321,81 @@ export function PhotoScanner() {
                   className="w-full h-auto"
                 />
               </div>
+
+              <Collapsible open={showSpiderHelp} onOpenChange={setShowSpiderHelp}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="outline" className="w-full">
+                    <Info className="mr-2 h-4 w-4" />
+                    {showSpiderHelp ? 'Hide' : 'Show'} Spider Photo Help
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="mt-4">
+                  <Card className="border-primary">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Spider Photo Help</CardTitle>
+                      <CardDescription>
+                        Tips for capturing useful spider photos and identifying key features
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <h4 className="mb-2 font-semibold text-sm">Photo Capture Tips</h4>
+                        <ul className="ml-6 list-disc space-y-1 text-sm text-muted-foreground">
+                          <li>Use good lighting - natural light works best</li>
+                          <li>Get as close as safely possible while keeping the spider in focus</li>
+                          <li>Take multiple photos from different angles (top, side, front)</li>
+                          <li>Include an object for scale (coin, ruler, or common item)</li>
+                          <li>Capture the spider's web if present - web structure helps with identification</li>
+                          <li>Keep the camera steady or use a tripod for clear images</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="mb-2 font-semibold text-sm">Features to Note</h4>
+                        <ul className="ml-6 list-disc space-y-1 text-sm text-muted-foreground">
+                          <li>Body size and overall shape (compact, elongated, round)</li>
+                          <li>Leg length relative to body size</li>
+                          <li>Color and any distinctive markings or patterns</li>
+                          <li>Eye arrangement (if visible with magnification)</li>
+                          <li>Presence and type of web (orb, funnel, sheet, cobweb, or none)</li>
+                          <li>Location where found (indoors/outdoors, specific room or area)</li>
+                        </ul>
+                      </div>
+
+                      <Alert>
+                        <Info className="h-4 w-4" />
+                        <AlertTitle>Note</AlertTitle>
+                        <AlertDescription className="text-sm">
+                          This app does not automatically identify spider species from photos. Use your photos to compare with field guides, consult with local experts, or share with pest control professionals for accurate identification.
+                        </AlertDescription>
+                      </Alert>
+
+                      <div>
+                        <h4 className="mb-2 font-semibold text-sm">Safety & Next Steps</h4>
+                        <ul className="ml-6 list-disc space-y-1 text-sm text-muted-foreground">
+                          <li>Never handle unknown spiders - photograph from a safe distance</li>
+                          <li>If you suspect a venomous species, contact a professional immediately</li>
+                          <li>Save your photos to compare with online resources or field guides</li>
+                          <li>Document the location and date for tracking purposes</li>
+                          <li>Consider professional pest control for persistent problems</li>
+                        </ul>
+                      </div>
+
+                      {selectedImage && (
+                        <Button
+                          onClick={handleSaveWithSpiderTag}
+                          variant="default"
+                          size="lg"
+                          className="w-full"
+                        >
+                          <Tag className="mr-2 h-5 w-5" />
+                          Save with Spider Tag
+                        </Button>
+                      )}
+                    </CardContent>
+                  </Card>
+                </CollapsibleContent>
+              </Collapsible>
 
               <div className="space-y-4">
                 <div className="space-y-2">

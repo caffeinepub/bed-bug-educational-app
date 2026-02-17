@@ -1,58 +1,115 @@
 {
   "kind": "build_request",
-  "title": "Add Bed Bugs Quick Tip Icon",
-  "projectName": "Pest Education",
+  "title": "Add Spiders pest content, selection icon, and photo-based guidance",
+  "projectName": "Pest ID Guide",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-27",
-      "text": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
+      "id": "REQ-35",
+      "text": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "add a quick tip icon for bed bugs.."
+          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
         ]
       },
       "acceptanceCriteria": [
-        "A new image file exists under frontend/public/assets/generated with the exact filename specified in imageRequirements.required.",
-        "The icon is visually legible at small sizes (16–24px) and has a transparent background."
+        "A new SpidersContent React component exists under the existing pests components pattern (e.g., frontend/src/components/pests/SpidersContent.tsx).",
+        "The component uses the existing UI building blocks (Card/Alert/etc.) and contains sections for Identification, Prevention, and What to Do If You Find One.",
+        "All user-facing text is in English and includes a clear, visible safety warning about not handling unknown spiders and when to seek professional/medical help."
       ]
     },
     {
-      "id": "REQ-28",
-      "text": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
+      "id": "REQ-36",
+      "text": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "add a quick tip icon for bed bugs.."
+          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
         ]
       },
       "acceptanceCriteria": [
-        "In frontend/src/components/sections/IdentifySection.tsx, the Alert icon (currently AlertCircle) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "In frontend/src/components/sections/HabitatsSection.tsx, the Alert icon (currently Info) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "In frontend/src/components/sections/PreventionSection.tsx, the Alert icon (currently ShieldCheck) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "The new icon is sized consistently with the previous icon (e.g., matching the existing h-4 w-4 footprint) and aligns correctly with the alert text across mobile and desktop."
+        "EducationalContent pest selector includes a new “Spiders” option alongside existing pests in each relevant tab.",
+        "Selecting “Spiders” renders the SpidersContent component.",
+        "The selected pest state type/logic supports the new spiders option without breaking existing pest selections."
+      ]
+    },
+    {
+      "id": "REQ-37",
+      "text": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A spider icon image file exists at frontend/public/assets/generated/spider-icon.dim_128x128.png.",
+        "The Spiders selection button uses the static spider icon via /assets/generated/spider-icon.dim_128x128.png with alt text \"Spiders\".",
+        "No backend fetching is used for the icon asset."
+      ]
+    },
+    {
+      "id": "REQ-38",
+      "text": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+        ]
+      },
+      "acceptanceCriteria": [
+        "PhotoScanner includes a clearly labeled “Spider Photo Help” panel/section available in the scanner flow (at minimum when an image is selected, and/or via a simple toggle).",
+        "The guidance includes: (1) tips for capturing a clear spider image (lighting, distance, multiple angles, include an object for scale), (2) a checklist of visible features to note, and (3) safety/next steps including when to call a professional.",
+        "Copy does not claim the app can automatically identify spider species from the photo.",
+        "Existing scanner functionality (capture/upload, edit, save, download, clear) remains intact."
+      ]
+    },
+    {
+      "id": "REQ-39",
+      "text": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "add spiders  and the prevention of them or if you find one to have the app in the phots identify and help get rid of them"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When viewing spider help in the scanner and saving to gallery, the UI offers a one-click way to add a spider-related tag to that saved scan (or to quickly add the tag after saving).",
+        "The tag is persisted using the existing localStorage-backed saved scans model and appears in the Saved Scans Gallery tag UI/filtering.",
+        "If the user does not use the spider tag action, saving behavior is unchanged."
       ]
     }
   ],
   "constraints": [
-    "Store generated images as static assets in frontend/public/assets/generated and reference them directly from the frontend (do not fetch via backend).",
-    "Do not edit files under frontend/immutablePaths (not needed for this change).",
-    "Keep all user-facing text in English."
+    "Keep all user-facing text in English.",
+    "Do not modify files under frontend/src/components/ui (compose and reuse existing UI components instead).",
+    "Do not implement AI/ML or any backend-based image recognition for spider identification; provide guidance/checklists only.",
+    "Add new static images as files under frontend/public/assets/generated and reference them directly from the frontend (no backend fetch)."
   ],
   "nonGoals": [
-    "Do not change the Heat Treatment icon asset or Heat Treatment checklist behavior.",
-    "Do not add new pests, tabs, or new educational sections as part of this request."
+    "Automated spider species classification from photos.",
+    "Real-time chat or messaging with experts.",
+    "Adding new backend schemas or Motoko endpoints specifically for spiders (unless later requested)."
   ],
   "imageRequirements": {
     "required": [
-      "Simple ‘quick tip’ icon, clean line style, lightbulb + small bed bug silhouette, transparent background (bed-bugs-quick-tip-icon.dim_128x128.png)"
+      "Simple spider icon illustration, clean line style, transparent background (spider-icon.dim_128x128.png, 128x128)"
     ],
     "edits": []
   }

@@ -1,47 +1,91 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Bed Bugs Quick Tip Icon",
+  "title": "Add Spiders pest content, icon, and photo-based guidance",
   "requirements": [
     {
-      "id": "REQ-27",
-      "summary": "Add a generated static “Quick Tip” icon asset for Bed Bugs content under the required generated-assets directory.",
+      "id": "REQ-35",
+      "summary": "Create a new Spiders educational content component with Identification, Prevention, and What to Do sections plus a prominent safety warning.",
       "acceptanceCriteria": [
-        "A new image file exists under frontend/public/assets/generated with the exact filename specified in imageRequirements.required.",
-        "The icon is visually legible at small sizes (16–24px) and has a transparent background."
+        "A new SpidersContent React component exists under the existing pests components pattern (e.g., frontend/src/components/pests/SpidersContent.tsx).",
+        "The component uses the existing UI building blocks (Card/Alert/etc.) and contains sections for Identification, Prevention, and What to Do If You Find One.",
+        "All user-facing text is in English and includes a clear, visible safety warning about not handling unknown spiders and when to seek professional/medical help."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png",
+          "path": "frontend/src/components/pests/SpidersContent.tsx",
           "operation": "create",
-          "description": "Add the generated static quick tip icon image asset (transparent background) for Bed Bugs as required: frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png."
+          "description": "Add the SpidersContent React component using existing UI building blocks (e.g., Card, Alert) with clear English sections for (1) identification cues and indoor signs, (2) prevention steps, and (3) what to do if you find a spider (safe capture/removal, cleaning, when to call a professional), including a prominent safety note (no bare-hand handling; seek medical help for severe reactions/concerning bites)."
         }
       ]
     },
     {
-      "id": "REQ-28",
-      "summary": "Replace the Bed Bugs section alert Lucide icons with the new static quick tip icon image while keeping existing alert text unchanged.",
+      "id": "REQ-36",
+      "summary": "Integrate “Spiders” into the EducationalContent pest selector and selected pest rendering across Identify/Habitats/Prevention/Treatment tabs.",
       "acceptanceCriteria": [
-        "In frontend/src/components/sections/IdentifySection.tsx, the Alert icon (currently AlertCircle) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "In frontend/src/components/sections/HabitatsSection.tsx, the Alert icon (currently Info) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "In frontend/src/components/sections/PreventionSection.tsx, the Alert icon (currently ShieldCheck) is replaced by rendering the generated quick tip icon as an <img> with appropriate alt text in English.",
-        "The new icon is sized consistently with the previous icon (e.g., matching the existing h-4 w-4 footprint) and aligns correctly with the alert text across mobile and desktop."
+        "EducationalContent pest selector includes a new “Spiders” option alongside existing pests in each relevant tab.",
+        "Selecting “Spiders” renders the SpidersContent component.",
+        "The selected pest state type/logic supports the new spiders option without breaking existing pest selections."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/sections/IdentifySection.tsx",
+          "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Replace the Lucide AlertCircle icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
+          "description": "Extend the selected pest union/state to include a spiders option; add a “Spiders” selection control (consistent with existing cockroaches/head lice button patterns) in each relevant tab’s pest selector grid; wire selectedPest === 'spiders' to render the new SpidersContent component in Identify/Habitats/Prevention/Treatment tabs."
+        }
+      ]
+    },
+    {
+      "id": "REQ-37",
+      "summary": "Add a static spider icon and use it in the Spiders selection button with proper alt text and no backend fetching.",
+      "acceptanceCriteria": [
+        "A spider icon image file exists at frontend/public/assets/generated/spider-icon.dim_128x128.png.",
+        "The Spiders selection button uses the static spider icon via /assets/generated/spider-icon.dim_128x128.png with alt text \"Spiders\".",
+        "No backend fetching is used for the icon asset."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/spider-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the required generated static spider icon asset at exactly frontend/public/assets/generated/spider-icon.dim_128x128.png for direct frontend referencing (no backend fetch)."
         },
         {
-          "path": "frontend/src/components/sections/HabitatsSection.tsx",
+          "path": "frontend/src/components/EducationalContent.tsx",
           "operation": "modify",
-          "description": "Replace the Lucide Info icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
-        },
+          "description": "Update the new “Spiders” pest selector button to render an <img> using the static asset frontend/public/assets/generated/spider-icon.dim_128x128.png (referenced via /assets/generated/spider-icon.dim_128x128.png) with alt text \"Spiders\", matching the existing icon button styling pattern."
+        }
+      ]
+    },
+    {
+      "id": "REQ-38",
+      "summary": "Add a “Spider Photo Help” guidance panel inside the Photo Scanner flow with capture tips, a feature checklist, and safety/next steps (no automated identification claims).",
+      "acceptanceCriteria": [
+        "PhotoScanner includes a clearly labeled “Spider Photo Help” panel/section available in the scanner flow (at minimum when an image is selected, and/or via a simple toggle).",
+        "The guidance includes: (1) tips for capturing a clear spider image (lighting, distance, multiple angles, include an object for scale), (2) a checklist of visible features to note, and (3) safety/next steps including when to call a professional.",
+        "Copy does not claim the app can automatically identify spider species from the photo.",
+        "Existing scanner functionality (capture/upload, edit, save, download, clear) remains intact."
+      ],
+      "file_operations": [
         {
-          "path": "frontend/src/components/sections/PreventionSection.tsx",
+          "path": "frontend/src/components/PhotoScanner.tsx",
           "operation": "modify",
-          "description": "Replace the Lucide ShieldCheck icon in the top Alert with an <img> that references the static asset at frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png; keep the existing alert text unchanged; use English alt text (e.g., \"Quick tip\") and size/alignment consistent with the prior h-4 w-4 icon footprint; remove unused Lucide import."
+          "description": "Add a clearly labeled “Spider Photo Help” section to the scanner UI (shown at least when an image is selected and/or via a simple toggle) using existing UI building blocks (e.g., Card/Alert). Include English-only guidance for taking useful spider photos (lighting, distance, multiple angles, include an object for scale), a non-automated checklist of visible features to compare, and safety/next steps (safe removal, monitoring, when to call a professional). Ensure copy explicitly avoids claims of automated identification. Preserve all existing scanner actions (capture/upload, edit, save, download, clear) and continue using the selected camera hook as-is. Use the selected component: camera (useCamera hook) to keep camera flow intact—Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-39",
+      "summary": "Add an optional one-click action in Photo Scanner to tag a saved scan with “spider” when using spider help, persisted via the existing localStorage saved scans model.",
+      "acceptanceCriteria": [
+        "When viewing spider help in the scanner and saving to gallery, the UI offers a one-click way to add a spider-related tag to that saved scan (or to quickly add the tag after saving).",
+        "The tag is persisted using the existing localStorage-backed saved scans model and appears in the Saved Scans Gallery tag UI/filtering.",
+        "If the user does not use the spider tag action, saving behavior is unchanged."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/PhotoScanner.tsx",
+          "operation": "modify",
+          "description": "When “Spider Photo Help” is active, add an optional one-click UI action to apply a “spider” (or “spiders”) tag to the saved scan using the existing saved scans tags system (useSavedScans.saveScan returning an id plus useSavedScans.addTag), keeping all behavior local to the browser. Ensure default Save to Gallery behavior remains unchanged if the user does not choose the spider tag action."
         }
       ]
     }

@@ -1,39 +1,69 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T20:34:07.285Z",
+  "generatedAt": "2026-02-17T21:06:52.393Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 5,
+    "implemented": 5,
     "items": [
       {
-        "id": "REQ-27",
-        "summary": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
+        "id": "REQ-35",
+        "summary": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
+          "frontend/src/components/pests/SpidersContent.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
+          "frontend/src/components/pests/SpidersContent.tsx"
         ]
       },
       {
-        "id": "REQ-28",
-        "summary": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
+        "id": "REQ-36",
+        "summary": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/sections/IdentifySection.tsx",
-          "frontend/src/components/sections/HabitatsSection.tsx",
-          "frontend/src/components/sections/PreventionSection.tsx"
+          "frontend/src/components/EducationalContent.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/sections/IdentifySection.tsx",
-          "frontend/src/components/sections/HabitatsSection.tsx",
-          "frontend/src/components/sections/PreventionSection.tsx"
+          "frontend/src/components/EducationalContent.tsx"
+        ]
+      },
+      {
+        "id": "REQ-37",
+        "summary": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/spider-icon.dim_128x128.png",
+          "frontend/src/components/EducationalContent.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/EducationalContent.tsx"
+        ]
+      },
+      {
+        "id": "REQ-38",
+        "summary": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PhotoScanner.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PhotoScanner.tsx"
+        ]
+      },
+      {
+        "id": "REQ-39",
+        "summary": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/PhotoScanner.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/PhotoScanner.tsx"
         ]
       }
     ]
@@ -43,10 +73,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png",
-    "frontend/src/components/sections/HabitatsSection.tsx",
-    "frontend/src/components/sections/IdentifySection.tsx",
-    "frontend/src/components/sections/PreventionSection.tsx",
+    "frontend/public/assets/generated/spider-icon.dim_128x128.png, 128x128",
+    "frontend/src/components/EducationalContent.tsx",
+    "frontend/src/components/PhotoScanner.tsx",
+    "frontend/src/components/pests/SpidersContent.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -9,13 +9,16 @@ import { PrintableGuides } from './PrintableGuides';
 import { PhotoScanner } from './PhotoScanner';
 import { ScorpionsContent } from './pests/ScorpionsContent';
 import { MiceContent } from './pests/MiceContent';
+import { CockroachesContent } from './pests/CockroachesContent';
+import { HeadLiceContent } from './pests/HeadLiceContent';
+import { SpidersContent } from './pests/SpidersContent';
 import { Bug, Home, Shield, Flame, GraduationCap, FileDown, Camera, Rat } from 'lucide-react';
 import { QuizSectionType } from '../backend';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 export function EducationalContent() {
-  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice'>('bedbugs');
+  const [selectedPest, setSelectedPest] = useState<'bedbugs' | 'scorpions' | 'mice' | 'cockroaches' | 'headlice' | 'spiders'>('bedbugs');
 
   return (
     <div className="container py-8">
@@ -79,7 +82,7 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-6">
                   <Button
                     variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
                     onClick={() => setSelectedPest('bedbugs')}
@@ -104,6 +107,42 @@ export function EducationalContent() {
                     <Rat className="h-6 w-6" />
                     <span>Mice</span>
                   </Button>
+                  <Button
+                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('cockroaches')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
+                      alt="Cockroaches" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Cockroaches</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('headlice')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
+                      alt="Head Lice" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Head Lice</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('spiders')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/spider-icon.dim_128x128.png" 
+                      alt="Spiders" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Spiders</span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -111,6 +150,9 @@ export function EducationalContent() {
             {selectedPest === 'bedbugs' && <IdentifySection />}
             {selectedPest === 'scorpions' && <ScorpionsContent />}
             {selectedPest === 'mice' && <MiceContent />}
+            {selectedPest === 'cockroaches' && <CockroachesContent />}
+            {selectedPest === 'headlice' && <HeadLiceContent />}
+            {selectedPest === 'spiders' && <SpidersContent />}
           </TabsContent>
 
           <TabsContent value="habitats" className="mt-6">
@@ -120,7 +162,7 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-6">
                   <Button
                     variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
                     onClick={() => setSelectedPest('bedbugs')}
@@ -145,6 +187,42 @@ export function EducationalContent() {
                     <Rat className="h-6 w-6" />
                     <span>Mice</span>
                   </Button>
+                  <Button
+                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('cockroaches')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
+                      alt="Cockroaches" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Cockroaches</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('headlice')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
+                      alt="Head Lice" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Head Lice</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('spiders')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/spider-icon.dim_128x128.png" 
+                      alt="Spiders" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Spiders</span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -152,6 +230,9 @@ export function EducationalContent() {
             {selectedPest === 'bedbugs' && <HabitatsSection />}
             {selectedPest === 'scorpions' && <ScorpionsContent />}
             {selectedPest === 'mice' && <MiceContent />}
+            {selectedPest === 'cockroaches' && <CockroachesContent />}
+            {selectedPest === 'headlice' && <HeadLiceContent />}
+            {selectedPest === 'spiders' && <SpidersContent />}
           </TabsContent>
 
           <TabsContent value="prevention" className="mt-6">
@@ -161,7 +242,7 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-6">
                   <Button
                     variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
                     onClick={() => setSelectedPest('bedbugs')}
@@ -186,6 +267,42 @@ export function EducationalContent() {
                     <Rat className="h-6 w-6" />
                     <span>Mice</span>
                   </Button>
+                  <Button
+                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('cockroaches')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
+                      alt="Cockroaches" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Cockroaches</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('headlice')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
+                      alt="Head Lice" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Head Lice</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('spiders')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/spider-icon.dim_128x128.png" 
+                      alt="Spiders" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Spiders</span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -193,6 +310,9 @@ export function EducationalContent() {
             {selectedPest === 'bedbugs' && <PreventionSection />}
             {selectedPest === 'scorpions' && <ScorpionsContent />}
             {selectedPest === 'mice' && <MiceContent />}
+            {selectedPest === 'cockroaches' && <CockroachesContent />}
+            {selectedPest === 'headlice' && <HeadLiceContent />}
+            {selectedPest === 'spiders' && <SpidersContent />}
           </TabsContent>
 
           <TabsContent value="treatment" className="mt-6">
@@ -202,7 +322,7 @@ export function EducationalContent() {
                   <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
                   <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-6">
                   <Button
                     variant={selectedPest === 'bedbugs' ? 'default' : 'outline'}
                     onClick={() => setSelectedPest('bedbugs')}
@@ -227,6 +347,42 @@ export function EducationalContent() {
                     <Rat className="h-6 w-6" />
                     <span>Mice</span>
                   </Button>
+                  <Button
+                    variant={selectedPest === 'cockroaches' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('cockroaches')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/cockroach-icon.dim_128x128.png" 
+                      alt="Cockroaches" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Cockroaches</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'headlice' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('headlice')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/head-lice-icon.dim_128x128.png" 
+                      alt="Head Lice" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Head Lice</span>
+                  </Button>
+                  <Button
+                    variant={selectedPest === 'spiders' ? 'default' : 'outline'}
+                    onClick={() => setSelectedPest('spiders')}
+                    className="h-20 flex-col gap-2"
+                  >
+                    <img 
+                      src="/assets/generated/spider-icon.dim_128x128.png" 
+                      alt="Spiders" 
+                      className="h-6 w-6 object-contain"
+                    />
+                    <span>Spiders</span>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -234,6 +390,9 @@ export function EducationalContent() {
             {selectedPest === 'bedbugs' && <TreatmentSection />}
             {selectedPest === 'scorpions' && <ScorpionsContent />}
             {selectedPest === 'mice' && <MiceContent />}
+            {selectedPest === 'cockroaches' && <CockroachesContent />}
+            {selectedPest === 'headlice' && <HeadLiceContent />}
+            {selectedPest === 'spiders' && <SpidersContent />}
           </TabsContent>
 
           <TabsContent value="quiz" className="mt-6">

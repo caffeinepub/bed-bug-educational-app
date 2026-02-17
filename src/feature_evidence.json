@@ -2,9 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-generate-a-new-static-quick-tip-icon-image-asset-for-the-bed-bugs-educational-content",
-      "featureTitle": "Generate a new static “Quick Tip” icon image asset for the Bed Bugs educational content.",
-      "files": [],
+      "featureId": "feature-add-a-new-spiders-educational-content-component-with-clear-user-facing-english-text-covering-1-basic-identification-cues-and-common-signs-of-spider-activity-indoors-2-prevention-steps-to-reduce-spiders-in-around-the-home-and-3-what-to-do-if-you-find-a-spider-safe-capture-removal-options-cleaning-steps-and-when-to-call-a-professional-include-a-prominent-safety-note-advising-users-not-to-handle-unknown-spiders-with-bare-hands-and-to-seek-medical-help-immediately-for-severe-reactions-or-concerning-bites",
+      "featureTitle": "Add a new Spiders educational content component with clear, user-facing English text covering: (1) basic identification cues and common signs of spider activity indoors, (2) prevention steps to reduce spiders in/around the home, and (3) what to do if you find a spider (safe capture/removal options, cleaning steps, and when to call a professional). Include a prominent safety note advising users not to handle unknown spiders with bare hands and to seek medical help immediately for severe reactions or concerning bites.",
+      "files": [
+        "frontend/src/components/pests/SpidersContent.tsx"
+      ],
       "components": [
         "blob-storage@4.0.0",
         "core-infrastructure@1.0.2",
@@ -15,17 +17,15 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-27"
+        "REQ-35"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-replace-the-current-lucide-icon-in-the-bed-bugs-tip-alert-callout-at-the-top-of-each-bed-bugs-section-component-with-the-new-static-quick-tip-icon-without-changing-the-existing-user-facing-text-in-those-alerts",
-      "featureTitle": "Replace the current Lucide icon in the Bed Bugs “tip” alert/callout at the top of each Bed Bugs section component with the new static “Quick Tip” icon, without changing the existing user-facing text in those alerts.",
+      "featureId": "feature-integrate-spiders-into-the-pest-selection-ui-across-educationalcontent-tabs-identify-habitats-prevention-treatment-so-users-can-select-spiders-and-view-the-new-spiders-educational-content-consistent-with-how-cockroaches-and-head-lice-are-integrated",
+      "featureTitle": "Integrate Spiders into the pest selection UI across EducationalContent tabs (Identify/Habitats/Prevention/Treatment) so users can select “Spiders” and view the new Spiders educational content, consistent with how Cockroaches and Head Lice are integrated.",
       "files": [
-        "frontend/src/components/sections/HabitatsSection.tsx",
-        "frontend/src/components/sections/IdentifySection.tsx",
-        "frontend/src/components/sections/PreventionSection.tsx"
+        "frontend/src/components/EducationalContent.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -37,7 +37,67 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-28"
+        "REQ-36"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-static-spider-icon-image-under-frontend-public-assets-generated-and-use-it-in-the-spiders-selection-control-consistent-with-the-cockroaches-head-lice-selection-control-pattern-use-an-img-tag-with-appropriate-alt-text",
+      "featureTitle": "Add a static spider icon image under frontend/public/assets/generated and use it in the Spiders selection control, consistent with the Cockroaches/Head Lice selection control pattern (use an <img> tag with appropriate alt text).",
+      "files": [
+        "frontend/src/components/EducationalContent.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-37"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-extend-the-photo-scanner-ui-to-provide-spider-specific-photo-based-guidance-when-a-user-wants-help-identifying-a-spider-from-a-captured-uploaded-image-add-an-in-scanner-spider-photo-help-section-that-explains-how-to-take-a-useful-spider-photo-and-provides-a-simple-non-automated-checklist-to-compare-visible-features-e-g-body-shape-leg-length-positioning-markings-plus-next-step-guidance-safe-removal-monitoring-when-to-call-a-professional-do-not-claim-automated-identification-or-use-ai-ml-classification",
+      "featureTitle": "Extend the Photo Scanner UI to provide spider-specific photo-based guidance when a user wants help identifying a spider from a captured/uploaded image: add an in-scanner “Spider Photo Help” section that explains how to take a useful spider photo and provides a simple, non-automated checklist to compare visible features (e.g., body shape, leg length/positioning, markings) plus next-step guidance (safe removal, monitoring, when to call a professional). Do not claim automated identification or use AI/ML classification.",
+      "files": [
+        "frontend/src/components/PhotoScanner.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-38"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-an-optional-one-click-action-in-the-photo-scanner-flow-to-tag-the-current-saved-scan-with-spider-or-spiders-when-the-user-is-using-spider-help-leveraging-the-existing-saved-scan-tags-system-and-keeping-all-behavior-local-to-the-browser",
+      "featureTitle": "Add an optional one-click action in the Photo Scanner flow to tag the current saved scan with “spider” (or “spiders”) when the user is using spider help, leveraging the existing saved-scan tags system and keeping all behavior local to the browser.",
+      "files": [
+        "frontend/src/components/PhotoScanner.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-39"
       ],
       "confidence": "high"
     }

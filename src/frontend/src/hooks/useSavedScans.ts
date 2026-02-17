@@ -60,6 +60,27 @@ export function useSavedScans() {
     });
   }, [persistScans]);
 
+  const moveScan = useCallback((id: string, direction: 'up' | 'down') => {
+    setSavedScans((prev) => {
+      const currentIndex = prev.findIndex((scan) => scan.id === id);
+      
+      // Invalid index or invalid move
+      if (currentIndex === -1) return prev;
+      if (direction === 'up' && currentIndex === 0) return prev;
+      if (direction === 'down' && currentIndex === prev.length - 1) return prev;
+
+      // Create a new array and swap items
+      const updated = [...prev];
+      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+      
+      // Swap the items
+      [updated[currentIndex], updated[targetIndex]] = [updated[targetIndex], updated[currentIndex]];
+      
+      persistScans(updated);
+      return updated;
+    });
+  }, [persistScans]);
+
   const getScan = useCallback((id: string): SavedScan | undefined => {
     return savedScans.find((scan) => scan.id === id);
   }, [savedScans]);
@@ -69,6 +90,7 @@ export function useSavedScans() {
     isLoading,
     saveScan,
     deleteScan,
+    moveScan,
     getScan,
   };
 }

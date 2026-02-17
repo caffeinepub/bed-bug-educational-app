@@ -1,52 +1,24 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T19:04:42.743Z",
+  "generatedAt": "2026-02-17T19:13:33.048Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
-        "id": "REQ-6",
-        "summary": "Add a clear delete/trash icon control in the Photo Scanner for removing an unwanted photo from the current session (clears the selected image and resets editor state).",
+        "id": "REQ-12",
+        "summary": "Add a clear delete option for each item in the Saved Scans gallery so users can remove saved scans, including a confirmation dialog before the delete is executed.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/PhotoScanner.tsx"
+          "frontend/src/components/SavedScansGallery.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/PhotoScanner.tsx"
-        ]
-      },
-      {
-        "id": "REQ-7",
-        "summary": "Implement a saved-photo gallery/backup for the Photo Scanner that persists saved scans locally in the browser and allows users to view, re-open, and delete saved items.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/hooks/useSavedScans.ts",
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/components/PhotoScanner.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/hooks/useSavedScans.ts",
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/components/PhotoScanner.tsx"
-        ]
-      },
-      {
-        "id": "REQ-8",
-        "summary": "Add a confirmation step for destructive deletes from the saved-photo gallery to reduce accidental data loss.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/hooks/useSavedScans.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/SavedScansGallery.tsx",
-          "frontend/src/hooks/useSavedScans.ts"
+          "frontend/src/components/SavedScansGallery.tsx"
         ]
       }
     ]
@@ -56,9 +28,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/PhotoScanner.tsx",
     "frontend/src/components/SavedScansGallery.tsx",
-    "frontend/src/hooks/useSavedScans.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

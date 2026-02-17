@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Trash2, Eye, Calendar } from 'lucide-react';
+import { Trash2, Eye, Calendar, ChevronUp, ChevronDown } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,9 +18,10 @@ interface SavedScansGalleryProps {
   savedScans: SavedScan[];
   onOpenScan: (scan: SavedScan) => void;
   onDeleteScan: (id: string) => void;
+  onMoveScan: (id: string, direction: 'up' | 'down') => void;
 }
 
-export function SavedScansGallery({ savedScans, onOpenScan, onDeleteScan }: SavedScansGalleryProps) {
+export function SavedScansGallery({ savedScans, onOpenScan, onDeleteScan, onMoveScan }: SavedScansGalleryProps) {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
   const formatDate = (timestamp: number) => {
@@ -88,7 +89,7 @@ export function SavedScansGallery({ savedScans, onOpenScan, onDeleteScan }: Save
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {savedScans.map((scan) => (
+            {savedScans.map((scan, index) => (
               <div
                 key={scan.id}
                 className="group relative overflow-hidden rounded-lg border bg-card transition-all hover:shadow-md"
@@ -120,9 +121,35 @@ export function SavedScansGallery({ savedScans, onOpenScan, onDeleteScan }: Save
                       onClick={() => handleDeleteClick(scan.id)}
                       variant="outline"
                       size="sm"
+                      className="flex-1"
                       aria-label="Delete saved scan"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
+                    </Button>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => onMoveScan(scan.id, 'up')}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      disabled={index === 0}
+                      aria-label="Move scan up"
+                    >
+                      <ChevronUp className="mr-2 h-4 w-4" />
+                      Move Up
+                    </Button>
+                    <Button
+                      onClick={() => onMoveScan(scan.id, 'down')}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      disabled={index === savedScans.length - 1}
+                      aria-label="Move scan down"
+                    >
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      Move Down
                     </Button>
                   </div>
                 </div>

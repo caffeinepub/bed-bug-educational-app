@@ -1,76 +1,37 @@
 {
   "kind": "build_request",
-  "title": "Add photo deletion and saved-photo gallery backup to Photo Scanner",
+  "title": "Add delete option for saved scans",
   "projectName": "Pest ID & Guide",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-6",
-      "text": "Add a clear delete/trash icon control in the Photo Scanner for removing an unwanted photo from the current session (clears the selected image and resets editor state).",
+      "id": "REQ-12",
+      "text": "Add a clear delete option for each item in the Saved Scans gallery so users can remove saved scans, including a confirmation dialog before the delete is executed.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "recent-messages"
         ],
         "quotes": [
-          "add a delete icon for unwanted photos and or a gallery back up for saved photos"
+          "add a delete option too"
         ]
       },
       "acceptanceCriteria": [
-        "When a photo is loaded in the Photo Scanner, a delete/trash icon is visible and accessible (keyboard + screen reader label).",
-        "Activating delete clears the current image, stops/close camera preview if applicable, resets zoom/rotation/enhance state, and returns the user to the capture/upload choices.",
-        "Delete action does not break the existing Download/New Photo flows."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Implement a saved-photo gallery/backup for the Photo Scanner that persists saved scans locally in the browser and allows users to view, re-open, and delete saved items.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "add a delete icon for unwanted photos and or a gallery back up for saved photos"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A user can save the current scan into a local gallery from the Photo Scanner UI (user-facing text in English).",
-        "Saved photos persist across page refreshes in the same browser (local backup).",
-        "The gallery displays saved photos as a thumbnail grid/list with timestamp (or human-readable date) and provides actions to: open/view a saved scan and delete a saved scan.",
-        "Deleting a saved scan removes it from the gallery immediately and it does not return after refresh.",
-        "If there are no saved photos, the gallery shows an empty state message in English.",
-        "The gallery works on mobile and desktop layouts (responsive)."
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Add a confirmation step for destructive deletes from the saved-photo gallery to reduce accidental data loss.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "add a delete icon for unwanted photos and or a gallery back up for saved photos"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Attempting to delete a saved photo prompts the user with a confirmation dialog or inline confirmation UI in English.",
-        "Confirm removes the saved photo; cancel leaves it unchanged.",
-        "The confirmation UI is accessible (focus trapped if modal; buttons reachable via keyboard)."
+        "Each saved scan card in the Saved Scans gallery shows a delete control (trash icon or labeled delete button).",
+        "Clicking delete opens a confirmation dialog with English text explaining the action is permanent.",
+        "Confirming the dialog deletes the saved scan and it no longer appears in the gallery after deletion.",
+        "Canceling the dialog does not delete the saved scan.",
+        "Delete controls include accessible labels (e.g., aria-label) and are usable on mobile and desktop."
       ]
     }
   ],
   "constraints": [
     "Do not edit files under frontend/src/components/ui (compose existing UI components instead).",
-    "Do not edit immutable hook files listed in SYSTEM_CONTEXT (e.g., frontend/src/hooks/useActor.ts, frontend/src/hooks/useInternetIdentity.ts[x], frontend/src/main.tsx).",
-    "Keep all user-facing text in English."
+    "Do not modify immutable frontend hook entry points listed in SYSTEM_CONTEXT (frontend/src/hooks/useInternetIdentity.ts/tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
   ],
   "nonGoals": [
-    "Do not add third-party cloud backup, external databases, or external file storage for photos.",
-    "Do not add real-time sync across devices or accounts.",
-    "Do not change backend data models for pests/quizzes/guides as part of this request."
+    "Implementing tags or tag deletion for saved scans.",
+    "Adding backend persistence for saved scans (local-only behavior remains unchanged)."
   ],
   "imageRequirements": {
     "required": [],

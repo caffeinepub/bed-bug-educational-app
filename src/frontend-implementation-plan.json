@@ -1,71 +1,23 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add photo deletion and local saved-photo gallery to Photo Scanner",
+  "title": "Add delete option with confirmation for Saved Scans",
   "requirements": [
     {
-      "id": "REQ-6",
-      "summary": "Add an accessible delete/trash control to clear the current Photo Scanner session and reset editor + camera state.",
+      "id": "REQ-12",
+      "summary": "Provide an explicit delete control on each Saved Scan card with an English confirmation dialog before removing the scan from local saved scans.",
       "acceptanceCriteria": [
-        "When a photo is loaded in the Photo Scanner, a delete/trash icon is visible and accessible (keyboard + screen reader label).",
-        "Activating delete clears the current image, stops/close camera preview if applicable, resets zoom/rotation/enhance state, and returns the user to the capture/upload choices.",
-        "Delete action does not break the existing Download/New Photo flows."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/PhotoScanner.tsx",
-          "operation": "modify",
-          "description": "Add a dedicated trash/delete icon button (with aria-label) when a photo is loaded; on activation, clear selected image, reset image editor state, clear file input value, and ensure any active camera preview is stopped/closed via the existing camera hook (Verify the component's usage instructions before implementing.)"
-        }
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "summary": "Implement a local saved-photo gallery/backup for Photo Scanner with save, view/re-open, and delete actions persisted in the browser.",
-      "acceptanceCriteria": [
-        "A user can save the current scan into a local gallery from the Photo Scanner UI (user-facing text in English).",
-        "Saved photos persist across page refreshes in the same browser (local backup).",
-        "The gallery displays saved photos as a thumbnail grid/list with timestamp (or human-readable date) and provides actions to: open/view a saved scan and delete a saved scan.",
-        "Deleting a saved scan removes it from the gallery immediately and it does not return after refresh.",
-        "If there are no saved photos, the gallery shows an empty state message in English.",
-        "The gallery works on mobile and desktop layouts (responsive)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useSavedScans.ts",
-          "operation": "create",
-          "description": "Create a hook to manage a locally persisted saved-scan gallery using browser storage (e.g., localStorage): load on startup, add/save current scan (store image data URL plus created timestamp), list items, delete items, and provide a function to open/re-hydrate a saved scan into the Photo Scanner."
-        },
-        {
-          "path": "frontend/src/components/SavedScansGallery.tsx",
-          "operation": "create",
-          "description": "Create a responsive SavedScansGallery component that renders saved scans as a thumbnail grid/list with a human-readable date, and provides actions to open/re-open a scan and request deletion; show an English empty state when no items are present."
-        },
-        {
-          "path": "frontend/src/components/PhotoScanner.tsx",
-          "operation": "modify",
-          "description": "Wire the local gallery into the Photo Scanner UI: add an English 'Save to Gallery' action when a scan is present (saving the processed image if available), render the SavedScansGallery within the scanner view, and support opening a saved scan back into the editor without breaking existing Download/New Photo flows."
-        }
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "summary": "Add an accessible confirmation step before deleting saved scans from the local gallery.",
-      "acceptanceCriteria": [
-        "Attempting to delete a saved photo prompts the user with a confirmation dialog or inline confirmation UI in English.",
-        "Confirm removes the saved photo; cancel leaves it unchanged.",
-        "The confirmation UI is accessible (focus trapped if modal; buttons reachable via keyboard)."
+        "Each saved scan card in the Saved Scans gallery shows a delete control (trash icon or labeled delete button).",
+        "Clicking delete opens a confirmation dialog with English text explaining the action is permanent.",
+        "Confirming the dialog deletes the saved scan and it no longer appears in the gallery after deletion.",
+        "Canceling the dialog does not delete the saved scan.",
+        "Delete controls include accessible labels (e.g., aria-label) and are usable on mobile and desktop."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/SavedScansGallery.tsx",
           "operation": "modify",
-          "description": "Add an English confirmation step for destructive deletion (inline confirm/cancel UI per item or a modal if already available in the project), ensuring keyboard accessibility and clear focus behavior; only delete the item after explicit confirmation."
-        },
-        {
-          "path": "frontend/src/hooks/useSavedScans.ts",
-          "operation": "modify",
-          "description": "Ensure deletion updates in-memory state and browser storage immediately so removed items do not return after refresh; expose deletion helpers needed by the confirmation flow."
+          "description": "Make the per-card delete action more explicit (e.g., include a visible 'Delete' label alongside the trash icon while keeping a compact mobile-friendly layout), ensure the delete control retains an accessible label, and ensure the existing confirmation flow uses the shadcn-ui AlertDialog components with clear English irreversible-action copy. Verify the component's usage instructions before implementing."
         }
       ]
     }

@@ -51,7 +51,7 @@ export function PhotoScanner() {
     reset: resetEditor,
   } = useImageEditor(selectedImage);
 
-  const { savedScans, saveScan, deleteScan } = useSavedScans();
+  const { savedScans, saveScan, deleteScan, moveScan } = useSavedScans();
 
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -150,6 +150,11 @@ export function PhotoScanner() {
     deleteScan(id);
     toast.success('Scan deleted from gallery');
   }, [deleteScan]);
+
+  const handleMoveSavedScan = useCallback((id: string, direction: 'up' | 'down') => {
+    moveScan(id, direction);
+    toast.success(`Scan moved ${direction}`);
+  }, [moveScan]);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -331,19 +336,12 @@ export function PhotoScanner() {
                     onClick={handleDelete}
                     variant="outline"
                     className="flex-col gap-2 h-20"
-                    aria-label="Delete current photo"
                   >
                     <Trash2 className="h-5 w-5" />
-                    <span className="text-xs">Delete</span>
+                    <span className="text-xs">Clear</span>
                   </Button>
                 </div>
               </div>
-
-              <Alert>
-                <AlertDescription>
-                  Use the controls above to adjust your image. Zoom in for closer inspection, rotate for better orientation, enhance to improve clarity, and save to your local gallery for later access.
-                </AlertDescription>
-              </Alert>
             </div>
           )}
         </CardContent>
@@ -353,23 +351,8 @@ export function PhotoScanner() {
         savedScans={savedScans}
         onOpenScan={handleOpenSavedScan}
         onDeleteScan={handleDeleteSavedScan}
+        onMoveScan={handleMoveSavedScan}
       />
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Tips for Best Results</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Ensure good lighting when capturing photos</li>
-            <li>• Get as close as possible while keeping the pest in focus</li>
-            <li>• Use a plain background for better contrast</li>
-            <li>• Take multiple photos from different angles</li>
-            <li>• Use the enhance feature to improve image clarity</li>
-            <li>• Save important scans to your gallery for future reference</li>
-          </ul>
-        </CardContent>
-      </Card>
     </div>
   );
 }

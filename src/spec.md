@@ -1,12 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Improve the Photo Scanner by adding an in-session delete control and a locally persisted saved-photo gallery/backup with safe deletion.
+**Goal:** Let users delete individual items from the Saved Scans gallery with a clear, accessible control and a confirmation step.
 
 **Planned changes:**
-- Add a visible, accessible delete/trash control in the Photo Scanner to clear the currently loaded photo and reset the editor/session state back to capture/upload options.
-- Add a “save to gallery” action that stores the current scan locally in the browser so saved scans persist across refreshes.
-- Add a responsive saved-photo gallery view showing saved scans as thumbnails with a date/time label, plus actions to open/view and delete saved scans.
-- Add an accessible confirmation step for deleting items from the saved-photo gallery, with clear confirm/cancel behavior and an English empty state when no saved scans exist.
+- Add a delete control (trash icon or labeled button) on each Saved Scans card in the Saved Scans gallery.
+- Show a confirmation dialog in English indicating the delete is permanent, with Confirm and Cancel actions.
+- On confirm, remove the saved scan from the local saved scans list so it no longer appears; on cancel, make no changes.
+- Ensure delete controls have accessible labels (e.g., aria-label) and work well on mobile and desktop.
 
-**User-visible outcome:** Users can remove an unwanted photo during scanning, save scans to a local gallery that survives refreshes, re-open saved scans later, and delete saved scans with a confirmation prompt.
+**User-visible outcome:** Users can delete any saved scan from the Saved Scans gallery after confirming, and canceled deletions leave scans unchanged.

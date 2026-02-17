@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 9,
   "summary": "Bed bug education app with plans to add a cross-platform photo scanner and expand content to include other pests (e.g., scorpions, mice).",
   "architectural_notes": [],
   "known_issues": [],
@@ -61,6 +61,38 @@
         "REQ-8"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-an-option-in-the-saved-scans-gallery-that-lets-users-reorder-saved-scans-change-the-display-order-of-saved-items-and-persist-the-updated-order-in-localstorage",
+      "title": "Add an option in the Saved Scans gallery that lets users reorder saved scans (change the display order of saved items) and persist the updated order in localStorage.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-saved-scans-state-management-hook-to-support-reordering-operations-and-ensure-any-reorder-action-updates-both-in-memory-state-and-localstorage-consistently",
+      "title": "Extend the saved scans state management hook to support reordering operations and ensure any reorder action updates both in-memory state and localStorage consistently.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-reordering-ui-is-usable-on-mobile-and-desktop-and-is-accessible-via-keyboard-screen-readers-clear-labels-for-reorder-controls",
+      "title": "Ensure the reordering UI is usable on mobile and desktop and is accessible via keyboard/screen readers (clear labels for reorder controls).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clear-delete-option-for-each-item-in-the-saved-scans-gallery-so-users-can-remove-saved-scans-including-a-confirmation-dialog-before-the-delete-is-executed",
+      "title": "Add a clear delete option for each item in the Saved Scans gallery so users can remove saved scans, including a confirmation dialog before the delete is executed.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -89,6 +121,18 @@
       "summary": "Add photo management to the Photo Scanner: include a delete/trash icon for removing unwanted photos and an optional saved-photo gallery/backup for previously scanned images.",
       "reqIds": [],
       "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add an option to reorder photos in the saved-photo gallery (change the order of saved scans).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add a delete option in the saved-photo gallery UI so users can remove saved scans (with appropriate confirmation to prevent accidental deletion).",
+      "reqIds": [],
+      "status": "in_progress"
     }
   ],
   "gameProjectType": "none",

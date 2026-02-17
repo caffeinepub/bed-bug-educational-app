@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Bed bug education app with plans to add a cross-platform photo scanner and expand content to include other pests (e.g., scorpions, mice).",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-add-a-new-photo-scanner-feature-that-works-on-mobile-and-desktop-browsers-allowing-users-on-all-phones-to-capture-a-photo-with-the-camera-or-upload-an-existing-image-from-their-device",
+      "title": "Add a new \"Photo Scanner\" feature that works on mobile and desktop browsers, allowing users on all phones to capture a photo with the camera or upload an existing image from their device.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-basic-on-device-scan-utilities-for-the-photo-scanner-image-client-side-only-such-as-zoom-rotate-crop-and-a-simple-enhancement-toggle-e-g-increase-contrast-sharpen-like-effect-using-canvas-processing",
+      "title": "Implement basic on-device \"scan\" utilities for the Photo Scanner image (client-side only), such as zoom, rotate, crop, and a simple enhancement toggle (e.g., increase contrast/sharpen-like effect using canvas processing).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expand-the-educational-content-ui-so-the-app-includes-information-beyond-bed-bugs-covering-other-bugs-pests-including-scorpions-and-mice-with-user-facing-text-in-english",
+      "title": "Expand the educational content UI so the app includes information beyond bed bugs, covering other bugs/pests including scorpions and mice, with user-facing text in English.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-visual-theme-refresh-suitable-for-a-pest-education-identification-app-and-use-it-consistently-across-the-new-photo-scanner-and-expanded-pest-information-sections-avoid-a-blue-purple-dominant-palette",
+      "title": "Apply a cohesive visual theme refresh suitable for a \"pest education + identification\" app and use it consistently across the new Photo Scanner and expanded pest information sections (avoid a blue/purple-dominant palette).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clear-delete-trash-icon-control-in-the-photo-scanner-for-removing-an-unwanted-photo-from-the-current-session-clears-the-selected-image-and-resets-editor-state",
+      "title": "Add a clear delete/trash icon control in the Photo Scanner for removing an unwanted photo from the current session (clears the selected image and resets editor state).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-saved-photo-gallery-backup-for-the-photo-scanner-that-persists-saved-scans-locally-in-the-browser-and-allows-users-to-view-re-open-and-delete-saved-items",
+      "title": "Implement a saved-photo gallery/backup for the Photo Scanner that persists saved scans locally in the browser and allows users to view, re-open, and delete saved items.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-confirmation-step-for-destructive-deletes-from-the-saved-photo-gallery-to-reduce-accidental-data-loss",
+      "title": "Add a confirmation step for destructive deletes from the saved-photo gallery to reduce accidental data loss.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Add a cross-platform photo scanner feature that works on all phones (capture/upload photos for scanning).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Expand the app’s information content beyond bed bugs to include other bugs/pests (e.g., scorpions and mice).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Update the backend type model to support categorizing content beyond bed bugs (e.g., add categories for scorpions and mice) so future quizzes/guides can be fetched consistently by section/category.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add photo management to the Photo Scanner: include a delete/trash icon for removing unwanted photos and an optional saved-photo gallery/backup for previously scanned images.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Pest ID & Guide",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

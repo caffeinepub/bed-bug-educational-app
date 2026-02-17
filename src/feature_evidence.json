@@ -1,0 +1,68 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-add-a-clear-delete-trash-icon-control-in-the-photo-scanner-for-removing-an-unwanted-photo-from-the-current-session-clears-the-selected-image-and-resets-editor-state",
+      "featureTitle": "Add a clear delete/trash icon control in the Photo Scanner for removing an unwanted photo from the current session (clears the selected image and resets editor state).",
+      "files": [
+        "frontend/src/components/PhotoScanner.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-saved-photo-gallery-backup-for-the-photo-scanner-that-persists-saved-scans-locally-in-the-browser-and-allows-users-to-view-re-open-and-delete-saved-items",
+      "featureTitle": "Implement a saved-photo gallery/backup for the Photo Scanner that persists saved scans locally in the browser and allows users to view, re-open, and delete saved items.",
+      "files": [
+        "frontend/src/components/PhotoScanner.tsx",
+        "frontend/src/components/SavedScansGallery.tsx",
+        "frontend/src/hooks/useSavedScans.ts"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-confirmation-step-for-destructive-deletes-from-the-saved-photo-gallery-to-reduce-accidental-data-loss",
+      "featureTitle": "Add a confirmation step for destructive deletes from the saved-photo gallery to reduce accidental data loss.",
+      "files": [
+        "frontend/src/components/SavedScansGallery.tsx",
+        "frontend/src/hooks/useSavedScans.ts"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

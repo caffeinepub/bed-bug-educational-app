@@ -1,0 +1,33 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-17T19:04:42.741Z",
+  "summary": "Diff implements local saved-scan persistence via localStorage (useSavedScans), adds a SavedScansGallery with empty state, thumbnails, dates, open/delete actions, and a delete confirmation dialog, and adds a PhotoScanner delete handler and save-to-gallery flow. Some accessibility/visibility details for the in-scanner delete control are not verifiable due to truncation.",
+  "missing_requirements": [
+    {
+      "id": "REQ-6",
+      "requirement": "Delete/trash icon control is visible when a photo is loaded and is accessible (keyboard + screen reader label).",
+      "reason": "PhotoScanner.tsx shows a delete handler and imports Trash2, but the truncated diff does not show the actual UI control rendering (icon button) nor any aria-label/screen-reader text to confirm accessibility and visibility conditions.",
+      "evidence": [
+        "frontend/src/components/PhotoScanner.tsx (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Toast notifications for delete/download/save actions (e.g., 'Photo cleared', 'Photo downloaded', 'Scan saved to gallery').",
+      "reason": "BuildRequest does not ask for toast notifications; these are additional UX behaviors beyond the specified requirements.",
+      "evidence": [
+        "frontend/src/components/PhotoScanner.tsx (truncated)"
+      ]
+    }
+  ],
+  "confidence": 0.66,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/PhotoScanner.tsx",
+    "frontend/src/components/SavedScansGallery.tsx",
+    "frontend/src/hooks/useSavedScans.ts",
+    "project_state.json"
+  ]
+}

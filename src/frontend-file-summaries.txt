@@ -1,0 +1,21 @@
+{
+  "frontend/src/App.tsx": "Main application component that wraps the app with QueryClientProvider and renders the header, educational content, and footer in a flex layout.",
+  "frontend/src/components/Header.tsx": "Updated header component with broader \"Pest ID & Guide\" branding reflecting the expanded scope beyond bed bugs while maintaining consistent design.",
+  "frontend/src/components/Footer.tsx": "Footer component with copyright, caffeine.ai attribution, and disclaimer text.",
+  "frontend/src/components/EducationalContent.tsx": "Main content wrapper with seven-tab navigation including new Photo Scanner tab and pest selection UI for bed bugs, scorpions, and mice across all educational sections.",
+  "frontend/src/components/sections/IdentifySection.tsx": "Educational section covering bed bug identification including adult bugs, life stages, bite marks, fecal stains, blood stains, and eggs with supporting images.",
+  "frontend/src/components/sections/HabitatsSection.tsx": "Educational section explaining bed bug habitats, hiding spots, feeding behavior, reproduction, environmental preferences, and dispersal patterns.",
+  "frontend/src/components/sections/PreventionSection.tsx": "Educational section covering prevention strategies including travel precautions, used furniture inspection, home protection, common infestation sources, and early detection methods.",
+  "frontend/src/components/sections/TreatmentSection.tsx": "Educational section detailing non-chemical heat treatment methods including dryer treatment, sealing/storage, steam cleaning, room preparation, and supplementary methods.",
+  "frontend/src/index.css": "Global styles with warm, educational OKLCH color palette optimized for both light and dark modes with earthy tones.",
+  "frontend/src/hooks/useQueries.ts": "Custom React Query hooks for fetching quiz questions, calculating quiz results, and retrieving printable guides from the backend with proper caching and state management, now using QuizSectionType and ContentType correctly.",
+  "frontend/src/components/Quiz.tsx": "Interactive quiz component that displays multiple-choice questions with immediate feedback, progress tracking, and final score summary with option to retake, now using QuizSectionType.",
+  "frontend/src/components/PrintableGuides.tsx": "Component that displays and enables downloading of PDF guides for each educational section with loading states and empty state handling, now using QuizSectionType.",
+  "frontend/src/components/PhotoScanner.tsx": "Photo scanner component with camera capture, file upload, image editing tools (zoom, rotate, enhance), download functionality, delete action to clear current photo, and integrated local gallery for saving and managing scans with toast notifications.",
+  "frontend/src/hooks/useImageEditor.ts": "React hook managing image editor state including rotation, zoom, enhancement, and crop operations with canvas-based processing and export capabilities.",
+  "frontend/src/utils/imageProcessing.ts": "Canvas-based image processing utilities for rotating, enhancing (contrast/brightness), zooming, and cropping images with promise-based async operations.",
+  "frontend/src/components/pests/ScorpionsContent.tsx": "Educational content component for scorpions covering identification, habitats, behavior, prevention strategies, and safety measures with structured cards and alerts.",
+  "frontend/src/components/pests/MiceContent.tsx": "Educational content component for mice covering identification signs, habitats, entry points, prevention methods, trapping, and health risks with comprehensive guidance.",
+  "frontend/src/hooks/useSavedScans.ts": "Custom React hook that manages locally persisted saved scans using localStorage, providing functions to save, delete, and retrieve scan items with automatic persistence across page refreshes.",
+  "frontend/src/components/SavedScansGallery.tsx": "Responsive gallery component that displays saved pest scans as a thumbnail grid with human-readable timestamps, open/view actions, and delete functionality with accessible confirmation dialog."
+}

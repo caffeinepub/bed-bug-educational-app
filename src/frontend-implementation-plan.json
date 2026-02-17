@@ -1,23 +1,63 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add delete option with confirmation for Saved Scans",
+  "title": "Add simple tagging and tag filtering for Saved Scans",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Provide an explicit delete control on each Saved Scan card with an English confirmation dialog before removing the scan from local saved scans.",
+      "id": "REQ-13",
+      "summary": "Extend SavedScan localStorage persistence to include per-scan user-defined tags with backward-compatible loading.",
       "acceptanceCriteria": [
-        "Each saved scan card in the Saved Scans gallery shows a delete control (trash icon or labeled delete button).",
-        "Clicking delete opens a confirmation dialog with English text explaining the action is permanent.",
-        "Confirming the dialog deletes the saved scan and it no longer appears in the gallery after deletion.",
-        "Canceling the dialog does not delete the saved scan.",
-        "Delete controls include accessible labels (e.g., aria-label) and are usable on mobile and desktop."
+        "Existing saved scans already stored under the current localStorage key load without errors and are treated as having an empty tags list.",
+        "Newly saved scans can store tags in the same localStorage record structure (no new storage mechanism required).",
+        "Tags are persisted across reloads and reflected consistently in in-memory state and localStorage."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useSavedScans.ts",
+          "operation": "modify",
+          "description": "Update the SavedScan type to include tags (string[]). Add backward-compatible migration on load (missing tags => []). Add tag mutation helpers (e.g., addTag/removeTag/updateTag/setTags) that update in-memory state and persist to localStorage under the existing STORAGE_KEY."
+        },
+        {
+          "path": "frontend/src/components/PhotoScanner.tsx",
+          "operation": "modify",
+          "description": "Wire new tag mutation callbacks from useSavedScans into SavedScansGallery props so tag edits update the single source of truth and persist across reloads."
+        }
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "summary": "Add per-scan tag management controls (create/edit/remove) in the Saved Scans gallery with clear English labels and keyboard-only support.",
+      "acceptanceCriteria": [
+        "Each saved scan item in the gallery has an affordance to manage tags (add/remove/edit) without opening developer tools.",
+        "Tag entry supports keyboard-only use (can add a tag, remove a tag, and exit the control).",
+        "All new/updated user-facing text related to tagging is in English."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/SavedScansGallery.tsx",
           "operation": "modify",
-          "description": "Make the per-card delete action more explicit (e.g., include a visible 'Delete' label alongside the trash icon while keeping a compact mobile-friendly layout), ensure the delete control retains an accessible label, and ensure the existing confirmation flow uses the shadcn-ui AlertDialog components with clear English irreversible-action copy. Verify the component's usage instructions before implementing."
+          "description": "Add a visible 'Tags' section per saved scan item that lists existing tags and provides controls to add, edit, and remove tags with clear English labels. Ensure keyboard-only support (Enter to add/save, Escape to exit/blur, focusable remove/edit buttons with accessible aria-labels). Use existing shadcn-ui components already used in the gallery (e.g., Button/Card) where appropriate; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/SavedScanTagsEditor.tsx",
+          "operation": "create",
+          "description": "Create a focused, reusable per-scan tags editor component used by SavedScansGallery. It should handle tag input, inline edit mode, tag removal, and keyboard interactions while delegating persistence via callbacks. Use existing shadcn-ui components already present in the project where appropriate; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Add tag-based filtering/search in Saved Scans gallery to narrow scans by selected tag or entered tag text, with safe empty-state behavior.",
+      "acceptanceCriteria": [
+        "When a filter is applied, only scans whose tags match the selected/entered tag are shown.",
+        "Clearing the filter restores the full gallery list.",
+        "If there are no saved scans, the existing empty-state UI still renders correctly and does not show broken filter controls."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/SavedScansGallery.tsx",
+          "operation": "modify",
+          "description": "Add a simple filter UI above the grid when there are saved scans (e.g., 'Filter by tag' text input and optional quick-pick chips from known tags). Implement client-side filtering of the rendered list based on tag text match, and provide a clear 'Clear filter' action. Ensure the current empty-state branch remains unchanged and does not render filter controls when savedScans.length === 0. Use existing shadcn-ui components already used in the gallery (e.g., Button/Card) where appropriate; verify the component's usage instructions before implementing."
         }
       ]
     }

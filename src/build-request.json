@@ -1,37 +1,79 @@
 {
   "kind": "build_request",
-  "title": "Add delete option for saved scans",
-  "projectName": "Pest ID & Guide",
+  "title": "Add simple tagging for saved scans",
+  "projectName": "Pest Scanner",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-12",
-      "text": "Add a clear delete option for each item in the Saved Scans gallery so users can remove saved scans, including a confirmation dialog before the delete is executed.",
+      "id": "REQ-13",
+      "text": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages"
+          "msg-3",
+          "msg-4"
         ],
         "quotes": [
-          "add a delete option too"
+          "Your update with the delete option is ready — want to add simple tagging for easier photo organization next?",
+          "yes"
         ]
       },
       "acceptanceCriteria": [
-        "Each saved scan card in the Saved Scans gallery shows a delete control (trash icon or labeled delete button).",
-        "Clicking delete opens a confirmation dialog with English text explaining the action is permanent.",
-        "Confirming the dialog deletes the saved scan and it no longer appears in the gallery after deletion.",
-        "Canceling the dialog does not delete the saved scan.",
-        "Delete controls include accessible labels (e.g., aria-label) and are usable on mobile and desktop."
+        "Existing saved scans already stored under the current localStorage key load without errors and are treated as having an empty tags list.",
+        "Newly saved scans can store tags in the same localStorage record structure (no new storage mechanism required).",
+        "Tags are persisted across reloads and reflected consistently in in-memory state and localStorage."
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-4"
+        ],
+        "quotes": [
+          "want to add simple tagging for easier photo organization next?",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each saved scan item in the gallery has an affordance to manage tags (add/remove/edit) without opening developer tools.",
+        "Tag entry supports keyboard-only use (can add a tag, remove a tag, and exit the control).",
+        "All new/updated user-facing text related to tagging is in English."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-4"
+        ],
+        "quotes": [
+          "simple tagging for easier photo organization",
+          "yes"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When a filter is applied, only scans whose tags match the selected/entered tag are shown.",
+        "Clearing the filter restores the full gallery list.",
+        "If there are no saved scans, the existing empty-state UI still renders correctly and does not show broken filter controls."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (compose existing UI components instead).",
-    "Do not modify immutable frontend hook entry points listed in SYSTEM_CONTEXT (frontend/src/hooks/useInternetIdentity.ts/tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
+    "Frontend must not modify any files under frontend/src/components/ui or the immutable hook files listed in SYSTEM_CONTEXT.",
+    "Keep saved scans persistence client-side (localStorage) consistent with the existing approach (no new backend canister storage for scans).",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Implementing tags or tag deletion for saved scans.",
-    "Adding backend persistence for saved scans (local-only behavior remains unchanged)."
+    "Syncing tags across devices or accounts.",
+    "Backend storage or querying of saved scans/tags.",
+    "AI-based pest identification or automatic tag suggestions."
   ],
   "imageRequirements": {
     "required": [],

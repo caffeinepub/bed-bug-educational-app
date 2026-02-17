@@ -51,7 +51,15 @@ export function PhotoScanner() {
     reset: resetEditor,
   } = useImageEditor(selectedImage);
 
-  const { savedScans, saveScan, deleteScan, moveScan } = useSavedScans();
+  const { 
+    savedScans, 
+    saveScan, 
+    deleteScan, 
+    moveScan,
+    addTag,
+    removeTag,
+    updateTag,
+  } = useSavedScans();
 
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -155,6 +163,21 @@ export function PhotoScanner() {
     moveScan(id, direction);
     toast.success(`Scan moved ${direction}`);
   }, [moveScan]);
+
+  const handleAddTag = useCallback((scanId: string, tag: string) => {
+    addTag(scanId, tag);
+    toast.success('Tag added');
+  }, [addTag]);
+
+  const handleRemoveTag = useCallback((scanId: string, tag: string) => {
+    removeTag(scanId, tag);
+    toast.success('Tag removed');
+  }, [removeTag]);
+
+  const handleUpdateTag = useCallback((scanId: string, oldTag: string, newTag: string) => {
+    updateTag(scanId, oldTag, newTag);
+    toast.success('Tag updated');
+  }, [updateTag]);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
@@ -276,69 +299,76 @@ export function PhotoScanner() {
           )}
 
           {selectedImage && !showCamera && (
-            <div className="space-y-6">
-              <div className="relative w-full overflow-hidden rounded-lg bg-muted" style={{ minHeight: '300px' }}>
+            <div className="space-y-4">
+              <div className="relative w-full overflow-hidden rounded-lg bg-muted">
                 <img
                   src={processedImage || selectedImage}
                   alt="Scanned pest"
-                  className="h-full w-full object-contain"
-                  style={{ maxHeight: '600px' }}
+                  className="w-full h-auto"
                 />
               </div>
 
               <div className="space-y-4">
-                <div className="space-y-3">
-                  <Label>Zoom: {zoom.toFixed(1)}x</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="zoom-slider">Zoom: {zoom.toFixed(1)}x</Label>
                   <Slider
-                    value={[zoom]}
-                    onValueChange={(value) => setZoom(value[0])}
+                    id="zoom-slider"
                     min={1}
                     max={3}
                     step={0.1}
-                    className="w-full"
+                    value={[zoom]}
+                    onValueChange={(values) => setZoom(values[0])}
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={rotate}
                     variant="outline"
-                    className="flex-col gap-2 h-20"
+                    size="lg"
+                    className="flex-1 min-w-[120px]"
                   >
-                    <RotateCw className="h-5 w-5" />
-                    <span className="text-xs">Rotate 90°</span>
+                    <RotateCw className="mr-2 h-5 w-5" />
+                    Rotate
                   </Button>
                   <Button
                     onClick={toggleEnhance}
                     variant={enhanceEnabled ? 'default' : 'outline'}
-                    className="flex-col gap-2 h-20"
+                    size="lg"
+                    className="flex-1 min-w-[120px]"
                   >
-                    <Sparkles className="h-5 w-5" />
-                    <span className="text-xs">Enhance</span>
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Enhance
                   </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={handleSaveToGallery}
-                    variant="outline"
-                    className="flex-col gap-2 h-20"
+                    variant="default"
+                    size="lg"
+                    className="flex-1 min-w-[120px]"
                   >
-                    <Save className="h-5 w-5" />
-                    <span className="text-xs">Save</span>
+                    <Save className="mr-2 h-5 w-5" />
+                    Save to Gallery
                   </Button>
                   <Button
                     onClick={handleDownload}
                     variant="outline"
-                    className="flex-col gap-2 h-20"
+                    size="lg"
+                    className="flex-1 min-w-[120px]"
                   >
-                    <Download className="h-5 w-5" />
-                    <span className="text-xs">Download</span>
+                    <Download className="mr-2 h-5 w-5" />
+                    Download
                   </Button>
                   <Button
                     onClick={handleDelete}
                     variant="outline"
-                    className="flex-col gap-2 h-20"
+                    size="lg"
+                    className="flex-1 min-w-[120px]"
                   >
-                    <Trash2 className="h-5 w-5" />
-                    <span className="text-xs">Clear</span>
+                    <Trash2 className="mr-2 h-5 w-5" />
+                    Clear Photo
                   </Button>
                 </div>
               </div>
@@ -352,6 +382,9 @@ export function PhotoScanner() {
         onOpenScan={handleOpenSavedScan}
         onDeleteScan={handleDeleteSavedScan}
         onMoveScan={handleMoveSavedScan}
+        onAddTag={handleAddTag}
+        onRemoveTag={handleRemoveTag}
+        onUpdateTag={handleUpdateTag}
       />
     </div>
   );

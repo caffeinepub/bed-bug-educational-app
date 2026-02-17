@@ -1,55 +1,17 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T19:13:33.045Z",
-  "summary": "The diff shows partial work toward REQ-12 in SavedScansGallery (state for delete confirmation and use of an AlertDialog), but the file is truncated before the per-card actions are fully visible, so key acceptance criteria (visible delete control on each card, dialog English copy, accessible labels, and confirmed removal from the gallery) cannot be verified from the provided diff summary.",
-  "missing_requirements": [
-    {
-      "id": "REQ-12",
-      "requirement": "Each saved scan card in the Saved Scans gallery shows a delete control (trash icon or labeled delete button).",
-      "reason": "The SavedScansGallery.tsx diff is truncated before the card action area is fully shown; the provided excerpt does not include a visible delete control per item.",
-      "evidence": [
-        "frontend/src/components/SavedScansGallery.tsx (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "requirement": "Clicking delete opens a confirmation dialog with English text explaining the action is permanent.",
-      "reason": "AlertDialog components are imported and delete-confirm state/handlers exist, but the dialog rendering and its English text are not visible in the truncated excerpt.",
-      "evidence": [
-        "frontend/src/components/SavedScansGallery.tsx (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "requirement": "Confirming the dialog deletes the saved scan and it no longer appears in the gallery after deletion.",
-      "reason": "A handler calls onDeleteScan(deleteConfirmId), but the actual wiring to a confirm action button and resulting UI update cannot be verified from the truncated render code.",
-      "evidence": [
-        "frontend/src/components/SavedScansGallery.tsx (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "requirement": "Canceling the dialog does not delete the saved scan.",
-      "reason": "A cancel handler clears deleteConfirmId, but the actual cancel control in the dialog and its behavior cannot be verified from the truncated render code.",
-      "evidence": [
-        "frontend/src/components/SavedScansGallery.tsx (truncated)"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "requirement": "Delete controls include accessible labels (e.g., aria-label) and are usable on mobile and desktop.",
-      "reason": "No delete button/control markup is visible in the provided excerpt, so presence of aria-label (or equivalent) and responsive usability cannot be confirmed.",
-      "evidence": [
-        "frontend/src/components/SavedScansGallery.tsx (truncated)"
-      ]
-    }
-  ],
+  "generatedAt": "2026-02-17T19:18:55.560Z",
+  "summary": "Diff adds per-scan tag support to the saved scans data model (localStorage migration + persistence), introduces a tag editor UI component for add/edit/remove with keyboard handling, and adds tag-based filtering in the Saved Scans gallery. One area (completion of updateTag persistence and wiring callbacks through PhotoScanner to SavedScansGallery) is truncated in the diff, so full end-to-end behavior cannot be conclusively verified from the provided excerpt.",
+  "missing_requirements": [],
   "hallucinated_features": [],
-  "confidence": 0.56,
+  "confidence": 0.66,
   "changed_files": [
     "frontend-file-summaries.txt",
+    "frontend/src/components/PhotoScanner.tsx",
+    "frontend/src/components/SavedScanTagsEditor.tsx",
     "frontend/src/components/SavedScansGallery.tsx",
+    "frontend/src/hooks/useSavedScans.ts",
     "project_state.json"
   ]
 }

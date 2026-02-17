@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 9,
+  "projectStateVersion": 11,
   "summary": "Bed bug education app with plans to add a cross-platform photo scanner and expand content to include other pests (e.g., scorpions, mice).",
   "architectural_notes": [],
   "known_issues": [],
@@ -93,6 +93,30 @@
         "REQ-12"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-extend-the-saved-scan-data-model-persisted-in-localstorage-to-support-user-defined-tags-per-saved-scan-while-maintaining-backward-compatibility-with-already-saved-scans-that-have-no-tags",
+      "title": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-ui-controls-in-the-saved-scans-gallery-to-create-edit-and-remove-tags-on-a-per-scan-basis-using-clear-english-user-facing-labels",
+      "title": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-simple-tag-based-filtering-search-capability-in-the-saved-scans-gallery-so-users-can-quickly-narrow-the-list-to-scans-matching-a-selected-tag-or-entered-tag-text",
+      "title": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -133,6 +157,12 @@
       "summary": "Add a delete option in the saved-photo gallery UI so users can remove saved scans (with appropriate confirmation to prevent accidental deletion).",
       "reqIds": [],
       "status": "in_progress"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Add simple tagging for saved scans/photos to make it easier to organize and find items in the saved-photo gallery.",
+      "reqIds": [],
+      "status": "pending"
     }
   ],
   "gameProjectType": "none",

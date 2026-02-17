@@ -4,6 +4,7 @@ export interface SavedScan {
   id: string;
   imageDataUrl: string;
   createdAt: number;
+  tags?: string[];
 }
 
 const STORAGE_KEY = 'pest-scanner-saved-scans';
@@ -12,13 +13,18 @@ export function useSavedScans() {
   const [savedScans, setSavedScans] = useState<SavedScan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load saved scans from localStorage on mount
+  // Load saved scans from localStorage on mount with backward compatibility
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as SavedScan[];
-        setSavedScans(parsed);
+        // Ensure backward compatibility: add empty tags array if missing
+        const migratedScans = parsed.map(scan => ({
+          ...scan,
+          tags: scan.tags || []
+        }));
+        setSavedScans(migratedScans);
       }
     } catch (error) {
       console.error('Error loading saved scans:', error);
@@ -41,6 +47,7 @@ export function useSavedScans() {
       id: `scan-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       imageDataUrl,
       createdAt: Date.now(),
+      tags: [],
     };
 
     setSavedScans((prev) => {
@@ -81,6 +88,67 @@ export function useSavedScans() {
     });
   }, [persistScans]);
 
+  const addTag = useCallback((id: string, tag: string) => {
+    setSavedScans((prev) => {
+      const updated = prev.map((scan) => {
+        if (scan.id === id) {
+          const currentTags = scan.tags || [];
+          // Avoid duplicate tags
+          if (!currentTags.includes(tag)) {
+            return { ...scan, tags: [...currentTags, tag] };
+          }
+        }
+        return scan;
+      });
+      persistScans(updated);
+      return updated;
+    });
+  }, [persistScans]);
+
+  const removeTag = useCallback((id: string, tag: string) => {
+    setSavedScans((prev) => {
+      const updated = prev.map((scan) => {
+        if (scan.id === id) {
+          const currentTags = scan.tags || [];
+          return { ...scan, tags: currentTags.filter(t => t !== tag) };
+        }
+        return scan;
+      });
+      persistScans(updated);
+      return updated;
+    });
+  }, [persistScans]);
+
+  const updateTag = useCallback((id: string, oldTag: string, newTag: string) => {
+    setSavedScans((prev) => {
+      const updated = prev.map((scan) => {
+        if (scan.id === id) {
+          const currentTags = scan.tags || [];
+          return { 
+            ...scan, 
+            tags: currentTags.map(t => t === oldTag ? newTag : t) 
+          };
+        }
+        return scan;
+      });
+      persistScans(updated);
+      return updated;
+    });
+  }, [persistScans]);
+
+  const setTags = useCallback((id: string, tags: string[]) => {
+    setSavedScans((prev) => {
+      const updated = prev.map((scan) => {
+        if (scan.id === id) {
+          return { ...scan, tags };
+        }
+        return scan;
+      });
+      persistScans(updated);
+      return updated;
+    });
+  }, [persistScans]);
+
   const getScan = useCallback((id: string): SavedScan | undefined => {
     return savedScans.find((scan) => scan.id === id);
   }, [savedScans]);
@@ -91,6 +159,10 @@ export function useSavedScans() {
     saveScan,
     deleteScan,
     moveScan,
+    addTag,
+    removeTag,
+    updateTag,
+    setTags,
     getScan,
   };
 }

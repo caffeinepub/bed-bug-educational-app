@@ -2,8 +2,50 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-clear-delete-option-for-each-item-in-the-saved-scans-gallery-so-users-can-remove-saved-scans-including-a-confirmation-dialog-before-the-delete-is-executed",
-      "featureTitle": "Add a clear delete option for each item in the Saved Scans gallery so users can remove saved scans, including a confirmation dialog before the delete is executed.",
+      "featureId": "feature-extend-the-saved-scan-data-model-persisted-in-localstorage-to-support-user-defined-tags-per-saved-scan-while-maintaining-backward-compatibility-with-already-saved-scans-that-have-no-tags",
+      "featureTitle": "Extend the saved-scan data model persisted in localStorage to support user-defined tags per saved scan, while maintaining backward compatibility with already-saved scans that have no tags.",
+      "files": [
+        "frontend/src/components/PhotoScanner.tsx",
+        "frontend/src/hooks/useSavedScans.ts"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-ui-controls-in-the-saved-scans-gallery-to-create-edit-and-remove-tags-on-a-per-scan-basis-using-clear-english-user-facing-labels",
+      "featureTitle": "Add UI controls in the Saved Scans gallery to create, edit, and remove tags on a per-scan basis using clear, English user-facing labels.",
+      "files": [
+        "frontend/src/components/SavedScanTagsEditor.tsx",
+        "frontend/src/components/SavedScansGallery.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-simple-tag-based-filtering-search-capability-in-the-saved-scans-gallery-so-users-can-quickly-narrow-the-list-to-scans-matching-a-selected-tag-or-entered-tag-text",
+      "featureTitle": "Add a simple tag-based filtering/search capability in the Saved Scans gallery so users can quickly narrow the list to scans matching a selected tag or entered tag text.",
       "files": [
         "frontend/src/components/SavedScansGallery.tsx"
       ],
@@ -17,7 +59,7 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-12"
+        "REQ-15"
       ],
       "confidence": "high"
     }

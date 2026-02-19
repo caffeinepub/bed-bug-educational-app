@@ -14,6 +14,13 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
+export interface ContentSection {
+    id: string;
+    title: string;
+    content: string;
+    contentType: ContentType;
+    images: Array<ExternalBlob>;
+}
 export interface PrintableGuide {
     id: string;
     title: string;
@@ -21,26 +28,16 @@ export interface PrintableGuide {
     contentType: ContentType;
     file: ExternalBlob;
 }
-export interface QuizQuestion {
+export interface Technician {
     id: string;
-    question: string;
-    explanation: string;
-    section: QuizSectionType;
-    correctAnswerIndex: bigint;
-    options: Array<string>;
-}
-export interface QuizResult {
-    section: QuizSectionType;
-    score: bigint;
-    totalQuestions: bigint;
-    completedQuestions: bigint;
-}
-export interface ContentSection {
-    id: string;
-    title: string;
-    content: string;
-    contentType: ContentType;
-    images: Array<ExternalBlob>;
+    serviceArea: Array<bigint>;
+    city: string;
+    businessName: string;
+    zipCode: bigint;
+    state: string;
+    address: string;
+    specialties: string;
+    phoneNumber: string;
 }
 export enum ContentType {
     mouse = "mouse",
@@ -51,21 +48,13 @@ export enum ContentType {
     venomousSnake = "venomousSnake",
     mosquito = "mosquito"
 }
-export enum QuizSectionType {
-    habitatsHabits = "habitatsHabits",
-    identifyBedBugs = "identifyBedBugs",
-    treatmentPreparation = "treatmentPreparation",
-    prevention = "prevention"
-}
 export interface backendInterface {
-    calculateQuizResult(userAnswers: Array<string>, sectionType: QuizSectionType): Promise<QuizResult>;
+    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string): Promise<void>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
-    getAllQuizQuestions(): Promise<Array<QuizQuestion>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;
     getGuidesByContentType(contentType: ContentType): Promise<Array<PrintableGuide>>;
-    getQuestionById(questionId: string): Promise<QuizQuestion | null>;
-    getQuizQuestionsBySection(sectionType: QuizSectionType): Promise<Array<QuizQuestion>>;
-    getSection(id: string): Promise<ContentSection>;
+    getSection(id: string): Promise<ContentSection | null>;
     getSectionsByContentType(contentType: ContentType): Promise<Array<ContentSection>>;
+    getTechniciansByZip(zipCode: bigint): Promise<Array<Technician>>;
 }

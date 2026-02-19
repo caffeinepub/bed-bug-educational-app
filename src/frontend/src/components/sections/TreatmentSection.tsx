@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -54,13 +54,14 @@ const CHECKLIST_DATA = {
 const generateItemId = (phase: string, index: number) => `${phase}-${index}`;
 
 export function TreatmentSection() {
-  const { toggleItem, isItemCompleted, resetAll, getCompletionStats, isLoaded } =
+  const { toggleItem, isItemCompleted, resetAll, getCompletionStats, isLoaded, isPersistenceAvailable } =
     useHeatTreatmentChecklistProgress();
 
   const {
     isConfirmed,
     isReminderOpen,
     isLoaded: isReminderLoaded,
+    isPersistenceAvailable: isReminderPersistenceAvailable,
     confirm,
     cancel,
     showReminder,
@@ -114,6 +115,8 @@ export function TreatmentSection() {
     });
   };
 
+  const showPersistenceWarning = !isPersistenceAvailable || !isReminderPersistenceAvailable;
+
   return (
     <div className="space-y-6">
       <HeatTreatmentChecklistReminderDialog
@@ -121,6 +124,16 @@ export function TreatmentSection() {
         onConfirm={confirm}
         onCancel={cancel}
       />
+
+      {showPersistenceWarning && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Storage Unavailable</AlertTitle>
+          <AlertDescription>
+            Checklist progress and reminder confirmation may not persist on this device or browser. Your progress will be available during this session only.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Alert className="border-primary/50 bg-primary/5">
         <Flame className="h-4 w-4 text-primary" />
@@ -167,6 +180,9 @@ export function TreatmentSection() {
           <p>
             <strong className="font-semibold text-foreground">Immediate Results:</strong> Heat kills bed bugs
             at all life stages (eggs, nymphs, adults) on contact when proper temperatures are maintained.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Professional Whole-Home Heat Treatment:</strong> A heat assault machine is a highly effective professional solution for defeating bed bugs. This specialized equipment supplies high heat at 120 to 145 degrees Fahrenheit throughout the entire home. The system uses hoses connected to radiator-style fans that distribute consistent heat to every room for approximately 8 to 10 hours of continuous treatment. When performed by trained professionals, this whole-home heat treatment method is one of the most powerful approaches to completely eliminate bed bug infestations.
           </p>
         </CardContent>
       </Card>

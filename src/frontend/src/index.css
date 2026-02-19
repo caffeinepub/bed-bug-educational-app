@@ -89,4 +89,9 @@
     .checklist-item-completed {
         @apply text-muted-foreground line-through decoration-muted-foreground/50;
     }
+    
+    /* Bottom navigation icon utility - ensures maximum visibility */
+    .bottom-nav-visible {
+        @apply fixed z-[9999] shadow-2xl pointer-events-auto;
+    }
 }

@@ -1,60 +1,16 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { QuizSectionType, ContentType, type QuizQuestion, type QuizResult, type PrintableGuide } from '../backend';
-
-// Quiz Queries
-export function useQuizQuestionsBySection(sectionType: QuizSectionType) {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<QuizQuestion[]>({
-    queryKey: ['quizQuestions', sectionType],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getQuizQuestionsBySection(sectionType);
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useAllQuizQuestions() {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<QuizQuestion[]>({
-    queryKey: ['quizQuestions', 'all'],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getAllQuizQuestions();
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useCalculateQuizResult() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
-
-  return useMutation<QuizResult, Error, { userAnswers: string[]; sectionType: QuizSectionType }>({
-    mutationFn: async ({ userAnswers, sectionType }) => {
-      if (!actor) throw new Error('Actor not initialized');
-      return actor.calculateQuizResult(userAnswers, sectionType);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['quizResults'] });
-    },
-  });
-}
+import { ContentType, type PrintableGuide, type Technician } from '../backend';
 
 // Printable Guides Queries
-export function useGuidesBySection(sectionType: QuizSectionType) {
+export function useGuidesByContentType(contentType: ContentType) {
   const { actor, isFetching } = useActor();
 
   return useQuery<PrintableGuide[]>({
-    queryKey: ['guides', sectionType],
+    queryKey: ['guides', contentType],
     queryFn: async () => {
       if (!actor) return [];
-      // Guides are organized by ContentType, not QuizSectionType
-      // For now, all existing guides are for bed bugs
-      return actor.getGuidesByContentType(ContentType.bedBugs);
+      return actor.getGuidesByContentType(contentType);
     },
     enabled: !!actor && !isFetching,
   });
@@ -83,5 +39,19 @@ export function useGuide(id: string) {
       return actor.getGuide(id);
     },
     enabled: !!actor && !isFetching && !!id,
+  });
+}
+
+// Technician Queries
+export function useTechniciansByZip(zipCode: bigint | null) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<Technician[]>({
+    queryKey: ['technicians', zipCode?.toString()],
+    queryFn: async () => {
+      if (!actor || zipCode === null) return [];
+      return actor.getTechniciansByZip(zipCode);
+    },
+    enabled: !!actor && !isFetching && zipCode !== null,
   });
 }

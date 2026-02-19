@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add Earwigs as a new educational pest topic and expand spider species guidance for Black Widow, Brown Recluse, and Wolf spiders.
+**Goal:** Add city and state fields to technician records and display them alongside zip code in search results.
 
 **Planned changes:**
-- Create a new Earwigs educational content component using the existing pest content layout (Cards + Alerts) with English guidance for identification, habitats/attractants (including moisture), prevention, and what to do if found.
-- Integrate Earwigs into the pest selection UI so it can be selected and displayed across the Identify, Habitats, Prevention, and Treatment tabs.
-- Expand the existing Spiders content to add clearly labeled subsections for Black Widow, Brown Recluse, and Wolf spiders, including identification cues, likely hiding spots, safety/medical cautions, and recommended next steps.
-- Add a new static earwig icon asset and use it in the Earwigs selection control with appropriate alt text.
+- Add city and state fields to the Technician backend schema
+- Update technician search results to display city, state, and zip code together
+- Create migration to add new fields to existing technician records
 
-**User-visible outcome:** Users can select Earwigs to read practical guidance across all educational tabs, and they’ll see more detailed, species-specific guidance for Black Widow, Brown Recluse, and Wolf spiders within the Spiders content.
+**User-visible outcome:** When searching for technicians, users will see the full location information (city, state, and zip code) for each result.

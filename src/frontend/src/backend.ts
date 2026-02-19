@@ -89,6 +89,13 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface ContentSection {
+    id: string;
+    title: string;
+    content: string;
+    contentType: ContentType;
+    images: Array<ExternalBlob>;
+}
 export interface PrintableGuide {
     id: string;
     title: string;
@@ -96,37 +103,27 @@ export interface PrintableGuide {
     contentType: ContentType;
     file: ExternalBlob;
 }
-export interface QuizQuestion {
-    id: string;
-    question: string;
-    explanation: string;
-    section: QuizSectionType;
-    correctAnswerIndex: bigint;
-    options: Array<string>;
-}
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
-}
-export interface QuizResult {
-    section: QuizSectionType;
-    score: bigint;
-    totalQuestions: bigint;
-    completedQuestions: bigint;
 }
 export interface _CaffeineStorageCreateCertificateResult {
     method: string;
     blob_hash: string;
 }
+export interface Technician {
+    id: string;
+    serviceArea: Array<bigint>;
+    city: string;
+    businessName: string;
+    zipCode: bigint;
+    state: string;
+    address: string;
+    specialties: string;
+    phoneNumber: string;
+}
 export interface _CaffeineStorageRefillResult {
     success?: boolean;
     topped_up_amount?: bigint;
-}
-export interface ContentSection {
-    id: string;
-    title: string;
-    content: string;
-    contentType: ContentType;
-    images: Array<ExternalBlob>;
 }
 export enum ContentType {
     mouse = "mouse",
@@ -137,12 +134,6 @@ export enum ContentType {
     venomousSnake = "venomousSnake",
     mosquito = "mosquito"
 }
-export enum QuizSectionType {
-    habitatsHabits = "habitatsHabits",
-    identifyBedBugs = "identifyBedBugs",
-    treatmentPreparation = "treatmentPreparation",
-    prevention = "prevention"
-}
 export interface backendInterface {
     _caffeineStorageBlobIsLive(hash: Uint8Array): Promise<boolean>;
     _caffeineStorageBlobsToDelete(): Promise<Array<Uint8Array>>;
@@ -150,18 +141,16 @@ export interface backendInterface {
     _caffeineStorageCreateCertificate(blobHash: string): Promise<_CaffeineStorageCreateCertificateResult>;
     _caffeineStorageRefillCashier(refillInformation: _CaffeineStorageRefillInformation | null): Promise<_CaffeineStorageRefillResult>;
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
-    calculateQuizResult(userAnswers: Array<string>, sectionType: QuizSectionType): Promise<QuizResult>;
+    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string): Promise<void>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
-    getAllQuizQuestions(): Promise<Array<QuizQuestion>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;
     getGuidesByContentType(contentType: ContentType): Promise<Array<PrintableGuide>>;
-    getQuestionById(questionId: string): Promise<QuizQuestion | null>;
-    getQuizQuestionsBySection(sectionType: QuizSectionType): Promise<Array<QuizQuestion>>;
-    getSection(id: string): Promise<ContentSection>;
+    getSection(id: string): Promise<ContentSection | null>;
     getSectionsByContentType(contentType: ContentType): Promise<Array<ContentSection>>;
+    getTechniciansByZip(zipCode: bigint): Promise<Array<Technician>>;
 }
-import type { ContentSection as _ContentSection, ContentType as _ContentType, ExternalBlob as _ExternalBlob, PrintableGuide as _PrintableGuide, QuizQuestion as _QuizQuestion, QuizResult as _QuizResult, QuizSectionType as _QuizSectionType, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
+import type { ContentSection as _ContentSection, ContentType as _ContentType, ExternalBlob as _ExternalBlob, PrintableGuide as _PrintableGuide, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async _caffeineStorageBlobIsLive(arg0: Uint8Array): Promise<boolean> {
@@ -248,176 +237,139 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async calculateQuizResult(arg0: Array<string>, arg1: QuizSectionType): Promise<QuizResult> {
+    async addTechnician(arg0: string, arg1: string, arg2: string, arg3: string, arg4: string, arg5: Array<bigint>, arg6: string, arg7: bigint, arg8: string): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.calculateQuizResult(arg0, to_candid_QuizSectionType_n8(this._uploadFile, this._downloadFile, arg1));
-                return from_candid_QuizResult_n10(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.calculateQuizResult(arg0, to_candid_QuizSectionType_n8(this._uploadFile, this._downloadFile, arg1));
-            return from_candid_QuizResult_n10(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            return result;
         }
     }
     async getAllGuides(): Promise<Array<PrintableGuide>> {
         if (this.processError) {
             try {
                 const result = await this.actor.getAllGuides();
-                return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n8(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getAllGuides();
-            return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
-        }
-    }
-    async getAllQuizQuestions(): Promise<Array<QuizQuestion>> {
-        if (this.processError) {
-            try {
-                const result = await this.actor.getAllQuizQuestions();
-                return from_candid_vec_n20(this._uploadFile, this._downloadFile, result);
-            } catch (e) {
-                this.processError(e);
-                throw new Error("unreachable");
-            }
-        } else {
-            const result = await this.actor.getAllQuizQuestions();
-            return from_candid_vec_n20(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n8(this._uploadFile, this._downloadFile, result);
         }
     }
     async getAllSections(): Promise<Array<ContentSection>> {
         if (this.processError) {
             try {
                 const result = await this.actor.getAllSections();
-                return from_candid_vec_n23(this._uploadFile, this._downloadFile, result);
-            } catch (e) {
-                this.processError(e);
-                throw new Error("unreachable");
-            }
-        } else {
-            const result = await this.actor.getAllSections();
-            return from_candid_vec_n23(this._uploadFile, this._downloadFile, result);
-        }
-    }
-    async getGuide(arg0: string): Promise<PrintableGuide | null> {
-        if (this.processError) {
-            try {
-                const result = await this.actor.getGuide(arg0);
-                return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
-            } catch (e) {
-                this.processError(e);
-                throw new Error("unreachable");
-            }
-        } else {
-            const result = await this.actor.getGuide(arg0);
-            return from_candid_opt_n27(this._uploadFile, this._downloadFile, result);
-        }
-    }
-    async getGuidesByContentType(arg0: ContentType): Promise<Array<PrintableGuide>> {
-        if (this.processError) {
-            try {
-                const result = await this.actor.getGuidesByContentType(to_candid_ContentType_n28(this._uploadFile, this._downloadFile, arg0));
                 return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getGuidesByContentType(to_candid_ContentType_n28(this._uploadFile, this._downloadFile, arg0));
+            const result = await this.actor.getAllSections();
             return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getQuestionById(arg0: string): Promise<QuizQuestion | null> {
+    async getGuide(arg0: string): Promise<PrintableGuide | null> {
         if (this.processError) {
             try {
-                const result = await this.actor.getQuestionById(arg0);
-                return from_candid_opt_n30(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getGuide(arg0);
+                return from_candid_opt_n18(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getQuestionById(arg0);
-            return from_candid_opt_n30(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getGuide(arg0);
+            return from_candid_opt_n18(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getQuizQuestionsBySection(arg0: QuizSectionType): Promise<Array<QuizQuestion>> {
+    async getGuidesByContentType(arg0: ContentType): Promise<Array<PrintableGuide>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getQuizQuestionsBySection(to_candid_QuizSectionType_n8(this._uploadFile, this._downloadFile, arg0));
-                return from_candid_vec_n20(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getGuidesByContentType(to_candid_ContentType_n19(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_vec_n8(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getQuizQuestionsBySection(to_candid_QuizSectionType_n8(this._uploadFile, this._downloadFile, arg0));
-            return from_candid_vec_n20(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getGuidesByContentType(to_candid_ContentType_n19(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_vec_n8(this._uploadFile, this._downloadFile, result);
         }
     }
-    async getSection(arg0: string): Promise<ContentSection> {
+    async getSection(arg0: string): Promise<ContentSection | null> {
         if (this.processError) {
             try {
                 const result = await this.actor.getSection(arg0);
-                return from_candid_ContentSection_n24(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n21(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getSection(arg0);
-            return from_candid_ContentSection_n24(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n21(this._uploadFile, this._downloadFile, result);
         }
     }
     async getSectionsByContentType(arg0: ContentType): Promise<Array<ContentSection>> {
         if (this.processError) {
             try {
-                const result = await this.actor.getSectionsByContentType(to_candid_ContentType_n28(this._uploadFile, this._downloadFile, arg0));
-                return from_candid_vec_n23(this._uploadFile, this._downloadFile, result);
+                const result = await this.actor.getSectionsByContentType(to_candid_ContentType_n19(this._uploadFile, this._downloadFile, arg0));
+                return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.getSectionsByContentType(to_candid_ContentType_n28(this._uploadFile, this._downloadFile, arg0));
-            return from_candid_vec_n23(this._uploadFile, this._downloadFile, result);
+            const result = await this.actor.getSectionsByContentType(to_candid_ContentType_n19(this._uploadFile, this._downloadFile, arg0));
+            return from_candid_vec_n14(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getTechniciansByZip(arg0: bigint): Promise<Array<Technician>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getTechniciansByZip(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getTechniciansByZip(arg0);
+            return result;
         }
     }
 }
-async function from_candid_ContentSection_n24(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ContentSection): Promise<ContentSection> {
-    return await from_candid_record_n25(_uploadFile, _downloadFile, value);
-}
-function from_candid_ContentType_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ContentType): ContentType {
-    return from_candid_variant_n18(_uploadFile, _downloadFile, value);
-}
-async function from_candid_ExternalBlob_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ExternalBlob): Promise<ExternalBlob> {
-    return await _downloadFile(value);
-}
-async function from_candid_PrintableGuide_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _PrintableGuide): Promise<PrintableGuide> {
+async function from_candid_ContentSection_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ContentSection): Promise<ContentSection> {
     return await from_candid_record_n16(_uploadFile, _downloadFile, value);
 }
-function from_candid_QuizQuestion_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _QuizQuestion): QuizQuestion {
-    return from_candid_record_n22(_uploadFile, _downloadFile, value);
+function from_candid_ContentType_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ContentType): ContentType {
+    return from_candid_variant_n12(_uploadFile, _downloadFile, value);
 }
-function from_candid_QuizResult_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _QuizResult): QuizResult {
-    return from_candid_record_n11(_uploadFile, _downloadFile, value);
+async function from_candid_ExternalBlob_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ExternalBlob): Promise<ExternalBlob> {
+    return await _downloadFile(value);
 }
-function from_candid_QuizSectionType_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _QuizSectionType): QuizSectionType {
-    return from_candid_variant_n13(_uploadFile, _downloadFile, value);
+async function from_candid_PrintableGuide_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _PrintableGuide): Promise<PrintableGuide> {
+    return await from_candid_record_n10(_uploadFile, _downloadFile, value);
 }
 function from_candid__CaffeineStorageRefillResult_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: __CaffeineStorageRefillResult): _CaffeineStorageRefillResult {
     return from_candid_record_n5(_uploadFile, _downloadFile, value);
 }
-async function from_candid_opt_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_PrintableGuide]): Promise<PrintableGuide | null> {
-    return value.length === 0 ? null : await from_candid_PrintableGuide_n15(_uploadFile, _downloadFile, value[0]);
+async function from_candid_opt_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_PrintableGuide]): Promise<PrintableGuide | null> {
+    return value.length === 0 ? null : await from_candid_PrintableGuide_n9(_uploadFile, _downloadFile, value[0]);
 }
-function from_candid_opt_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_QuizQuestion]): QuizQuestion | null {
-    return value.length === 0 ? null : from_candid_QuizQuestion_n21(_uploadFile, _downloadFile, value[0]);
+async function from_candid_opt_n21(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_ContentSection]): Promise<ContentSection | null> {
+    return value.length === 0 ? null : await from_candid_ContentSection_n15(_uploadFile, _downloadFile, value[0]);
 }
 function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [boolean]): boolean | null {
     return value.length === 0 ? null : value[0];
@@ -425,25 +377,7 @@ function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Ar
 function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [bigint]): bigint | null {
     return value.length === 0 ? null : value[0];
 }
-function from_candid_record_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    section: _QuizSectionType;
-    score: bigint;
-    totalQuestions: bigint;
-    completedQuestions: bigint;
-}): {
-    section: QuizSectionType;
-    score: bigint;
-    totalQuestions: bigint;
-    completedQuestions: bigint;
-} {
-    return {
-        section: from_candid_QuizSectionType_n12(_uploadFile, _downloadFile, value.section),
-        score: value.score,
-        totalQuestions: value.totalQuestions,
-        completedQuestions: value.completedQuestions
-    };
-}
-async function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+async function from_candid_record_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: string;
     title: string;
     content: string;
@@ -460,35 +394,11 @@ async function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promi
         id: value.id,
         title: value.title,
         content: value.content,
-        contentType: from_candid_ContentType_n17(_uploadFile, _downloadFile, value.contentType),
-        file: await from_candid_ExternalBlob_n19(_uploadFile, _downloadFile, value.file)
+        contentType: from_candid_ContentType_n11(_uploadFile, _downloadFile, value.contentType),
+        file: await from_candid_ExternalBlob_n13(_uploadFile, _downloadFile, value.file)
     };
 }
-function from_candid_record_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    id: string;
-    question: string;
-    explanation: string;
-    section: _QuizSectionType;
-    correctAnswerIndex: bigint;
-    options: Array<string>;
-}): {
-    id: string;
-    question: string;
-    explanation: string;
-    section: QuizSectionType;
-    correctAnswerIndex: bigint;
-    options: Array<string>;
-} {
-    return {
-        id: value.id,
-        question: value.question,
-        explanation: value.explanation,
-        section: from_candid_QuizSectionType_n12(_uploadFile, _downloadFile, value.section),
-        correctAnswerIndex: value.correctAnswerIndex,
-        options: value.options
-    };
-}
-async function from_candid_record_n25(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+async function from_candid_record_n16(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: string;
     title: string;
     content: string;
@@ -505,8 +415,8 @@ async function from_candid_record_n25(_uploadFile: (file: ExternalBlob) => Promi
         id: value.id,
         title: value.title,
         content: value.content,
-        contentType: from_candid_ContentType_n17(_uploadFile, _downloadFile, value.contentType),
-        images: await from_candid_vec_n26(_uploadFile, _downloadFile, value.images)
+        contentType: from_candid_ContentType_n11(_uploadFile, _downloadFile, value.contentType),
+        images: await from_candid_vec_n17(_uploadFile, _downloadFile, value.images)
     };
 }
 function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -521,18 +431,7 @@ function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint
         topped_up_amount: record_opt_to_undefined(from_candid_opt_n7(_uploadFile, _downloadFile, value.topped_up_amount))
     };
 }
-function from_candid_variant_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    habitatsHabits: null;
-} | {
-    identifyBedBugs: null;
-} | {
-    treatmentPreparation: null;
-} | {
-    prevention: null;
-}): QuizSectionType {
-    return "habitatsHabits" in value ? QuizSectionType.habitatsHabits : "identifyBedBugs" in value ? QuizSectionType.identifyBedBugs : "treatmentPreparation" in value ? QuizSectionType.treatmentPreparation : "prevention" in value ? QuizSectionType.prevention : value;
-}
-function from_candid_variant_n18(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     mouse: null;
 } | {
     bedBugs: null;
@@ -549,23 +448,17 @@ function from_candid_variant_n18(_uploadFile: (file: ExternalBlob) => Promise<Ui
 }): ContentType {
     return "mouse" in value ? ContentType.mouse : "bedBugs" in value ? ContentType.bedBugs : "scorpion" in value ? ContentType.scorpion : "cockroach" in value ? ContentType.cockroach : "hornetWasp" in value ? ContentType.hornetWasp : "venomousSnake" in value ? ContentType.venomousSnake : "mosquito" in value ? ContentType.mosquito : value;
 }
-async function from_candid_vec_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_PrintableGuide>): Promise<Array<PrintableGuide>> {
-    return await Promise.all(value.map(async (x)=>await from_candid_PrintableGuide_n15(_uploadFile, _downloadFile, x)));
+async function from_candid_vec_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_ContentSection>): Promise<Array<ContentSection>> {
+    return await Promise.all(value.map(async (x)=>await from_candid_ContentSection_n15(_uploadFile, _downloadFile, x)));
 }
-function from_candid_vec_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_QuizQuestion>): Array<QuizQuestion> {
-    return value.map((x)=>from_candid_QuizQuestion_n21(_uploadFile, _downloadFile, x));
+async function from_candid_vec_n17(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_ExternalBlob>): Promise<Array<ExternalBlob>> {
+    return await Promise.all(value.map(async (x)=>await from_candid_ExternalBlob_n13(_uploadFile, _downloadFile, x)));
 }
-async function from_candid_vec_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_ContentSection>): Promise<Array<ContentSection>> {
-    return await Promise.all(value.map(async (x)=>await from_candid_ContentSection_n24(_uploadFile, _downloadFile, x)));
+async function from_candid_vec_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_PrintableGuide>): Promise<Array<PrintableGuide>> {
+    return await Promise.all(value.map(async (x)=>await from_candid_PrintableGuide_n9(_uploadFile, _downloadFile, x)));
 }
-async function from_candid_vec_n26(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_ExternalBlob>): Promise<Array<ExternalBlob>> {
-    return await Promise.all(value.map(async (x)=>await from_candid_ExternalBlob_n19(_uploadFile, _downloadFile, x)));
-}
-function to_candid_ContentType_n28(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ContentType): _ContentType {
-    return to_candid_variant_n29(_uploadFile, _downloadFile, value);
-}
-function to_candid_QuizSectionType_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: QuizSectionType): _QuizSectionType {
-    return to_candid_variant_n9(_uploadFile, _downloadFile, value);
+function to_candid_ContentType_n19(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ContentType): _ContentType {
+    return to_candid_variant_n20(_uploadFile, _downloadFile, value);
 }
 function to_candid__CaffeineStorageRefillInformation_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _CaffeineStorageRefillInformation): __CaffeineStorageRefillInformation {
     return to_candid_record_n3(_uploadFile, _downloadFile, value);
@@ -582,7 +475,7 @@ function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
         proposed_top_up_amount: value.proposed_top_up_amount ? candid_some(value.proposed_top_up_amount) : candid_none()
     };
 }
-function to_candid_variant_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ContentType): {
+function to_candid_variant_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ContentType): {
     mouse: null;
 } | {
     bedBugs: null;
@@ -611,25 +504,6 @@ function to_candid_variant_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint
         venomousSnake: null
     } : value == ContentType.mosquito ? {
         mosquito: null
-    } : value;
-}
-function to_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: QuizSectionType): {
-    habitatsHabits: null;
-} | {
-    identifyBedBugs: null;
-} | {
-    treatmentPreparation: null;
-} | {
-    prevention: null;
-} {
-    return value == QuizSectionType.habitatsHabits ? {
-        habitatsHabits: null
-    } : value == QuizSectionType.identifyBedBugs ? {
-        identifyBedBugs: null
-    } : value == QuizSectionType.treatmentPreparation ? {
-        treatmentPreparation: null
-    } : value == QuizSectionType.prevention ? {
-        prevention: null
     } : value;
 }
 export interface CreateActorOptions {

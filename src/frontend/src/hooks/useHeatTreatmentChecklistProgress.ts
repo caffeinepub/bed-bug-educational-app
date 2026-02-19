@@ -1,70 +1,73 @@
 import { useState, useEffect, useCallback } from 'react';
+import * as safeStorage from '@/utils/safeStorage';
 
-const STORAGE_KEY = 'heat-treatment-checklist-v1';
+const STORAGE_KEY = 'heat-treatment-checklist-progress';
 
-interface ChecklistState {
+export interface ChecklistProgress {
   [itemId: string]: boolean;
 }
 
 export function useHeatTreatmentChecklistProgress() {
-  const [completedItems, setCompletedItems] = useState<ChecklistState>({});
+  const [progress, setProgress] = useState<ChecklistProgress>({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPersistenceAvailable, setIsPersistenceAvailable] = useState(true);
 
-  // Load from localStorage on mount
+  // Load progress from localStorage on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setCompletedItems(parsed);
+    const available = safeStorage.isStorageAvailable();
+    setIsPersistenceAvailable(available);
+
+    if (available) {
+      const result = safeStorage.getItem<ChecklistProgress>(STORAGE_KEY);
+      if (result.success && result.data) {
+        setProgress(result.data);
       }
-    } catch (error) {
-      console.error('Failed to load checklist progress:', error);
-    } finally {
-      setIsLoaded(true);
     }
+    setIsLoaded(true);
   }, []);
 
-  // Save to localStorage whenever state changes
-  useEffect(() => {
-    if (isLoaded) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(completedItems));
-      } catch (error) {
-        console.error('Failed to save checklist progress:', error);
+  // Save to localStorage whenever progress changes
+  const persistProgress = useCallback((newProgress: ChecklistProgress) => {
+    if (isPersistenceAvailable) {
+      const result = safeStorage.setItem(STORAGE_KEY, newProgress);
+      if (!result.success) {
+        console.error('Failed to persist checklist progress:', result.error);
+        setIsPersistenceAvailable(false);
       }
     }
-  }, [completedItems, isLoaded]);
+  }, [isPersistenceAvailable]);
 
   const toggleItem = useCallback((itemId: string) => {
-    setCompletedItems((prev) => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }));
-  }, []);
+    setProgress(prev => {
+      const newProgress = {
+        ...prev,
+        [itemId]: !prev[itemId],
+      };
+      persistProgress(newProgress);
+      return newProgress;
+    });
+  }, [persistProgress]);
 
-  const isItemCompleted = useCallback(
-    (itemId: string): boolean => {
-      return completedItems[itemId] || false;
-    },
-    [completedItems]
-  );
+  const isItemCompleted = useCallback((itemId: string): boolean => {
+    return progress[itemId] === true;
+  }, [progress]);
 
   const resetAll = useCallback(() => {
-    setCompletedItems({});
-  }, []);
+    setProgress({});
+    persistProgress({});
+  }, [persistProgress]);
 
-  const getCompletionStats = useCallback(
-    (itemIds: string[]) => {
-      const completed = itemIds.filter((id) => completedItems[id]).length;
-      return {
-        completed,
-        total: itemIds.length,
-        percentage: itemIds.length > 0 ? Math.round((completed / itemIds.length) * 100) : 0,
-      };
-    },
-    [completedItems]
-  );
+  const getCompletionStats = useCallback((allItemIds: string[]) => {
+    const completed = allItemIds.filter(id => progress[id] === true).length;
+    const total = allItemIds.length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    return {
+      completed,
+      total,
+      percentage,
+    };
+  }, [progress]);
 
   return {
     toggleItem,
@@ -72,5 +75,6 @@ export function useHeatTreatmentChecklistProgress() {
     resetAll,
     getCompletionStats,
     isLoaded,
+    isPersistenceAvailable,
   };
 }

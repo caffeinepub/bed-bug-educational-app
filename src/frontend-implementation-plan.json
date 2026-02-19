@@ -1,74 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Earwigs pest content and expand spider species guidance",
+  "title": "Add city and state with zip code to technician search",
   "requirements": [
     {
-      "id": "REQ-49",
-      "summary": "Create a new Earwigs educational content component using existing Card/Alert layout patterns with English guidance for identification, habitats/attractants (moisture), prevention, and what-to-do steps.",
+      "id": "REQ-2",
+      "summary": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
       "acceptanceCriteria": [
-        "A new React component exists at frontend/src/components/pests/EarwigsContent.tsx (or an equivalent pests folder file consistent with the existing naming pattern) and renders without runtime errors.",
-        "All user-facing text in the new Earwigs content is in English.",
-        "The Earwigs content includes sections for identification, habitats/attractants, prevention, and what-to-do steps, using the same Card/Alert patterns used by other pest content components (e.g., CockroachesContent, SpidersContent)."
+        "Technician search results show city name when available",
+        "Technician search results show state when available",
+        "Display format clearly presents zip code, city, and state together (e.g., 'City, State ZIP')",
+        "Gracefully handles missing city or state data"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/pests/EarwigsContent.tsx",
-          "operation": "create",
-          "description": "Implement Earwigs educational content using the existing Card/Alert layout patterns (matching other pest content components) with clear English sections for: identification cues + common indoor signs; common locations/attractants emphasizing moisture; prevention steps; and what to do if found (safe clean-up/control, monitoring, and when to call a professional)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-50",
-      "summary": "Add Earwigs to the EducationalContent pest selection UI and wire selection to render Earwigs content across Identify/Habitats/Prevention/Treatment tabs.",
-      "acceptanceCriteria": [
-        "EducationalContent.tsx includes an 'earwigs' option in the selectedPest state union/type and default logic remains unchanged.",
-        "A new Earwigs selection button appears alongside existing pests in the selection grid and is usable on mobile and desktop.",
-        "Selecting Earwigs renders the Earwigs content component in Identify/Habitats/Prevention/Treatment when selectedPest is earwigs (and bed bug sections still render for bedbugs)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/EducationalContent.tsx",
+          "path": "frontend/src/components/TechnicianFinder.tsx",
           "operation": "modify",
-          "description": "Integrate Earwigs into the existing pest selection pattern: extend the selectedPest union to include 'earwigs' (keeping default as bedbugs), import and render EarwigsContent in the selectedPest switch, and add an Earwigs selection button to the existing grid so it appears in Identify/Habitats/Prevention/Treatment tabs."
-        }
-      ]
-    },
-    {
-      "id": "REQ-51",
-      "summary": "Expand Spiders educational content with distinct, detailed subsections for Black Widow, Brown Recluse, and Wolf spiders while preserving existing safety/medical messaging and styling.",
-      "acceptanceCriteria": [
-        "SpidersContent includes clearly labeled subsections for Black Widow, Brown Recluse, and Wolf Spider guidance (not just a single bullet mention).",
-        "Each of the three subsections contains at least: identification cues, likely habitats/hiding spots, and recommended next steps (safe handling avoidance + when to call a professional).",
-        "The existing top-level Safety Warning and Medical Attention messaging remains present and the overall content remains readable and consistent with current styling."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/pests/SpidersContent.tsx",
-          "operation": "modify",
-          "description": "Add clearly labeled subsections (within the existing Card/Alert styling) for Black Widow, Brown Recluse, and Wolf spiders, each covering identification cues, typical hiding spots (indoor/outdoor), safety/medical cautions, and what to do if found (avoid handling, monitoring, and when to call a professional), while keeping the existing top-level Safety Warning and the Medical Attention callout intact."
-        }
-      ]
-    },
-    {
-      "id": "REQ-52",
-      "summary": "Add a static earwig icon asset and use it in the Earwigs selection button via an img tag with proper alt text, consistent with existing pest icon usage.",
-      "acceptanceCriteria": [
-        "A new earwig icon file exists at frontend/public/assets/generated/earwig-icon.dim_128x128.png.",
-        "The Earwigs selection button in EducationalContent uses the new icon via an <img> tag and includes an alt value like \"Earwigs\".",
-        "No backend fetching is used for the earwig icon (served as a static asset)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/earwig-icon.dim_128x128.png",
-          "operation": "create",
-          "description": "Add the required static Earwig icon asset at frontend/public/assets/generated/earwig-icon.dim_128x128.png (transparent background, clean line style) for use in the pest selection UI."
-        },
-        {
-          "path": "frontend/src/components/EducationalContent.tsx",
-          "operation": "modify",
-          "description": "Update the new Earwigs selection control to display the static icon via an <img> tag referencing frontend/public/assets/generated/earwig-icon.dim_128x128.png and include appropriate alt text (e.g., \"Earwigs\"), consistent with the existing cockroach/head-lice/spider icon usage."
+          "description": "Update the technician result cards to display city and state fields from the Technician type. Format the location display as 'City, State ZIP' (e.g., 'Phoenix, AZ 85001'). Handle cases where city or state may be empty strings by conditionally rendering only available fields. Update the result card layout to accommodate the expanded location information while maintaining visual hierarchy and readability."
         }
       ]
     }

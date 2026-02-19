@@ -1,96 +1,72 @@
 {
   "kind": "build_request",
-  "title": "Add Earwigs pest content and expand spider species guidance",
-  "projectName": "Pest ID Guide",
+  "title": "Add city and state with zip code to technician search",
+  "projectName": "Pest Control Finder",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-49",
-      "text": "Add a new Earwigs educational content component that follows the existing pest content layout patterns (cards + alerts) and provides clear, user-facing English guidance covering: (1) basic identification cues and common signs indoors, (2) where earwigs are commonly found and what attracts them (especially moisture), (3) prevention steps, and (4) what to do if found (safe clean-up/control steps, monitoring, and when to call a professional).",
-      "target": "frontend",
+      "id": "REQ-1",
+      "text": "Add city and state fields to the Technician type in the backend schema alongside the existing zipCode field",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "recent-messages-3"
+          "msg-4"
         ],
         "quotes": [
-          "add ewigs and black widow spiders also include brown elcuse spider and along with the wolf spider"
+          "add to the search icon city and or state with zip code"
         ]
       },
       "acceptanceCriteria": [
-        "A new React component exists at frontend/src/components/pests/EarwigsContent.tsx (or an equivalent pests folder file consistent with the existing naming pattern) and renders without runtime errors.",
-        "All user-facing text in the new Earwigs content is in English.",
-        "The Earwigs content includes sections for identification, habitats/attractants, prevention, and what-to-do steps, using the same Card/Alert patterns used by other pest content components (e.g., CockroachesContent, SpidersContent)."
+        "Backend Technician type includes city field of type Text",
+        "Backend Technician type includes state field of type Text",
+        "Existing zipCode field remains unchanged"
       ]
     },
     {
-      "id": "REQ-50",
-      "text": "Integrate Earwigs into the pest selection UI in frontend/src/components/EducationalContent.tsx across the Identify, Habitats, Prevention, and Treatment tabs, consistent with the existing pattern (selection button in the grid + conditional rendering via the selectedPest switch).",
+      "id": "REQ-2",
+      "text": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages-3"
+          "msg-4"
         ],
         "quotes": [
-          "add ewigs and black widow spiders also include brown elcuse spider and along with the wolf spider"
+          "add to the search icon city and or state with zip code"
         ]
       },
       "acceptanceCriteria": [
-        "EducationalContent.tsx includes an 'earwigs' option in the selectedPest state union/type and default logic remains unchanged.",
-        "A new Earwigs selection button appears alongside existing pests in the selection grid and is usable on mobile and desktop.",
-        "Selecting Earwigs renders the Earwigs content component in Identify/Habitats/Prevention/Treatment when selectedPest is earwigs (and bed bug sections still render for bedbugs)."
+        "Technician search results show city name when available",
+        "Technician search results show state when available",
+        "Display format clearly presents zip code, city, and state together (e.g., 'City, State ZIP')",
+        "Gracefully handles missing city or state data"
       ]
     },
     {
-      "id": "REQ-51",
-      "text": "Expand the existing Spiders educational content (frontend/src/components/pests/SpidersContent.tsx) to include clearer, more detailed guidance specifically for Black Widow spiders, Brown Recluse spiders, and Wolf spiders. Add distinct subsections that include identification cues, typical indoor/outdoor hiding spots, safety/medical cautions, and what to do if found (including when to call a professional). Keep all user-facing text in English and consistent in tone with the existing Safety Warning/Medical Attention callouts.",
-      "target": "frontend",
+      "id": "REQ-3",
+      "text": "Generate a migration to add city and state fields to existing technician records with appropriate default values",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "recent-messages-3"
-        ],
-        "quotes": [
-          "add ewigs and black widow spiders also include brown elcuse spider and along with the wolf spider"
+          "msg-4"
         ]
       },
       "acceptanceCriteria": [
-        "SpidersContent includes clearly labeled subsections for Black Widow, Brown Recluse, and Wolf Spider guidance (not just a single bullet mention).",
-        "Each of the three subsections contains at least: identification cues, likely habitats/hiding spots, and recommended next steps (safe handling avoidance + when to call a professional).",
-        "The existing top-level Safety Warning and Medical Attention messaging remains present and the overall content remains readable and consistent with current styling."
-      ]
-    },
-    {
-      "id": "REQ-52",
-      "text": "Add and use a new static Earwig icon image asset under frontend/public/assets/generated, and use it in the Earwigs selection control via an <img> tag with appropriate alt text, consistent with existing pest icon usage (e.g., cockroach/head-lice/spider icons).",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "recent-messages-3"
-        ],
-        "quotes": [
-          "add ewigs and black widow spiders also include brown elcuse spider and along with the wolf spider"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A new earwig icon file exists at frontend/public/assets/generated/earwig-icon.dim_128x128.png.",
-        "The Earwigs selection button in EducationalContent uses the new icon via an <img> tag and includes an alt value like \"Earwigs\".",
-        "No backend fetching is used for the earwig icon (served as a static asset)."
+        "Migration successfully adds city and state fields to all existing technician records",
+        "Default values are set appropriately for existing records without data loss"
       ]
     }
   ],
   "constraints": [
-    "Use English for all user-facing text added or modified.",
-    "Do not edit files under frontend/src/components/ui or any other frontend immutable paths listed in SYSTEM_CONTEXT.",
-    "Keep changes local to the frontend; do not introduce new backend canisters or external services."
+    "Maintain backward compatibility with existing technician data",
+    "Do not modify the existing zipCode search functionality"
   ],
   "nonGoals": [
-    "Do not implement automated/AI-based spider identification or image classification.",
-    "Do not add new quiz questions or printable guides for Earwigs or spider subtypes unless explicitly requested.",
-    "Do not change authentication (Internet Identity) behavior."
+    "Implementing search by city or state (only display is required)",
+    "Validating city/state data against external APIs",
+    "Auto-populating city/state from zip code"
   ],
   "imageRequirements": {
-    "required": [
-      "Simple earwig icon illustration, clean line style, transparent background (earwig-icon.dim_128x128.png, 128x128)"
-    ],
+    "required": [],
     "edits": []
   }
 }

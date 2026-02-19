@@ -32,24 +32,17 @@ export interface PrintableGuide {
   'contentType' : ContentType,
   'file' : ExternalBlob,
 }
-export interface QuizQuestion {
+export interface Technician {
   'id' : string,
-  'question' : string,
-  'explanation' : string,
-  'section' : QuizSectionType,
-  'correctAnswerIndex' : bigint,
-  'options' : Array<string>,
+  'serviceArea' : Array<bigint>,
+  'city' : string,
+  'businessName' : string,
+  'zipCode' : bigint,
+  'state' : string,
+  'address' : string,
+  'specialties' : string,
+  'phoneNumber' : string,
 }
-export interface QuizResult {
-  'section' : QuizSectionType,
-  'score' : bigint,
-  'totalQuestions' : bigint,
-  'completedQuestions' : bigint,
-}
-export type QuizSectionType = { 'habitatsHabits' : null } |
-  { 'identifyBedBugs' : null } |
-  { 'treatmentPreparation' : null } |
-  { 'prevention' : null };
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -77,25 +70,30 @@ export interface _SERVICE {
     _CaffeineStorageRefillResult
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
-  'calculateQuizResult' : ActorMethod<
-    [Array<string>, QuizSectionType],
-    QuizResult
+  'addTechnician' : ActorMethod<
+    [
+      string,
+      string,
+      string,
+      string,
+      string,
+      Array<bigint>,
+      string,
+      bigint,
+      string,
+    ],
+    undefined
   >,
   'getAllGuides' : ActorMethod<[], Array<PrintableGuide>>,
-  'getAllQuizQuestions' : ActorMethod<[], Array<QuizQuestion>>,
   'getAllSections' : ActorMethod<[], Array<ContentSection>>,
   'getGuide' : ActorMethod<[string], [] | [PrintableGuide]>,
   'getGuidesByContentType' : ActorMethod<[ContentType], Array<PrintableGuide>>,
-  'getQuestionById' : ActorMethod<[string], [] | [QuizQuestion]>,
-  'getQuizQuestionsBySection' : ActorMethod<
-    [QuizSectionType],
-    Array<QuizQuestion>
-  >,
-  'getSection' : ActorMethod<[string], ContentSection>,
+  'getSection' : ActorMethod<[string], [] | [ContentSection]>,
   'getSectionsByContentType' : ActorMethod<
     [ContentType],
     Array<ContentSection>
   >,
+  'getTechniciansByZip' : ActorMethod<[bigint], Array<Technician>>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

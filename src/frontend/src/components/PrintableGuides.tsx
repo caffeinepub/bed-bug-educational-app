@@ -2,16 +2,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Download, FileText, Loader2, Info } from 'lucide-react';
-import { useGuidesBySection } from '@/hooks/useQueries';
-import { QuizSectionType } from '../backend';
+import { useGuidesByContentType } from '@/hooks/useQueries';
+import { ContentType } from '../backend';
 
 interface PrintableGuidesProps {
-  sectionType: QuizSectionType;
+  contentType: ContentType;
   sectionTitle: string;
 }
 
-export function PrintableGuides({ sectionType, sectionTitle }: PrintableGuidesProps) {
-  const { data: guides, isLoading } = useGuidesBySection(sectionType);
+export function PrintableGuides({ contentType, sectionTitle }: PrintableGuidesProps) {
+  const { data: guides, isLoading } = useGuidesByContentType(contentType);
 
   const handleDownload = async (guide: any) => {
     try {

@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from 'react';
-import { Camera, Upload, RotateCw, Sparkles, Download, X, SwitchCamera, Trash2, Save, Info, Tag } from 'lucide-react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { Camera, Upload, RotateCw, Sparkles, Download, X, SwitchCamera, Trash2, Save, Info, Tag, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -11,6 +11,7 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useOnUnmount } from '@/utils/useOnUnmount';
 
 export function PhotoScanner() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -61,7 +62,15 @@ export function PhotoScanner() {
     addTag,
     removeTag,
     updateTag,
+    isPersistenceAvailable,
   } = useSavedScans();
+
+  // Ensure camera is stopped on unmount
+  useOnUnmount(() => {
+    if (isActive) {
+      stopCamera();
+    }
+  });
 
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -78,7 +87,11 @@ export function PhotoScanner() {
 
   const handleOpenCamera = useCallback(async () => {
     setShowCamera(true);
-    await startCamera();
+    const success = await startCamera();
+    if (!success) {
+      // Camera failed to start, keep upload option available
+      console.error('Camera failed to start');
+    }
   }, [startCamera]);
 
   const handleCloseCamera = useCallback(async () => {
@@ -197,6 +210,16 @@ export function PhotoScanner() {
 
   return (
     <div className="space-y-6">
+      {!isPersistenceAvailable && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Storage Unavailable</AlertTitle>
+          <AlertDescription>
+            Saving scans may not persist on this device or browser. Your scans will be available during this session only.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -264,9 +287,13 @@ export function PhotoScanner() {
 
               {cameraError && (
                 <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Camera Error</AlertTitle>
                   <AlertDescription>
                     {cameraError.message}
-                    {cameraError.type === 'permission' && ' Please allow camera access in your browser settings.'}
+                    {cameraError.type === 'permission' && ' Please allow camera access in your browser settings and try again.'}
+                    {cameraError.type === 'not-found' && ' No camera was detected on this device.'}
+                    {cameraError.type === 'not-supported' && ' Camera is not supported in this browser.'}
                   </AlertDescription>
                 </Alert>
               )}

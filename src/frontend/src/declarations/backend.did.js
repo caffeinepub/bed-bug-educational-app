@@ -19,18 +19,6 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
-export const QuizSectionType = IDL.Variant({
-  'habitatsHabits' : IDL.Null,
-  'identifyBedBugs' : IDL.Null,
-  'treatmentPreparation' : IDL.Null,
-  'prevention' : IDL.Null,
-});
-export const QuizResult = IDL.Record({
-  'section' : QuizSectionType,
-  'score' : IDL.Nat,
-  'totalQuestions' : IDL.Nat,
-  'completedQuestions' : IDL.Nat,
-});
 export const ContentType = IDL.Variant({
   'mouse' : IDL.Null,
   'bedBugs' : IDL.Null,
@@ -48,20 +36,23 @@ export const PrintableGuide = IDL.Record({
   'contentType' : ContentType,
   'file' : ExternalBlob,
 });
-export const QuizQuestion = IDL.Record({
-  'id' : IDL.Text,
-  'question' : IDL.Text,
-  'explanation' : IDL.Text,
-  'section' : QuizSectionType,
-  'correctAnswerIndex' : IDL.Nat,
-  'options' : IDL.Vec(IDL.Text),
-});
 export const ContentSection = IDL.Record({
   'id' : IDL.Text,
   'title' : IDL.Text,
   'content' : IDL.Text,
   'contentType' : ContentType,
   'images' : IDL.Vec(ExternalBlob),
+});
+export const Technician = IDL.Record({
+  'id' : IDL.Text,
+  'serviceArea' : IDL.Vec(IDL.Nat),
+  'city' : IDL.Text,
+  'businessName' : IDL.Text,
+  'zipCode' : IDL.Nat,
+  'state' : IDL.Text,
+  'address' : IDL.Text,
+  'specialties' : IDL.Text,
+  'phoneNumber' : IDL.Text,
 });
 
 export const idlService = IDL.Service({
@@ -91,13 +82,22 @@ export const idlService = IDL.Service({
       [],
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
-  'calculateQuizResult' : IDL.Func(
-      [IDL.Vec(IDL.Text), QuizSectionType],
-      [QuizResult],
-      ['query'],
+  'addTechnician' : IDL.Func(
+      [
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Vec(IDL.Nat),
+        IDL.Text,
+        IDL.Nat,
+        IDL.Text,
+      ],
+      [],
+      [],
     ),
   'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
-  'getAllQuizQuestions' : IDL.Func([], [IDL.Vec(QuizQuestion)], ['query']),
   'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
   'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
   'getGuidesByContentType' : IDL.Func(
@@ -105,18 +105,13 @@ export const idlService = IDL.Service({
       [IDL.Vec(PrintableGuide)],
       ['query'],
     ),
-  'getQuestionById' : IDL.Func([IDL.Text], [IDL.Opt(QuizQuestion)], ['query']),
-  'getQuizQuestionsBySection' : IDL.Func(
-      [QuizSectionType],
-      [IDL.Vec(QuizQuestion)],
-      ['query'],
-    ),
-  'getSection' : IDL.Func([IDL.Text], [ContentSection], ['query']),
+  'getSection' : IDL.Func([IDL.Text], [IDL.Opt(ContentSection)], ['query']),
   'getSectionsByContentType' : IDL.Func(
       [ContentType],
       [IDL.Vec(ContentSection)],
       ['query'],
     ),
+  'getTechniciansByZip' : IDL.Func([IDL.Nat], [IDL.Vec(Technician)], ['query']),
 });
 
 export const idlInitArgs = [];
@@ -132,18 +127,6 @@ export const idlFactory = ({ IDL }) => {
   const _CaffeineStorageRefillResult = IDL.Record({
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
-  });
-  const QuizSectionType = IDL.Variant({
-    'habitatsHabits' : IDL.Null,
-    'identifyBedBugs' : IDL.Null,
-    'treatmentPreparation' : IDL.Null,
-    'prevention' : IDL.Null,
-  });
-  const QuizResult = IDL.Record({
-    'section' : QuizSectionType,
-    'score' : IDL.Nat,
-    'totalQuestions' : IDL.Nat,
-    'completedQuestions' : IDL.Nat,
   });
   const ContentType = IDL.Variant({
     'mouse' : IDL.Null,
@@ -162,20 +145,23 @@ export const idlFactory = ({ IDL }) => {
     'contentType' : ContentType,
     'file' : ExternalBlob,
   });
-  const QuizQuestion = IDL.Record({
-    'id' : IDL.Text,
-    'question' : IDL.Text,
-    'explanation' : IDL.Text,
-    'section' : QuizSectionType,
-    'correctAnswerIndex' : IDL.Nat,
-    'options' : IDL.Vec(IDL.Text),
-  });
   const ContentSection = IDL.Record({
     'id' : IDL.Text,
     'title' : IDL.Text,
     'content' : IDL.Text,
     'contentType' : ContentType,
     'images' : IDL.Vec(ExternalBlob),
+  });
+  const Technician = IDL.Record({
+    'id' : IDL.Text,
+    'serviceArea' : IDL.Vec(IDL.Nat),
+    'city' : IDL.Text,
+    'businessName' : IDL.Text,
+    'zipCode' : IDL.Nat,
+    'state' : IDL.Text,
+    'address' : IDL.Text,
+    'specialties' : IDL.Text,
+    'phoneNumber' : IDL.Text,
   });
   
   return IDL.Service({
@@ -205,13 +191,22 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
-    'calculateQuizResult' : IDL.Func(
-        [IDL.Vec(IDL.Text), QuizSectionType],
-        [QuizResult],
-        ['query'],
+    'addTechnician' : IDL.Func(
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Vec(IDL.Nat),
+          IDL.Text,
+          IDL.Nat,
+          IDL.Text,
+        ],
+        [],
+        [],
       ),
     'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
-    'getAllQuizQuestions' : IDL.Func([], [IDL.Vec(QuizQuestion)], ['query']),
     'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
     'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
     'getGuidesByContentType' : IDL.Func(
@@ -219,20 +214,15 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(PrintableGuide)],
         ['query'],
       ),
-    'getQuestionById' : IDL.Func(
-        [IDL.Text],
-        [IDL.Opt(QuizQuestion)],
-        ['query'],
-      ),
-    'getQuizQuestionsBySection' : IDL.Func(
-        [QuizSectionType],
-        [IDL.Vec(QuizQuestion)],
-        ['query'],
-      ),
-    'getSection' : IDL.Func([IDL.Text], [ContentSection], ['query']),
+    'getSection' : IDL.Func([IDL.Text], [IDL.Opt(ContentSection)], ['query']),
     'getSectionsByContentType' : IDL.Func(
         [ContentType],
         [IDL.Vec(ContentSection)],
+        ['query'],
+      ),
+    'getTechniciansByZip' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Vec(Technician)],
         ['query'],
       ),
   });

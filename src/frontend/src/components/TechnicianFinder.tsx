@@ -85,15 +85,15 @@ export function TechnicianFinder() {
   const hasValidCoordinates = techniciansWithCoordinates.length > 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <MapPin className="h-5 w-5 flex-shrink-0" />
+        <CardHeader className="pb-6">
+          <CardTitle className="flex items-center gap-6">
+            <MapPin className="h-6 w-6 flex-shrink-0" />
             <span>Find Local Pest Control Technicians</span>
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-10">
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="zipCode">Enter Your Zip Code</Label>
@@ -174,69 +174,73 @@ export function TechnicianFinder() {
                 variant={showMap ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setShowMap(!showMap)}
-                className="flex items-center gap-2"
+                className="gap-2"
               >
-                <MapIcon className="h-4 w-4" />
+                <MapIcon className="h-4 w-4 flex-shrink-0" />
                 {showMap ? 'Show List' : 'Show Map'}
               </Button>
             )}
           </div>
 
           {showMap && hasValidCoordinates ? (
-            <TechnicianMap 
-              technicians={techniciansWithCoordinates} 
-              boundaryCoordinates={boundaryCoordinates}
-              isBoundaryLoading={isBoundaryLoading}
-              boundaryError={!!boundaryError}
-            />
+            <Card>
+              <CardContent className="pt-6">
+                <TechnicianMap 
+                  technicians={techniciansWithCoordinates}
+                  boundaryCoordinates={boundaryCoordinates}
+                  isBoundaryLoading={isBoundaryLoading}
+                  boundaryError={!!boundaryError}
+                />
+              </CardContent>
+            </Card>
           ) : (
-            <>
+            <div className="space-y-4">
               {technicians.map((tech) => (
                 <Card key={tech.id}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-3">
-                      <Briefcase className="h-5 w-5 flex-shrink-0" />
-                      <span>{tech.businessName}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <CardContent className="pt-6">
+                    <div className="space-y-4">
                       <div>
-                        <p className="text-sm font-medium">Phone</p>
-                        <a
-                          href={`tel:${tech.phoneNumber}`}
-                          className="text-sm text-primary hover:underline"
-                        >
-                          {tech.phoneNumber}
-                        </a>
+                        <h4 className="text-lg font-semibold">{tech.businessName}</h4>
                       </div>
-                    </div>
 
-                    <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium">Location</p>
-                        <p className="text-sm text-muted-foreground">{tech.address}</p>
-                        <p className="text-sm font-semibold text-foreground">
-                          {formatLocation(tech.city, tech.state, tech.zipCode)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {tech.specialties && (
-                      <div className="flex items-start gap-2">
-                        <Briefcase className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium">Specialties</p>
-                          <p className="text-sm text-muted-foreground">{tech.specialties}</p>
+                      <div className="space-y-3">
+                        <div className="flex items-start gap-4">
+                          <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm break-words">{tech.address}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {formatLocation(tech.city, tech.state, tech.zipCode)}
+                            </p>
+                          </div>
                         </div>
+
+                        <div className="flex items-center gap-4">
+                          <Phone className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                          <a
+                            href={`tel:${tech.phoneNumber}`}
+                            className="text-sm text-primary hover:underline break-words"
+                          >
+                            {tech.phoneNumber}
+                          </a>
+                        </div>
+
+                        {tech.specialties && tech.specialties !== 'General pest control' && (
+                          <div className="flex items-start gap-4">
+                            <Briefcase className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium">Specialties</p>
+                              <p className="text-sm text-muted-foreground break-words">
+                                {tech.specialties}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </CardContent>
                 </Card>
               ))}
-            </>
+            </div>
           )}
         </div>
       )}

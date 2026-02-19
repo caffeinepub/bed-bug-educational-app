@@ -1,21 +1,81 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix overlap between 'Find local pest technicians' icon and headings",
+  "title": "Add home page with navigation icons and home button",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
+      "summary": "Create a new home page component that serves as the landing page with a welcoming introduction to the bed bug educational app",
       "acceptanceCriteria": [
-        "The 'Find local pest technicians' icon does not overlap with any headings",
-        "All text remains fully readable without obstruction",
-        "The layout maintains proper visual hierarchy and spacing"
+        "Home page component is created as a new React component",
+        "Home page displays when users first visit the application",
+        "Page includes welcoming content about the app's purpose"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/LocationFinder.tsx",
+          "path": "frontend/src/components/HomePage.tsx",
+          "operation": "create",
+          "description": "Create a new HomePage component that displays a welcoming hero section introducing the bed bug educational app, explaining its purpose of helping users identify, prevent, and treat bed bug infestations. Include a brief overview of available features and resources. Use the generated bed bug icons from frontend/public/assets/generated/bed-bug-icon.dim_128x128.png and frontend/public/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png as visual elements in the hero section."
+        },
+        {
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Adjust the layout spacing and positioning in the LocationFinder component to prevent overlap between the 'Find local pest technicians' icon and headings. Add appropriate margins, padding, or flexbox gap properties to ensure proper visual separation. Maintain the existing map functionality and shadcn/ui component structure while fixing the layout issue."
+          "description": "Update the hash-based routing logic to display the HomePage component when the hash is empty or '#home'. Ensure HomePage renders before EducationalContent for the default/home route while preserving existing routes for '#qr-code' and '#location-finder'."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add navigation icons on the home page representing each main section with clear visual indicators",
+      "acceptanceCriteria": [
+        "Each main section has a distinct icon displayed on the home page",
+        "Icons are clickable and navigate to their respective sections",
+        "Visual design clearly indicates these are starting points for users",
+        "Icons are organized in a logical, scannable layout"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add a navigation grid section to HomePage displaying seven main section icons (scanner, identify, habitats, prevention, treatment, guides, find local help) with clear labels and visual hierarchy. Use shadcn/ui Card components for each navigation item. Include appropriate icons from lucide-react (Camera for scanner, Search for identify, Home for habitats, Shield for prevention, Activity for treatment, BookOpen for guides, MapPin for find local help). Make each card clickable and style them to be visually distinct as entry points. Use the existing generated pest icons from frontend/public/assets/generated/ for additional visual context where relevant."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement smooth scroll behavior when clicking navigation icons to scroll to the corresponding section",
+      "acceptanceCriteria": [
+        "Clicking an icon smoothly scrolls to the target section",
+        "Scroll animation is smooth and not jarring",
+        "All section navigation icons correctly scroll to their targets"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add click handlers to each navigation icon that use hash-based navigation to navigate to the corresponding section (e.g., #scanner, #identify, #habitats, #prevention, #treatment, #guides, #findLocalHelp). These hash values should match the tabs in EducationalContent.tsx. Use the existing useHashRoute hook for navigation. The browser's native smooth scroll behavior will handle the animation when navigating to these hash-based routes."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add CSS rule for smooth scroll behavior: `html { scroll-behavior: smooth; }` to enable smooth scrolling animations when navigating between sections via hash links."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add a persistent home button icon in the header that allows users to return to the home page from any section",
+      "acceptanceCriteria": [
+        "Home button icon is visible from all pages and sections",
+        "Clicking the home button navigates back to the home page",
+        "Button placement does not conflict with existing header elements (Location Finder, Help, Share buttons)",
+        "Icon is clearly recognizable as a home navigation element"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Header.tsx",
+          "operation": "modify",
+          "description": "Add a Home button icon (using lucide-react Home icon) positioned to the left of the existing Location Finder button in the header. The button should navigate to '#home' or clear the hash to return to the home page using the existing useHashRoute hook. Style it consistently with the other header buttons and ensure it is visible and accessible from all pages. Add appropriate ARIA labels for accessibility."
         }
       ]
     }

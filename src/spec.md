@@ -1,11 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Fix the overlapping issue between the 'Find local pest technicians' icon and headings in the LocationFinder component.
+**Goal:** Add a home page with navigation icons for each main section and a persistent home button for easy navigation.
 
 **Planned changes:**
-- Add proper spacing or layout adjustments to prevent the icon from overlapping with headings
-- Ensure all text remains fully readable without obstruction
-- Maintain proper visual hierarchy and spacing
+- Create a new home page component as the landing page with welcoming introduction
+- Add navigation icons on the home page for each main section (scanner, identify, habitats, prevention, treatment, guides, find local help)
+- Implement smooth scroll behavior when clicking navigation icons to scroll to corresponding sections
+- Add a persistent home button icon in the header to return to the home page from any section
 
-**User-visible outcome:** Users can view the LocationFinder component with properly spaced elements where the 'Find local pest technicians' icon no longer overlaps with any headings.
+**User-visible outcome:** Users will land on a welcoming home page with clear navigation icons to explore different sections, and can easily return to the home page using a persistent home button.

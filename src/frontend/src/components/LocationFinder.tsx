@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, MapPin, Search, X } from 'lucide-react';
+import { AlertCircle, ArrowLeft, MapPin, Search, X } from 'lucide-react';
 import { useGoogleMaps } from '../hooks/useGoogleMaps';
 
 interface SearchResult {
@@ -30,6 +30,11 @@ export function LocationFinder() {
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
+
+  // Handle back navigation
+  const handleBack = () => {
+    window.location.hash = '';
+  };
 
   // Initialize map
   useEffect(() => {
@@ -224,8 +229,19 @@ export function LocationFinder() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <MapPin className="h-5 w-5 flex-shrink-0" />
+          <div className="flex items-center gap-3 mb-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleBack}
+              className="flex-shrink-0"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </div>
+          <CardTitle className="flex items-center gap-6">
+            <Search className="h-6 w-6 flex-shrink-0" />
             <span>Location Finder</span>
           </CardTitle>
         </CardHeader>
@@ -245,8 +261,19 @@ export function LocationFinder() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <MapPin className="h-5 w-5 flex-shrink-0" />
+          <div className="flex items-center gap-3 mb-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleBack}
+              className="flex-shrink-0"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </div>
+          <CardTitle className="flex items-center gap-6">
+            <Search className="h-6 w-6 flex-shrink-0" />
             <span>Location Finder</span>
           </CardTitle>
         </CardHeader>
@@ -265,8 +292,19 @@ export function LocationFinder() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-3">
-          <MapPin className="h-5 w-5 flex-shrink-0" />
+        <div className="flex items-center gap-3 mb-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleBack}
+            className="flex-shrink-0"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </div>
+        <CardTitle className="flex items-center gap-6">
+          <Search className="h-6 w-6 flex-shrink-0" />
           <span>Location Finder</span>
         </CardTitle>
         <CardDescription>

@@ -7,7 +7,6 @@ import { TreatmentSection } from './sections/TreatmentSection';
 import { PrintableGuides } from './PrintableGuides';
 import { PhotoScanner } from './PhotoScanner';
 import { TechnicianFinder } from './TechnicianFinder';
-import { LocationFinder } from './LocationFinder';
 import { ScorpionsContent } from './pests/ScorpionsContent';
 import { MiceContent } from './pests/MiceContent';
 import { CockroachesContent } from './pests/CockroachesContent';
@@ -25,7 +24,7 @@ import { EarwigsContent } from './pests/EarwigsContent';
 import { CommonHouseFlyContent } from './pests/CommonHouseFlyContent';
 import { LargeFliesContent } from './pests/LargeFliesContent';
 import { TicksContent } from './pests/TicksContent';
-import { Bug, Home, Shield, Flame, FileDown, Camera, MapPin, Search } from 'lucide-react';
+import { Bug, Home, Shield, Flame, FileDown, Camera, MapPin } from 'lucide-react';
 import { ContentType } from '../backend';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -38,7 +37,7 @@ export function EducationalContent() {
   // Determine active tab from hash
   const getActiveTab = (): string => {
     const hash = currentHash.replace('/', '').replace('#', '');
-    const validTabs = ['scanner', 'identify', 'habitats', 'prevention', 'treatment', 'guides', 'findLocalHelp', 'locationFinder'];
+    const validTabs = ['scanner', 'identify', 'habitats', 'prevention', 'treatment', 'guides', 'findLocalHelp'];
     return validTabs.includes(hash) ? hash : 'scanner';
   };
 
@@ -54,6 +53,23 @@ export function EducationalContent() {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     window.location.hash = `#${value}`;
+  };
+
+  // Map selected pest to ContentType and title
+  const getPestInfo = (): { contentType: ContentType; title: string } => {
+    switch (selectedPest) {
+      case 'bedbugs':
+        return { contentType: ContentType.bedBugs, title: 'Bed Bugs' };
+      case 'scorpions':
+        return { contentType: ContentType.scorpion, title: 'Scorpions' };
+      case 'mice':
+        return { contentType: ContentType.mouse, title: 'Mice' };
+      case 'cockroaches':
+        return { contentType: ContentType.cockroach, title: 'Cockroaches' };
+      default:
+        // Default to bed bugs for pests without backend ContentType
+        return { contentType: ContentType.bedBugs, title: 'Bed Bugs' };
+    }
   };
 
   const renderPestSelectionButtons = () => (
@@ -320,6 +336,8 @@ export function EducationalContent() {
     }
   };
 
+  const pestInfo = getPestInfo();
+
   return (
     <div className="container py-8">
       <div className="mx-auto max-w-5xl">
@@ -333,7 +351,7 @@ export function EducationalContent() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 gap-2 sm:grid-cols-8 h-auto p-1">
+          <TabsList className="grid w-full grid-cols-4 gap-2 sm:grid-cols-7 h-auto p-1">
             <TabsTrigger value="scanner" className="flex items-center gap-2 py-3">
               <Camera className="h-4 w-4" />
               <span className="hidden sm:inline">Scanner</span>
@@ -368,11 +386,6 @@ export function EducationalContent() {
               <MapPin className="h-4 w-4" />
               <span className="hidden sm:inline">Find Local Help</span>
               <span className="sm:hidden">Local</span>
-            </TabsTrigger>
-            <TabsTrigger value="locationFinder" className="flex items-center gap-2 py-3">
-              <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Location Finder</span>
-              <span className="sm:hidden">Find</span>
             </TabsTrigger>
           </TabsList>
 
@@ -437,15 +450,21 @@ export function EducationalContent() {
           </TabsContent>
 
           <TabsContent value="guides" className="mt-6">
-            <PrintableGuides contentType={ContentType.bedBugs} sectionTitle="Bed Bug Guides" />
+            <Card className="mb-6">
+              <CardContent className="pt-6">
+                <div className="mb-4 text-center">
+                  <h3 className="mb-2 text-xl font-semibold">Select a Pest</h3>
+                  <p className="text-sm text-muted-foreground">Choose which pest you want to learn about</p>
+                </div>
+                {renderPestSelectionButtons()}
+              </CardContent>
+            </Card>
+
+            <PrintableGuides contentType={pestInfo.contentType} sectionTitle={pestInfo.title} />
           </TabsContent>
 
           <TabsContent value="findLocalHelp" className="mt-6">
             <TechnicianFinder />
-          </TabsContent>
-
-          <TabsContent value="locationFinder" className="mt-6">
-            <LocationFinder />
           </TabsContent>
         </Tabs>
       </div>

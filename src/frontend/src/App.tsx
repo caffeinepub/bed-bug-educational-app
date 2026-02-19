@@ -3,6 +3,8 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { EducationalContent } from './components/EducationalContent';
 import { QrCodePage } from './components/QrCodePage';
+import { LocationFinder } from './components/LocationFinder';
+import { HomePage } from './components/HomePage';
 import { useHashRoute } from './hooks/useHashRoute';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
@@ -16,7 +18,7 @@ const queryClient = new QueryClient({
 });
 
 function AppContent() {
-  const { isRoute } = useHashRoute();
+  const { isRoute, currentHash } = useHashRoute();
 
   // Render QR Code page when hash is /qr (handles both #qr and #/qr)
   if (isRoute('/qr')) {
@@ -31,7 +33,37 @@ function AppContent() {
     );
   }
 
-  // Default main app content
+  // Render Location Finder page when hash is /location-finder
+  if (isRoute('/location-finder')) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          <div className="container py-8">
+            <div className="mx-auto max-w-5xl">
+              <LocationFinder />
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Render HomePage when hash is empty, /, or /home
+  if (isRoute('/') || isRoute('/home') || currentHash === '') {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">
+          <HomePage />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Default main app content (educational tabs)
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

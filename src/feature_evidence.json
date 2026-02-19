@@ -2,10 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-fix-the-overlapping-issue-between-the-find-local-pest-technicians-icon-and-the-headings-in-the-locationfinder-component-by-adding-proper-spacing-or-layout-adjustments",
-      "featureTitle": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
+      "featureId": "feature-create-a-new-home-page-component-that-serves-as-the-landing-page-for-the-application-with-a-welcoming-introduction-to-the-bed-bug-educational-app",
+      "featureTitle": "Create a new home page component that serves as the landing page for the application with a welcoming introduction to the bed bug educational app",
       "files": [
-        "frontend/src/components/LocationFinder.tsx"
+        "frontend/src/App.tsx",
+        "frontend/src/components/HomePage.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -19,6 +20,70 @@
       ],
       "testIds": [
         "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-navigation-icons-on-the-home-page-representing-each-main-section-of-the-app-scanner-identify-habitats-prevention-treatment-guides-find-local-help-with-clear-visual-indicators-of-where-to-start",
+      "featureTitle": "Add navigation icons on the home page representing each main section of the app (scanner, identify, habitats, prevention, treatment, guides, find local help) with clear visual indicators of where to start",
+      "files": [
+        "frontend/src/components/HomePage.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-smooth-scroll-behavior-when-clicking-navigation-icons-on-the-home-page-to-scroll-to-the-corresponding-section",
+      "featureTitle": "Implement smooth scroll behavior when clicking navigation icons on the home page to scroll to the corresponding section",
+      "files": [
+        "frontend/src/components/HomePage.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-persistent-home-button-icon-in-the-header-or-navigation-that-allows-users-to-return-to-the-home-page-from-any-section",
+      "featureTitle": "Add a persistent home button icon in the header or navigation that allows users to return to the home page from any section",
+      "files": [
+        "frontend/src/components/Header.tsx"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
       ],
       "confidence": "high"
     }

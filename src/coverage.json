@@ -1,24 +1,61 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-19T17:25:18.221Z",
+  "generatedAt": "2026-02-19T21:52:35.364Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
+        "summary": "Create a new home page component that serves as the landing page for the application with a welcoming introduction to the bed bug educational app",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/LocationFinder.tsx"
+          "frontend/src/components/HomePage.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/LocationFinder.tsx"
+          "frontend/src/components/HomePage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Add navigation icons on the home page representing each main section of the app (scanner, identify, habitats, prevention, treatment, guides, find local help) with clear visual indicators of where to start",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Implement smooth scroll behavior when clicking navigation icons on the home page to scroll to the corresponding section",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/HomePage.tsx",
+          "frontend/src/index.css"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/HomePage.tsx",
+          "frontend/src/index.css"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Add a persistent home button icon in the header or navigation that allows users to return to the home page from any section",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/Header.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/Header.tsx"
         ]
       }
     ]
@@ -28,8 +65,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/LocationFinder.tsx",
-    "frontend/src/components/TechnicianFinder.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/components/Header.tsx",
+    "frontend/src/components/HomePage.tsx",
+    "frontend/src/index.css",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -135,6 +135,19 @@ export function TreatmentSection() {
         </Alert>
       )}
 
+      <Alert variant="destructive">
+        <AlertTriangle className="h-5 w-5" />
+        <AlertTitle className="text-base font-semibold">Warning: Do Not Use Bed Bug Bombs or Store-Bought Chemicals</AlertTitle>
+        <AlertDescription className="text-sm space-y-2 mt-2">
+          <p>
+            <strong>Bed bug bombs and store-bought household chemicals do not work.</strong> These products only make bed bugs more resistant to chemicals and can spread the infestation to other areas of your home as bed bugs flee from the spray.
+          </p>
+          <p>
+            <strong>Recommended Alternative:</strong> Use diatomaceous earth (food-grade) as a safer, more effective option. Apply it sparingly in cracks, crevices, and along baseboards where bed bugs travel. Use a powder puffer sprayer or sprinkle it lightly in targeted areas. Diatomaceous earth works by damaging the bed bugs' protective outer coating, causing them to dehydrate.
+          </p>
+        </AlertDescription>
+      </Alert>
+
       <Alert className="border-primary/50 bg-primary/5">
         <Flame className="h-4 w-4 text-primary" />
         <AlertDescription className="text-sm">

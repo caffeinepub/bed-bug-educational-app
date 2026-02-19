@@ -14,7 +14,6 @@ export function useNextRoute() {
       'treatment',
       'guides',
       'findLocalHelp',
-      'locationFinder',
     ];
 
     const currentIndex = routeOrder.indexOf(hash);

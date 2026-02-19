@@ -1,52 +1,31 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Google Maps location finder for pest technicians",
+  "title": "Remove find local help navigation icon",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Add Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+      "summary": "Remove the bottom-right circular navigation button while preserving main tab navigation and hash-based routing",
       "acceptanceCriteria": [
-        "Map displays all technicians from search results with markers at their locations",
-        "Map is visible alongside or within the technician search results",
-        "Clicking a map marker shows the technician's details"
+        "The circular navigation button with maximum z-index is no longer visible on any page",
+        "The BottomNavigationIcon component is removed or disabled",
+        "Users can still navigate between tabs using the standard tab navigation in EducationalContent"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/TechnicianMap.tsx",
-          "operation": "create",
-          "description": "Create a new component that renders a Google Maps interface using the @react-google-maps/api library. This component accepts an array of technicians with latitude/longitude coordinates and displays map markers for each technician location. Implement marker click handlers to show technician details in an info window. Include proper error handling for map loading failures and missing coordinates. The component should be responsive and integrate with the existing UI design system."
-        },
-        {
-          "path": "frontend/src/components/TechnicianFinder.tsx",
+          "path": "frontend/src/App.tsx",
           "operation": "modify",
-          "description": "Integrate the TechnicianMap component into the search results view. Add a toggle state to switch between list view and map view. Display the map when technicians are found and have valid GPS coordinates. Ensure the map receives the filtered technician results from the search query. Maintain existing zip code validation and search functionality while adding the map display option."
+          "description": "Remove the BottomNavigationIcon component import and its usage from the App component. The component currently renders conditionally when not on the QR code page. Keep all other functionality including Header, Footer, EducationalContent, ErrorBoundary, and QueryClientProvider intact."
         },
         {
-          "path": "frontend/src/hooks/useGoogleMaps.ts",
-          "operation": "create",
-          "description": "Create a custom hook that manages Google Maps API loading state using the @react-google-maps/api useLoadScript hook. Handle API key configuration, loading errors, and provide a clean interface for components to check if the Maps API is ready. Include error states for missing API keys or loading failures."
+          "path": "frontend/src/components/BottomNavigationIcon.tsx",
+          "operation": "delete",
+          "description": "Delete the BottomNavigationIcon component file as it is no longer needed. This component currently provides a fixed bottom-right circular navigation button with z-index 9999 that uses the useNextRoute hook for navigation."
         },
         {
-          "path": "frontend/src/utils/mapConfig.ts",
-          "operation": "create",
-          "description": "Create a configuration file for Google Maps settings including default map center, zoom levels, marker styles, and map options. Export constants for map dimensions, marker icons, and info window styling to maintain consistency across map components."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
-      "acceptanceCriteria": [
-        "Icon button is clearly visible and accessible",
-        "Clicking the icon shows/hides the map view",
-        "Icon uses an appropriate map or location symbol"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/TechnicianFinder.tsx",
+          "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Add a map toggle button to the TechnicianFinder component UI using a Map icon from lucide-react. Position the button prominently near the search input or results header. Implement toggle functionality to switch between list and map views. Style the button to match existing UI patterns and ensure it's disabled when no technicians are found or when technicians lack GPS coordinates. Show appropriate visual feedback for the active view state."
+          "description": "Remove any CSS utility classes or styles related to bottom navigation visibility if they exist. Based on the file summary, there are utility classes for 'bottom navigation visibility' that should be cleaned up since the navigation icon is being removed."
         }
       ]
     }

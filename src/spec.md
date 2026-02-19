@@ -1,12 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Add Google Maps integration to display pest control technician locations on an interactive map.
+**Goal:** Remove the bottom navigation icon from the application interface.
 
 **Planned changes:**
-- Add Google Maps integration to display technician locations with interactive markers in search results
-- Add latitude and longitude fields to the Technician type in the backend to store GPS coordinates
-- Create a backend migration to add default GPS coordinates to existing technician records
-- Add a map icon button in the navigation that toggles the map view on/off
+- Remove or disable the BottomNavigationIcon component that appears in the bottom-right corner
+- Ensure the circular navigation button with high z-index is no longer rendered
 
-**User-visible outcome:** Users can view pest control technicians on an interactive Google Maps interface by clicking a map icon, with markers showing each technician's location. Clicking markers displays technician details.
+**User-visible outcome:** Users will no longer see the floating navigation icon in the bottom-right corner, but can still navigate between tabs using the standard tab navigation.

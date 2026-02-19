@@ -3,7 +3,6 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { EducationalContent } from './components/EducationalContent';
 import { QrCodePage } from './components/QrCodePage';
-import { BottomNavigationIcon } from './components/BottomNavigationIcon';
 import { useHashRoute } from './hooks/useHashRoute';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
@@ -32,9 +31,7 @@ function AppContent() {
     );
   }
 
-  // Default main app content with bottom navigation
-  // BottomNavigationIcon is rendered outside the main content container
-  // to ensure it's visible on all routes and not constrained by any parent
+  // Default main app content
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -42,8 +39,6 @@ function AppContent() {
         <EducationalContent />
       </main>
       <Footer />
-      {/* Bottom navigation icon renders on all non-QR pages */}
-      <BottomNavigationIcon />
     </div>
   );
 }

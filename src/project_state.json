@@ -1,24 +1,16 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Pest technician application with GPS location and mapping features",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-add-a-google-maps-integration-to-display-technician-locations-on-an-interactive-map-when-viewing-search-results-in-technicianfinder-tsx",
-      "title": "Add a Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+      "id": "feature-remove-the-bottom-navigation-icon-that-appears-in-the-bottom-right-corner-of-the-screen",
+      "title": "Remove the bottom navigation icon that appears in the bottom-right corner of the screen",
       "reqIds": [
         "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-map-icon-button-in-the-bottom-navigation-or-header-that-toggles-the-google-maps-view-for-technician-locations",
-      "title": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -26,29 +18,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add Google Maps GPS location finder with icon for pest technicians",
+      "summary": "Remove the find local help icon",
       "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Add latitude and longitude fields to the Technician type in backend/main.mo to support GPS coordinates for map display",
-      "reqIds": [
-        "REQ-2"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Create a migration in backend/migration.mo to add default GPS coordinates to existing Technician records",
-      "reqIds": [
-        "REQ-3"
-      ],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Pest Control Finder",
+  "projectName": "Remove find local help navigation icon",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

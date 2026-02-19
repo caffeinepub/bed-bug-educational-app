@@ -1,89 +1,31 @@
 {
   "kind": "build_request",
-  "title": "Add Google Maps location finder for pest technicians",
-  "projectName": "Pest Control Finder",
+  "title": "Remove find local help navigation icon",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Add a Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+      "text": "Remove the bottom navigation icon that appears in the bottom-right corner of the screen",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user"
-        ],
-        "quotes": [
-          "install google maps location gps finder for pest technicians"
+          "msg-user-delete-icon"
         ]
       },
       "acceptanceCriteria": [
-        "Map displays all technicians from search results with markers at their locations",
-        "Map is visible alongside or within the technician search results",
-        "Clicking a map marker shows the technician's details"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Add latitude and longitude fields to the Technician type in backend/main.mo to support GPS coordinates for map display",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user"
-        ],
-        "quotes": [
-          "install google maps location gps finder for pest technicians"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Technician type includes optional lat and lon fields as Float values",
-        "Existing technician records can be queried without errors",
-        "New technicians can be created with GPS coordinates"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Create a migration in backend/migration.mo to add default GPS coordinates to existing Technician records",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Migration adds lat and lon fields to all existing technician records",
-        "Default coordinates are set based on zip code or state if possible",
-        "Migration runs without data loss"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user"
-        ],
-        "quotes": [
-          "make it a icon"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Icon button is clearly visible and accessible",
-        "Clicking the icon shows/hides the map view",
-        "Icon uses an appropriate map or location symbol"
+        "The circular navigation button with maximum z-index is no longer visible on any page",
+        "The BottomNavigationIcon component is removed or disabled",
+        "Users can still navigate between tabs using the standard tab navigation in EducationalContent"
       ]
     }
   ],
   "constraints": [
-    "Use the existing single-actor architecture in backend/main.mo",
-    "Do not modify immutable frontend paths: useInternetIdentity.ts, useActor.ts, main.tsx, or components/ui/*",
-    "Maintain existing technician search functionality while adding map features"
+    "Do not modify the main tab navigation system in EducationalContent.tsx",
+    "Preserve all other navigation functionality including hash-based routing"
   ],
   "nonGoals": [
-    "Real-time GPS tracking of technicians",
-    "Turn-by-turn navigation to technician locations",
-    "Mobile native GPS features",
-    "Third-party geolocation APIs beyond Google Maps display"
+    "Removing the 'Find Local Help' tab itself from the main navigation",
+    "Removing the TechnicianFinder component or its functionality"
   ],
   "imageRequirements": {
     "required": [],

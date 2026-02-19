@@ -45,6 +45,15 @@ export interface Technician {
   'specialties' : string,
   'phoneNumber' : string,
 }
+export interface TransformationInput {
+  'context' : Uint8Array,
+  'response' : http_request_result,
+}
+export interface TransformationOutput {
+  'status' : bigint,
+  'body' : Uint8Array,
+  'headers' : Array<http_header>,
+}
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -55,6 +64,12 @@ export interface _CaffeineStorageRefillInformation {
 export interface _CaffeineStorageRefillResult {
   'success' : [] | [boolean],
   'topped_up_amount' : [] | [bigint],
+}
+export interface http_header { 'value' : string, 'name' : string }
+export interface http_request_result {
+  'status' : bigint,
+  'body' : Uint8Array,
+  'headers' : Array<http_header>,
 }
 export interface _SERVICE {
   '_caffeineStorageBlobIsLive' : ActorMethod<[Uint8Array], boolean>,
@@ -88,6 +103,7 @@ export interface _SERVICE {
     ],
     undefined
   >,
+  'fetchZipCodeBoundary' : ActorMethod<[bigint, string], string>,
   'getAllGuides' : ActorMethod<[], Array<PrintableGuide>>,
   'getAllSections' : ActorMethod<[], Array<ContentSection>>,
   'getGuide' : ActorMethod<[string], [] | [PrintableGuide]>,
@@ -98,6 +114,7 @@ export interface _SERVICE {
     Array<ContentSection>
   >,
   'getTechniciansByZip' : ActorMethod<[bigint], Array<Technician>>,
+  'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

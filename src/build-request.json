@@ -1,31 +1,35 @@
 {
   "kind": "build_request",
-  "title": "Remove find local help navigation icon",
+  "title": "Fix overlap between 'Find local pest technicians' icon and headings",
+  "projectName": "Bed Bug Educational App",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Remove the bottom navigation icon that appears in the bottom-right corner of the screen",
+      "text": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-delete-icon"
+          "msg-5"
+        ],
+        "quotes": [
+          "they are still over lapping each other the find local pest technicians icon and them"
         ]
       },
       "acceptanceCriteria": [
-        "The circular navigation button with maximum z-index is no longer visible on any page",
-        "The BottomNavigationIcon component is removed or disabled",
-        "Users can still navigate between tabs using the standard tab navigation in EducationalContent"
+        "The 'Find local pest technicians' icon does not overlap with any headings",
+        "All text remains fully readable without obstruction",
+        "The layout maintains proper visual hierarchy and spacing"
       ]
     }
   ],
   "constraints": [
-    "Do not modify the main tab navigation system in EducationalContent.tsx",
-    "Preserve all other navigation functionality including hash-based routing"
+    "Do not modify the LocationFinder component's core map functionality",
+    "Maintain the existing UI component structure from shadcn/ui"
   ],
   "nonGoals": [
-    "Removing the 'Find Local Help' tab itself from the main navigation",
-    "Removing the TechnicianFinder component or its functionality"
+    "Redesigning the entire LocationFinder layout",
+    "Changing the functionality of the technician search feature"
   ],
   "imageRequirements": {
     "required": [],

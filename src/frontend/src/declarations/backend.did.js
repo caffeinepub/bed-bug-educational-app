@@ -56,6 +56,24 @@ export const Technician = IDL.Record({
   'specialties' : IDL.Text,
   'phoneNumber' : IDL.Text,
 });
+export const http_header = IDL.Record({
+  'value' : IDL.Text,
+  'name' : IDL.Text,
+});
+export const http_request_result = IDL.Record({
+  'status' : IDL.Nat,
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(http_header),
+});
+export const TransformationInput = IDL.Record({
+  'context' : IDL.Vec(IDL.Nat8),
+  'response' : http_request_result,
+});
+export const TransformationOutput = IDL.Record({
+  'status' : IDL.Nat,
+  'body' : IDL.Vec(IDL.Nat8),
+  'headers' : IDL.Vec(http_header),
+});
 
 export const idlService = IDL.Service({
   '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -101,6 +119,7 @@ export const idlService = IDL.Service({
       [],
       [],
     ),
+  'fetchZipCodeBoundary' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Text], []),
   'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
   'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
   'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
@@ -116,6 +135,11 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'getTechniciansByZip' : IDL.Func([IDL.Nat], [IDL.Vec(Technician)], ['query']),
+  'transform' : IDL.Func(
+      [TransformationInput],
+      [TransformationOutput],
+      ['query'],
+    ),
 });
 
 export const idlInitArgs = [];
@@ -169,6 +193,21 @@ export const idlFactory = ({ IDL }) => {
     'specialties' : IDL.Text,
     'phoneNumber' : IDL.Text,
   });
+  const http_header = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
+  const http_request_result = IDL.Record({
+    'status' : IDL.Nat,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(http_header),
+  });
+  const TransformationInput = IDL.Record({
+    'context' : IDL.Vec(IDL.Nat8),
+    'response' : http_request_result,
+  });
+  const TransformationOutput = IDL.Record({
+    'status' : IDL.Nat,
+    'body' : IDL.Vec(IDL.Nat8),
+    'headers' : IDL.Vec(http_header),
+  });
   
   return IDL.Service({
     '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -214,6 +253,7 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'fetchZipCodeBoundary' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Text], []),
     'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
     'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
     'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
@@ -231,6 +271,11 @@ export const idlFactory = ({ IDL }) => {
     'getTechniciansByZip' : IDL.Func(
         [IDL.Nat],
         [IDL.Vec(Technician)],
+        ['query'],
+      ),
+    'transform' : IDL.Func(
+        [TransformationInput],
+        [TransformationOutput],
         ['query'],
       ),
   });

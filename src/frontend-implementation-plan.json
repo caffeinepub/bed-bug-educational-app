@@ -1,31 +1,21 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Remove find local help navigation icon",
+  "title": "Fix overlap between 'Find local pest technicians' icon and headings",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Remove the bottom-right circular navigation button while preserving main tab navigation and hash-based routing",
+      "summary": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
       "acceptanceCriteria": [
-        "The circular navigation button with maximum z-index is no longer visible on any page",
-        "The BottomNavigationIcon component is removed or disabled",
-        "Users can still navigate between tabs using the standard tab navigation in EducationalContent"
+        "The 'Find local pest technicians' icon does not overlap with any headings",
+        "All text remains fully readable without obstruction",
+        "The layout maintains proper visual hierarchy and spacing"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/components/LocationFinder.tsx",
           "operation": "modify",
-          "description": "Remove the BottomNavigationIcon component import and its usage from the App component. The component currently renders conditionally when not on the QR code page. Keep all other functionality including Header, Footer, EducationalContent, ErrorBoundary, and QueryClientProvider intact."
-        },
-        {
-          "path": "frontend/src/components/BottomNavigationIcon.tsx",
-          "operation": "delete",
-          "description": "Delete the BottomNavigationIcon component file as it is no longer needed. This component currently provides a fixed bottom-right circular navigation button with z-index 9999 that uses the useNextRoute hook for navigation."
-        },
-        {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Remove any CSS utility classes or styles related to bottom navigation visibility if they exist. Based on the file summary, there are utility classes for 'bottom navigation visibility' that should be cleaned up since the navigation icon is being removed."
+          "description": "Adjust the layout spacing and positioning in the LocationFinder component to prevent overlap between the 'Find local pest technicians' icon and headings. Add appropriate margins, padding, or flexbox gap properties to ensure proper visual separation. Maintain the existing map functionality and shadcn/ui component structure while fixing the layout issue."
         }
       ]
     }

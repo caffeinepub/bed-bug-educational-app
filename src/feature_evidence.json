@@ -2,12 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-remove-the-bottom-navigation-icon-that-appears-in-the-bottom-right-corner-of-the-screen",
-      "featureTitle": "Remove the bottom navigation icon that appears in the bottom-right corner of the screen",
+      "featureId": "feature-fix-the-overlapping-issue-between-the-find-local-pest-technicians-icon-and-the-headings-in-the-locationfinder-component-by-adding-proper-spacing-or-layout-adjustments",
+      "featureTitle": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/BottomNavigationIcon.tsx",
-        "frontend/src/index.css"
+        "frontend/src/components/LocationFinder.tsx"
       ],
       "components": [
         "blob-storage@4.0.0",
@@ -16,7 +14,8 @@
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
         "github-export-icp-cli@1.0.0",
-        "camera@1.0.0"
+        "camera@1.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
         "REQ-1"

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { MapPin, Phone, Briefcase, Search, AlertCircle, Map as MapIcon } from 'lucide-react';
-import { useTechniciansByZip } from '../hooks/useQueries';
+import { useTechniciansByZip, useZipCodeBoundary } from '../hooks/useQueries';
 import { TechnicianMap } from './TechnicianMap';
 
 export function TechnicianFinder() {
@@ -13,8 +13,27 @@ export function TechnicianFinder() {
   const [searchZip, setSearchZip] = useState<bigint | null>(null);
   const [validationError, setValidationError] = useState('');
   const [showMap, setShowMap] = useState(false);
+  const [stateAbbr, setStateAbbr] = useState<string | null>(null);
 
   const { data: technicians, isLoading, error } = useTechniciansByZip(searchZip);
+  const { 
+    data: boundaryCoordinates, 
+    isLoading: isBoundaryLoading,
+    error: boundaryError 
+  } = useZipCodeBoundary(searchZip, stateAbbr);
+
+  // Extract state abbreviation from technician results
+  useEffect(() => {
+    if (technicians && technicians.length > 0) {
+      const firstTechState = technicians[0].state;
+      if (firstTechState && firstTechState !== 'unknown' && firstTechState !== 'Unknown') {
+        console.log('Setting state abbreviation from technician data:', firstTechState);
+        setStateAbbr(firstTechState);
+      } else {
+        console.warn('No valid state found in technician data');
+      }
+    }
+  }, [technicians]);
 
   const handleSearch = () => {
     // Validate zip code format (5-digit US zip code)
@@ -22,11 +41,13 @@ export function TechnicianFinder() {
     if (!zipPattern.test(zipCode)) {
       setValidationError('Please enter a valid 5-digit zip code');
       setSearchZip(null);
+      setStateAbbr(null);
       return;
     }
 
     setValidationError('');
     setSearchZip(BigInt(zipCode));
+    setStateAbbr(null); // Reset state, will be set from technician results
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -67,9 +88,9 @@ export function TechnicianFinder() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <MapPin className="h-5 w-5" />
-            Find Local Pest Control Technicians
+          <CardTitle className="flex items-center gap-3">
+            <MapPin className="h-5 w-5 flex-shrink-0" />
+            <span>Find Local Pest Control Technicians</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -162,20 +183,25 @@ export function TechnicianFinder() {
           </div>
 
           {showMap && hasValidCoordinates ? (
-            <TechnicianMap technicians={techniciansWithCoordinates} />
+            <TechnicianMap 
+              technicians={techniciansWithCoordinates} 
+              boundaryCoordinates={boundaryCoordinates}
+              isBoundaryLoading={isBoundaryLoading}
+              boundaryError={!!boundaryError}
+            />
           ) : (
             <>
               {technicians.map((tech) => (
                 <Card key={tech.id}>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Briefcase className="h-5 w-5" />
-                      {tech.businessName}
+                    <CardTitle className="flex items-center gap-3">
+                      <Briefcase className="h-5 w-5 flex-shrink-0" />
+                      <span>{tech.businessName}</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                      <Phone className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <div>
                         <p className="text-sm font-medium">Phone</p>
                         <a
@@ -188,7 +214,7 @@ export function TechnicianFinder() {
                     </div>
 
                     <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                      <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
                       <div>
                         <p className="text-sm font-medium">Location</p>
                         <p className="text-sm text-muted-foreground">{tech.address}</p>
@@ -200,7 +226,7 @@ export function TechnicianFinder() {
 
                     {tech.specialties && (
                       <div className="flex items-start gap-2">
-                        <Briefcase className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                        <Briefcase className="mt-0.5 h-4 w-4 text-muted-foreground flex-shrink-0" />
                         <div>
                           <p className="text-sm font-medium">Specialties</p>
                           <p className="text-sm text-muted-foreground">{tech.specialties}</p>

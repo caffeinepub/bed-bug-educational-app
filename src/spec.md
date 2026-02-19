@@ -1,10 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Remove the bottom navigation icon from the application interface.
+**Goal:** Fix the overlapping issue between the 'Find local pest technicians' icon and headings in the LocationFinder component.
 
 **Planned changes:**
-- Remove or disable the BottomNavigationIcon component that appears in the bottom-right corner
-- Ensure the circular navigation button with high z-index is no longer rendered
+- Add proper spacing or layout adjustments to prevent the icon from overlapping with headings
+- Ensure all text remains fully readable without obstruction
+- Maintain proper visual hierarchy and spacing
 
-**User-visible outcome:** Users will no longer see the floating navigation icon in the bottom-right corner, but can still navigate between tabs using the standard tab navigation.
+**User-visible outcome:** Users can view the LocationFinder component with properly spaced elements where the 'Find local pest technicians' icon no longer overlaps with any headings.

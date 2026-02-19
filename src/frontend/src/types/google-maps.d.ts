@@ -25,6 +25,13 @@ declare namespace google {
       setContent(content: string | HTMLElement): void;
     }
 
+    class Polygon {
+      constructor(opts?: PolygonOptions);
+      setMap(map: Map | null): void;
+      getPaths(): any;
+      getPath(): any;
+    }
+
     class LatLng {
       constructor(lat: number, lng: number);
       lat(): number;
@@ -56,6 +63,22 @@ declare namespace google {
       content?: string | HTMLElement;
     }
 
+    interface PolygonOptions {
+      paths?: LatLng[] | LatLngLiteral[] | LatLng[][] | LatLngLiteral[][];
+      strokeColor?: string;
+      strokeOpacity?: number;
+      strokeWeight?: number;
+      fillColor?: string;
+      fillOpacity?: number;
+      map?: Map | null;
+      clickable?: boolean;
+      draggable?: boolean;
+      editable?: boolean;
+      geodesic?: boolean;
+      visible?: boolean;
+      zIndex?: number;
+    }
+
     interface LatLngLiteral {
       lat: number;
       lng: number;
@@ -71,6 +94,81 @@ declare namespace google {
     enum Animation {
       BOUNCE = 1,
       DROP = 2,
+    }
+
+    namespace places {
+      class AutocompleteService {
+        constructor();
+        getPlacePredictions(
+          request: AutocompletionRequest,
+          callback: (
+            predictions: AutocompletePrediction[] | null,
+            status: PlacesServiceStatus
+          ) => void
+        ): void;
+      }
+
+      class PlacesService {
+        constructor(attrContainer: HTMLDivElement | Map);
+        getDetails(
+          request: PlaceDetailsRequest,
+          callback: (
+            place: PlaceResult | null,
+            status: PlacesServiceStatus
+          ) => void
+        ): void;
+      }
+
+      interface AutocompletionRequest {
+        input: string;
+        types?: string[];
+        bounds?: LatLngBounds | LatLngBoundsLiteral;
+        componentRestrictions?: ComponentRestrictions;
+        location?: LatLng | LatLngLiteral;
+        offset?: number;
+        radius?: number;
+      }
+
+      interface AutocompletePrediction {
+        description: string;
+        place_id: string;
+        structured_formatting?: {
+          main_text: string;
+          secondary_text: string;
+        };
+        terms?: Array<{ offset: number; value: string }>;
+        types?: string[];
+      }
+
+      interface PlaceDetailsRequest {
+        placeId: string;
+        fields?: string[];
+      }
+
+      interface PlaceResult {
+        name?: string;
+        formatted_address?: string;
+        geometry?: {
+          location: LatLng;
+          viewport?: LatLngBounds;
+        };
+        place_id?: string;
+        types?: string[];
+      }
+
+      interface ComponentRestrictions {
+        country?: string | string[];
+      }
+
+      enum PlacesServiceStatus {
+        OK = 'OK',
+        ZERO_RESULTS = 'ZERO_RESULTS',
+        INVALID_REQUEST = 'INVALID_REQUEST',
+        OVER_QUERY_LIMIT = 'OVER_QUERY_LIMIT',
+        REQUEST_DENIED = 'REQUEST_DENIED',
+        UNKNOWN_ERROR = 'UNKNOWN_ERROR',
+        NOT_FOUND = 'NOT_FOUND',
+      }
     }
   }
 }

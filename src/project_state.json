@@ -3,27 +3,22 @@
   "projectStateVersion": 3,
   "summary": "New project",
   "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Headings and 'Find local pest technicians' icon are overlapping and need spacing adjustment"
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-remove-the-bottom-navigation-icon-that-appears-in-the-bottom-right-corner-of-the-screen",
-      "title": "Remove the bottom navigation icon that appears in the bottom-right corner of the screen",
+      "id": "feature-fix-the-overlapping-issue-between-the-find-local-pest-technicians-icon-and-the-headings-in-the-locationfinder-component-by-adding-proper-spacing-or-layout-adjustments",
+      "title": "Fix the overlapping issue between the 'Find local pest technicians' icon and the headings in the LocationFinder component by adding proper spacing or layout adjustments",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Remove the find local help icon",
-      "reqIds": [],
-      "status": "pending"
-    }
-  ],
-  "projectName": "Remove find local help navigation icon",
+  "new_feature_requests": [],
+  "projectName": "Bed Bug Educational App",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

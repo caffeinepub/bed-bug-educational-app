@@ -3,9 +3,11 @@ import Array "mo:core/Array";
 import Text "mo:core/Text";
 import Iter "mo:core/Iter";
 import Nat "mo:core/Nat";
+
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
-
+import Outcall "http-outcalls/outcall";
+import Runtime "mo:core/Runtime";
 
 
 actor {
@@ -19,6 +21,17 @@ actor {
     #cockroach;
     #hornetWasp;
     #mosquito;
+  };
+
+  type BoundaryCoordinate = {
+    latitude : Float;
+    longitude : Float;
+  };
+
+  type ZipBoundaryResponse = {
+    zipCode : Text;
+    stateAbbr : Text;
+    boundaryCoordinates : [BoundaryCoordinate];
   };
 
   let contentSections = Map.empty<Text, ContentSection>();
@@ -116,5 +129,22 @@ actor {
         tech.serviceArea.find(func(zip) { zip == zipCode }) != null;
       }
     );
+  };
+
+  // This function calls a cloud function that gets boundary coordinates for a given zip code
+  public query ({ caller }) func transform(input : Outcall.TransformationInput) : async Outcall.TransformationOutput {
+    Outcall.transform(input);
+  };
+
+  public shared ({ caller }) func fetchZipCodeBoundary(zipCode : Nat, stateAbbr : Text) : async Text {
+    let url = "https://us-central1-zip-zone-classifier.cloudfunctions.net/getBoundaryCoordinates?zip=" # zipCode.toText() # "&state=" # stateAbbr;
+
+    let response = await Outcall.httpGetRequest(url, [], transform);
+
+    if (response == "null" or response.size() == 0) {
+      Runtime.trap("No boundary data returned for zip code " # zipCode.toText());
+    };
+
+    response;
   };
 };

@@ -14,19 +14,9 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
-export interface ContentSection {
-    id: string;
-    title: string;
-    content: string;
-    contentType: ContentType;
-    images: Array<ExternalBlob>;
-}
-export interface PrintableGuide {
-    id: string;
-    title: string;
-    content: string;
-    contentType: ContentType;
-    file: ExternalBlob;
+export interface http_header {
+    value: string;
+    name: string;
 }
 export interface Technician {
     id: string;
@@ -41,6 +31,34 @@ export interface Technician {
     specialties: string;
     phoneNumber: string;
 }
+export interface TransformationOutput {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
+export interface ContentSection {
+    id: string;
+    title: string;
+    content: string;
+    contentType: ContentType;
+    images: Array<ExternalBlob>;
+}
+export interface PrintableGuide {
+    id: string;
+    title: string;
+    content: string;
+    contentType: ContentType;
+    file: ExternalBlob;
+}
+export interface TransformationInput {
+    context: Uint8Array;
+    response: http_request_result;
+}
+export interface http_request_result {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
 export enum ContentType {
     mouse = "mouse",
     bedBugs = "bedBugs",
@@ -52,6 +70,7 @@ export enum ContentType {
 }
 export interface backendInterface {
     addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string, latitude: number, longitude: number): Promise<void>;
+    fetchZipCodeBoundary(zipCode: bigint, stateAbbr: string): Promise<string>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;
@@ -59,4 +78,5 @@ export interface backendInterface {
     getSection(id: string): Promise<ContentSection | null>;
     getSectionsByContentType(contentType: ContentType): Promise<Array<ContentSection>>;
     getTechniciansByZip(zipCode: bigint): Promise<Array<Technician>>;
+    transform(input: TransformationInput): Promise<TransformationOutput>;
 }

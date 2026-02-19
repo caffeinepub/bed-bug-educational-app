@@ -89,6 +89,28 @@ export class ExternalBlob {
         return this;
     }
 }
+export interface http_header {
+    value: string;
+    name: string;
+}
+export interface Technician {
+    id: string;
+    serviceArea: Array<bigint>;
+    latitude: number;
+    city: string;
+    businessName: string;
+    zipCode: bigint;
+    state: string;
+    longitude: number;
+    address: string;
+    specialties: string;
+    phoneNumber: string;
+}
+export interface TransformationOutput {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
+}
 export interface ContentSection {
     id: string;
     title: string;
@@ -106,26 +128,22 @@ export interface PrintableGuide {
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
 }
+export interface TransformationInput {
+    context: Uint8Array;
+    response: http_request_result;
+}
 export interface _CaffeineStorageCreateCertificateResult {
     method: string;
     blob_hash: string;
 }
-export interface Technician {
-    id: string;
-    serviceArea: Array<bigint>;
-    latitude: number;
-    city: string;
-    businessName: string;
-    zipCode: bigint;
-    state: string;
-    longitude: number;
-    address: string;
-    specialties: string;
-    phoneNumber: string;
-}
 export interface _CaffeineStorageRefillResult {
     success?: boolean;
     topped_up_amount?: bigint;
+}
+export interface http_request_result {
+    status: bigint;
+    body: Uint8Array;
+    headers: Array<http_header>;
 }
 export enum ContentType {
     mouse = "mouse",
@@ -144,6 +162,7 @@ export interface backendInterface {
     _caffeineStorageRefillCashier(refillInformation: _CaffeineStorageRefillInformation | null): Promise<_CaffeineStorageRefillResult>;
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string, latitude: number, longitude: number): Promise<void>;
+    fetchZipCodeBoundary(zipCode: bigint, stateAbbr: string): Promise<string>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;
@@ -151,6 +170,7 @@ export interface backendInterface {
     getSection(id: string): Promise<ContentSection | null>;
     getSectionsByContentType(contentType: ContentType): Promise<Array<ContentSection>>;
     getTechniciansByZip(zipCode: bigint): Promise<Array<Technician>>;
+    transform(input: TransformationInput): Promise<TransformationOutput>;
 }
 import type { ContentSection as _ContentSection, ContentType as _ContentType, ExternalBlob as _ExternalBlob, PrintableGuide as _PrintableGuide, _CaffeineStorageRefillInformation as __CaffeineStorageRefillInformation, _CaffeineStorageRefillResult as __CaffeineStorageRefillResult } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
@@ -253,6 +273,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async fetchZipCodeBoundary(arg0: bigint, arg1: string): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.fetchZipCodeBoundary(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.fetchZipCodeBoundary(arg0, arg1);
+            return result;
+        }
+    }
     async getAllGuides(): Promise<Array<PrintableGuide>> {
         if (this.processError) {
             try {
@@ -348,6 +382,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.getTechniciansByZip(arg0);
+            return result;
+        }
+    }
+    async transform(arg0: TransformationInput): Promise<TransformationOutput> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.transform(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.transform(arg0);
             return result;
         }
     }

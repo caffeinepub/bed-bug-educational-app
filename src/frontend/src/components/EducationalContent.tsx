@@ -7,6 +7,7 @@ import { TreatmentSection } from './sections/TreatmentSection';
 import { PrintableGuides } from './PrintableGuides';
 import { PhotoScanner } from './PhotoScanner';
 import { TechnicianFinder } from './TechnicianFinder';
+import { LocationFinder } from './LocationFinder';
 import { ScorpionsContent } from './pests/ScorpionsContent';
 import { MiceContent } from './pests/MiceContent';
 import { CockroachesContent } from './pests/CockroachesContent';
@@ -24,7 +25,7 @@ import { EarwigsContent } from './pests/EarwigsContent';
 import { CommonHouseFlyContent } from './pests/CommonHouseFlyContent';
 import { LargeFliesContent } from './pests/LargeFliesContent';
 import { TicksContent } from './pests/TicksContent';
-import { Bug, Home, Shield, Flame, FileDown, Camera, MapPin } from 'lucide-react';
+import { Bug, Home, Shield, Flame, FileDown, Camera, MapPin, Search } from 'lucide-react';
 import { ContentType } from '../backend';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -37,7 +38,7 @@ export function EducationalContent() {
   // Determine active tab from hash
   const getActiveTab = (): string => {
     const hash = currentHash.replace('/', '').replace('#', '');
-    const validTabs = ['scanner', 'identify', 'habitats', 'prevention', 'treatment', 'guides', 'findLocalHelp'];
+    const validTabs = ['scanner', 'identify', 'habitats', 'prevention', 'treatment', 'guides', 'findLocalHelp', 'locationFinder'];
     return validTabs.includes(hash) ? hash : 'scanner';
   };
 
@@ -332,7 +333,7 @@ export function EducationalContent() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 gap-2 sm:grid-cols-7 h-auto p-1">
+          <TabsList className="grid w-full grid-cols-4 gap-2 sm:grid-cols-8 h-auto p-1">
             <TabsTrigger value="scanner" className="flex items-center gap-2 py-3">
               <Camera className="h-4 w-4" />
               <span className="hidden sm:inline">Scanner</span>
@@ -367,6 +368,11 @@ export function EducationalContent() {
               <MapPin className="h-4 w-4" />
               <span className="hidden sm:inline">Find Local Help</span>
               <span className="sm:hidden">Local</span>
+            </TabsTrigger>
+            <TabsTrigger value="locationFinder" className="flex items-center gap-2 py-3">
+              <Search className="h-4 w-4" />
+              <span className="hidden sm:inline">Location Finder</span>
+              <span className="sm:hidden">Find</span>
             </TabsTrigger>
           </TabsList>
 
@@ -436,6 +442,10 @@ export function EducationalContent() {
 
           <TabsContent value="findLocalHelp" className="mt-6">
             <TechnicianFinder />
+          </TabsContent>
+
+          <TabsContent value="locationFinder" className="mt-6">
+            <LocationFinder />
           </TabsContent>
         </Tabs>
       </div>

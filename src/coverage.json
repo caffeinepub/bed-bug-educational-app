@@ -1,25 +1,48 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-19T00:15:39.938Z",
+  "generatedAt": "2026-02-19T00:22:48.155Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 1,
+    "total": 4,
+    "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Add city and state fields to the Technician type in the backend schema alongside the existing zipCode field",
+        "summary": "Add a Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/TechnicianMap.tsx",
+          "frontend/src/components/TechnicianFinder.tsx",
+          "frontend/src/hooks/useGoogleMaps.ts",
+          "frontend/src/utils/mapConfig.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/TechnicianMap.tsx",
+          "frontend/src/components/TechnicianFinder.tsx",
+          "frontend/src/hooks/useGoogleMaps.ts"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Add latitude and longitude fields to the Technician type in backend/main.mo to support GPS coordinates for map display",
         "status": "unknown",
         "plannedFiles": [],
         "matchedFiles": []
       },
       {
-        "id": "REQ-2",
-        "summary": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
+        "id": "REQ-3",
+        "summary": "Create a migration in backend/migration.mo to add default GPS coordinates to existing Technician records",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/components/TechnicianFinder.tsx"
@@ -27,13 +50,6 @@
         "matchedFiles": [
           "frontend/src/components/TechnicianFinder.tsx"
         ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Generate a migration to add city and state fields to existing technician records with appropriate default values",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
       }
     ]
   },
@@ -47,8 +63,11 @@
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
     "frontend/src/components/TechnicianFinder.tsx",
+    "frontend/src/components/TechnicianMap.tsx",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useGoogleMaps.ts",
+    "frontend/src/types/google-maps.d.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

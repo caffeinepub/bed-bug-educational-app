@@ -35,10 +35,12 @@ export interface PrintableGuide {
 export interface Technician {
   'id' : string,
   'serviceArea' : Array<bigint>,
+  'latitude' : number,
   'city' : string,
   'businessName' : string,
   'zipCode' : bigint,
   'state' : string,
+  'longitude' : number,
   'address' : string,
   'specialties' : string,
   'phoneNumber' : string,
@@ -81,6 +83,8 @@ export interface _SERVICE {
       string,
       bigint,
       string,
+      number,
+      number,
     ],
     undefined
   >,

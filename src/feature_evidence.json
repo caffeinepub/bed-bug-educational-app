@@ -2,8 +2,30 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-technicianfinder-search-interface-to-display-city-and-state-alongside-zip-code-for-each-technician-result",
-      "featureTitle": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
+      "featureId": "feature-add-a-google-maps-integration-to-display-technician-locations-on-an-interactive-map-when-viewing-search-results-in-technicianfinder-tsx",
+      "featureTitle": "Add a Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+      "files": [
+        "frontend/src/components/TechnicianFinder.tsx",
+        "frontend/src/components/TechnicianMap.tsx",
+        "frontend/src/hooks/useGoogleMaps.ts"
+      ],
+      "components": [
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "camera@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-map-icon-button-in-the-bottom-navigation-or-header-that-toggles-the-google-maps-view-for-technician-locations",
+      "featureTitle": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
       "files": [
         "frontend/src/components/TechnicianFinder.tsx"
       ],
@@ -17,7 +39,7 @@
         "camera@1.0.0"
       ],
       "testIds": [
-        "REQ-2"
+        "REQ-4"
       ],
       "confidence": "high"
     }

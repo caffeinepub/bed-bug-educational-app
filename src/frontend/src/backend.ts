@@ -113,10 +113,12 @@ export interface _CaffeineStorageCreateCertificateResult {
 export interface Technician {
     id: string;
     serviceArea: Array<bigint>;
+    latitude: number;
     city: string;
     businessName: string;
     zipCode: bigint;
     state: string;
+    longitude: number;
     address: string;
     specialties: string;
     phoneNumber: string;
@@ -141,7 +143,7 @@ export interface backendInterface {
     _caffeineStorageCreateCertificate(blobHash: string): Promise<_CaffeineStorageCreateCertificateResult>;
     _caffeineStorageRefillCashier(refillInformation: _CaffeineStorageRefillInformation | null): Promise<_CaffeineStorageRefillResult>;
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
-    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string): Promise<void>;
+    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string, latitude: number, longitude: number): Promise<void>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;
@@ -237,17 +239,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async addTechnician(arg0: string, arg1: string, arg2: string, arg3: string, arg4: string, arg5: Array<bigint>, arg6: string, arg7: bigint, arg8: string): Promise<void> {
+    async addTechnician(arg0: string, arg1: string, arg2: string, arg3: string, arg4: string, arg5: Array<bigint>, arg6: string, arg7: bigint, arg8: string, arg9: number, arg10: number): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+            const result = await this.actor.addTechnician(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
             return result;
         }
     }

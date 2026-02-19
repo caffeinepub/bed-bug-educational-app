@@ -1,7 +1,5 @@
 import Map "mo:core/Map";
-import Text "mo:core/Text";
 import Nat "mo:core/Nat";
-import Storage "blob-storage/Storage";
 
 module {
   type OldTechnician = {
@@ -12,38 +10,12 @@ module {
     phoneNumber : Text;
     serviceArea : [Nat];
     specialties : Text;
+    zipCode : Nat;
+    state : Text;
   };
 
   type OldActor = {
-    contentSections : Map.Map<Text, ContentSection>;
-    printableGuides : Map.Map<Text, PrintableGuide>;
     technicians : Map.Map<Text, OldTechnician>;
-  };
-
-  type ContentSection = {
-    id : Text;
-    title : Text;
-    content : Text;
-    contentType : ContentType;
-    images : [Storage.ExternalBlob];
-  };
-
-  type PrintableGuide = {
-    id : Text;
-    title : Text;
-    content : Text;
-    contentType : ContentType;
-    file : Storage.ExternalBlob;
-  };
-
-  type ContentType = {
-    #bedBugs;
-    #scorpion;
-    #mouse;
-    #venomousSnake;
-    #cockroach;
-    #hornetWasp;
-    #mosquito;
   };
 
   type NewTechnician = {
@@ -56,26 +28,20 @@ module {
     specialties : Text;
     zipCode : Nat;
     state : Text;
+    latitude : Float;
+    longitude : Float;
   };
 
   type NewActor = {
-    contentSections : Map.Map<Text, ContentSection>;
-    printableGuides : Map.Map<Text, PrintableGuide>;
     technicians : Map.Map<Text, NewTechnician>;
   };
 
   public func run(old : OldActor) : NewActor {
     let newTechnicians = old.technicians.map<Text, OldTechnician, NewTechnician>(
-      func(_id, oldTechnician) {
-        {
-          oldTechnician with
-          zipCode = 0;
-          state = "Unknown";
-        };
+      func(_id, oldTech) {
+        { oldTech with latitude = 0.0; longitude = 0.0 };
       }
     );
-    {
-      old with technicians = newTechnicians;
-    };
+    { technicians = newTechnicians };
   };
 };

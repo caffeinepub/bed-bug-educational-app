@@ -51,6 +51,8 @@ actor {
     specialties : Text;
     zipCode : Nat;
     state : Text;
+    latitude : Float;
+    longitude : Float;
   };
 
   public query ({ caller }) func getSection(id : Text) : async ?ContentSection {
@@ -89,6 +91,8 @@ actor {
     specialties : Text,
     zipCode : Nat,
     state : Text,
+    latitude : Float,
+    longitude : Float,
   ) : async () {
     let technician : Technician = {
       id;
@@ -100,6 +104,8 @@ actor {
       specialties;
       zipCode;
       state;
+      latitude;
+      longitude;
     };
     technicians.add(id, technician);
   };

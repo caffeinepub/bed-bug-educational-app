@@ -4,13 +4,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { MapPin, Phone, Briefcase, Search, AlertCircle } from 'lucide-react';
+import { MapPin, Phone, Briefcase, Search, AlertCircle, Map as MapIcon } from 'lucide-react';
 import { useTechniciansByZip } from '../hooks/useQueries';
+import { TechnicianMap } from './TechnicianMap';
 
 export function TechnicianFinder() {
   const [zipCode, setZipCode] = useState('');
   const [searchZip, setSearchZip] = useState<bigint | null>(null);
   const [validationError, setValidationError] = useState('');
+  const [showMap, setShowMap] = useState(false);
 
   const { data: technicians, isLoading, error } = useTechniciansByZip(searchZip);
 
@@ -53,6 +55,13 @@ export function TechnicianFinder() {
     
     return parts.join(', ') || 'Location not specified';
   };
+
+  // Check if technicians have valid GPS coordinates
+  const techniciansWithCoordinates = technicians?.filter(
+    (tech) => tech.latitude !== 0 && tech.longitude !== 0
+  ) || [];
+
+  const hasValidCoordinates = techniciansWithCoordinates.length > 0;
 
   return (
     <div className="space-y-6">
@@ -135,54 +144,74 @@ export function TechnicianFinder() {
 
       {!isLoading && technicians && technicians.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">
-            Found {technicians.length} {technicians.length === 1 ? 'Technician' : 'Technicians'} in {zipCode}
-          </h3>
-          {technicians.map((tech) => (
-            <Card key={tech.id}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Briefcase className="h-5 w-5" />
-                  {tech.businessName}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-2">
-                  <Phone className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm font-medium">Phone</p>
-                    <a
-                      href={`tel:${tech.phoneNumber}`}
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {tech.phoneNumber}
-                    </a>
-                  </div>
-                </div>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">
+              Found {technicians.length} {technicians.length === 1 ? 'Technician' : 'Technicians'} in {zipCode}
+            </h3>
+            {hasValidCoordinates && (
+              <Button
+                variant={showMap ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setShowMap(!showMap)}
+                className="flex items-center gap-2"
+              >
+                <MapIcon className="h-4 w-4" />
+                {showMap ? 'Show List' : 'Show Map'}
+              </Button>
+            )}
+          </div>
 
-                <div className="flex items-start gap-2">
-                  <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-sm font-medium">Location</p>
-                    <p className="text-sm text-muted-foreground">{tech.address}</p>
-                    <p className="text-sm font-semibold text-foreground">
-                      {formatLocation(tech.city, tech.state, tech.zipCode)}
-                    </p>
-                  </div>
-                </div>
-
-                {tech.specialties && (
-                  <div className="flex items-start gap-2">
-                    <Briefcase className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Specialties</p>
-                      <p className="text-sm text-muted-foreground">{tech.specialties}</p>
+          {showMap && hasValidCoordinates ? (
+            <TechnicianMap technicians={techniciansWithCoordinates} />
+          ) : (
+            <>
+              {technicians.map((tech) => (
+                <Card key={tech.id}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Briefcase className="h-5 w-5" />
+                      {tech.businessName}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-start gap-2">
+                      <Phone className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-medium">Phone</p>
+                        <a
+                          href={`tel:${tech.phoneNumber}`}
+                          className="text-sm text-primary hover:underline"
+                        >
+                          {tech.phoneNumber}
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+
+                    <div className="flex items-start gap-2">
+                      <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-medium">Location</p>
+                        <p className="text-sm text-muted-foreground">{tech.address}</p>
+                        <p className="text-sm font-semibold text-foreground">
+                          {formatLocation(tech.city, tech.state, tech.zipCode)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {tech.specialties && (
+                      <div className="flex items-start gap-2">
+                        <Briefcase className="mt-0.5 h-4 w-4 text-muted-foreground" />
+                        <div>
+                          <p className="text-sm font-medium">Specialties</p>
+                          <p className="text-sm text-muted-foreground">{tech.specialties}</p>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </>
+          )}
         </div>
       )}
     </div>

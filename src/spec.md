@@ -1,11 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Add city and state fields to technician records and display them alongside zip code in search results.
+**Goal:** Add Google Maps integration to display pest control technician locations on an interactive map.
 
 **Planned changes:**
-- Add city and state fields to the Technician backend schema
-- Update technician search results to display city, state, and zip code together
-- Create migration to add new fields to existing technician records
+- Add Google Maps integration to display technician locations with interactive markers in search results
+- Add latitude and longitude fields to the Technician type in the backend to store GPS coordinates
+- Create a backend migration to add default GPS coordinates to existing technician records
+- Add a map icon button in the navigation that toggles the map view on/off
 
-**User-visible outcome:** When searching for technicians, users will see the full location information (city, state, and zip code) for each result.
+**User-visible outcome:** Users can view pest control technicians on an interactive Google Maps interface by clicking a map icon, with markers showing each technician's location. Clicking markers displays technician details.

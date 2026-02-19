@@ -1,22 +1,52 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add city and state with zip code to technician search",
+  "title": "Add Google Maps location finder for pest technicians",
   "requirements": [
     {
-      "id": "REQ-2",
-      "summary": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
+      "id": "REQ-1",
+      "summary": "Add Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
       "acceptanceCriteria": [
-        "Technician search results show city name when available",
-        "Technician search results show state when available",
-        "Display format clearly presents zip code, city, and state together (e.g., 'City, State ZIP')",
-        "Gracefully handles missing city or state data"
+        "Map displays all technicians from search results with markers at their locations",
+        "Map is visible alongside or within the technician search results",
+        "Clicking a map marker shows the technician's details"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TechnicianMap.tsx",
+          "operation": "create",
+          "description": "Create a new component that renders a Google Maps interface using the @react-google-maps/api library. This component accepts an array of technicians with latitude/longitude coordinates and displays map markers for each technician location. Implement marker click handlers to show technician details in an info window. Include proper error handling for map loading failures and missing coordinates. The component should be responsive and integrate with the existing UI design system."
+        },
+        {
+          "path": "frontend/src/components/TechnicianFinder.tsx",
+          "operation": "modify",
+          "description": "Integrate the TechnicianMap component into the search results view. Add a toggle state to switch between list view and map view. Display the map when technicians are found and have valid GPS coordinates. Ensure the map receives the filtered technician results from the search query. Maintain existing zip code validation and search functionality while adding the map display option."
+        },
+        {
+          "path": "frontend/src/hooks/useGoogleMaps.ts",
+          "operation": "create",
+          "description": "Create a custom hook that manages Google Maps API loading state using the @react-google-maps/api useLoadScript hook. Handle API key configuration, loading errors, and provide a clean interface for components to check if the Maps API is ready. Include error states for missing API keys or loading failures."
+        },
+        {
+          "path": "frontend/src/utils/mapConfig.ts",
+          "operation": "create",
+          "description": "Create a configuration file for Google Maps settings including default map center, zoom levels, marker styles, and map options. Export constants for map dimensions, marker icons, and info window styling to maintain consistency across map components."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
+      "acceptanceCriteria": [
+        "Icon button is clearly visible and accessible",
+        "Clicking the icon shows/hides the map view",
+        "Icon uses an appropriate map or location symbol"
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/TechnicianFinder.tsx",
           "operation": "modify",
-          "description": "Update the technician result cards to display city and state fields from the Technician type. Format the location display as 'City, State ZIP' (e.g., 'Phoenix, AZ 85001'). Handle cases where city or state may be empty strings by conditionally rendering only available fields. Update the result card layout to accommodate the expanded location information while maintaining visual hierarchy and readability."
+          "description": "Add a map toggle button to the TechnicianFinder component UI using a Map icon from lucide-react. Position the button prominently near the search input or results header. Implement toggle functionality to switch between list and map views. Style the button to match existing UI patterns and ensure it's disabled when no technicians are found or when technicians lack GPS coordinates. Show appropriate visual feedback for the active view state."
         }
       ]
     }

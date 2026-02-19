@@ -1,69 +1,89 @@
 {
   "kind": "build_request",
-  "title": "Add city and state with zip code to technician search",
+  "title": "Add Google Maps location finder for pest technicians",
   "projectName": "Pest Control Finder",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Add city and state fields to the Technician type in the backend schema alongside the existing zipCode field",
-      "target": "backend",
+      "text": "Add a Google Maps integration to display technician locations on an interactive map when viewing search results in TechnicianFinder.tsx",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-user"
         ],
         "quotes": [
-          "add to the search icon city and or state with zip code"
+          "install google maps location gps finder for pest technicians"
         ]
       },
       "acceptanceCriteria": [
-        "Backend Technician type includes city field of type Text",
-        "Backend Technician type includes state field of type Text",
-        "Existing zipCode field remains unchanged"
+        "Map displays all technicians from search results with markers at their locations",
+        "Map is visible alongside or within the technician search results",
+        "Clicking a map marker shows the technician's details"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update the TechnicianFinder search interface to display city and state alongside zip code for each technician result",
-      "target": "frontend",
+      "text": "Add latitude and longitude fields to the Technician type in backend/main.mo to support GPS coordinates for map display",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-user"
         ],
         "quotes": [
-          "add to the search icon city and or state with zip code"
+          "install google maps location gps finder for pest technicians"
         ]
       },
       "acceptanceCriteria": [
-        "Technician search results show city name when available",
-        "Technician search results show state when available",
-        "Display format clearly presents zip code, city, and state together (e.g., 'City, State ZIP')",
-        "Gracefully handles missing city or state data"
+        "Technician type includes optional lat and lon fields as Float values",
+        "Existing technician records can be queried without errors",
+        "New technicians can be created with GPS coordinates"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Generate a migration to add city and state fields to existing technician records with appropriate default values",
+      "text": "Create a migration in backend/migration.mo to add default GPS coordinates to existing Technician records",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-user"
         ]
       },
       "acceptanceCriteria": [
-        "Migration successfully adds city and state fields to all existing technician records",
-        "Default values are set appropriately for existing records without data loss"
+        "Migration adds lat and lon fields to all existing technician records",
+        "Default coordinates are set based on zip code or state if possible",
+        "Migration runs without data loss"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add a map icon button in the bottom navigation or header that toggles the Google Maps view for technician locations",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-user"
+        ],
+        "quotes": [
+          "make it a icon"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Icon button is clearly visible and accessible",
+        "Clicking the icon shows/hides the map view",
+        "Icon uses an appropriate map or location symbol"
       ]
     }
   ],
   "constraints": [
-    "Maintain backward compatibility with existing technician data",
-    "Do not modify the existing zipCode search functionality"
+    "Use the existing single-actor architecture in backend/main.mo",
+    "Do not modify immutable frontend paths: useInternetIdentity.ts, useActor.ts, main.tsx, or components/ui/*",
+    "Maintain existing technician search functionality while adding map features"
   ],
   "nonGoals": [
-    "Implementing search by city or state (only display is required)",
-    "Validating city/state data against external APIs",
-    "Auto-populating city/state from zip code"
+    "Real-time GPS tracking of technicians",
+    "Turn-by-turn navigation to technician locations",
+    "Mobile native GPS features",
+    "Third-party geolocation APIs beyond Google Maps display"
   ],
   "imageRequirements": {
     "required": [],

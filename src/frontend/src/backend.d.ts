@@ -31,10 +31,12 @@ export interface PrintableGuide {
 export interface Technician {
     id: string;
     serviceArea: Array<bigint>;
+    latitude: number;
     city: string;
     businessName: string;
     zipCode: bigint;
     state: string;
+    longitude: number;
     address: string;
     specialties: string;
     phoneNumber: string;
@@ -49,7 +51,7 @@ export enum ContentType {
     mosquito = "mosquito"
 }
 export interface backendInterface {
-    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string): Promise<void>;
+    addTechnician(id: string, businessName: string, address: string, city: string, phoneNumber: string, serviceArea: Array<bigint>, specialties: string, zipCode: bigint, state: string, latitude: number, longitude: number): Promise<void>;
     getAllGuides(): Promise<Array<PrintableGuide>>;
     getAllSections(): Promise<Array<ContentSection>>;
     getGuide(id: string): Promise<PrintableGuide | null>;

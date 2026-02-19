@@ -1,61 +1,50 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-19T21:52:35.364Z",
+  "generatedAt": "2026-02-19T23:49:35.543Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Create a new home page component that serves as the landing page for the application with a welcoming introduction to the bed bug educational app",
+        "summary": "Make the quick tip icon (lightbulb icon) clickable in the educational content sections",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/HomePage.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx",
+          "frontend/src/components/sections/TreatmentSection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/HomePage.tsx",
-          "frontend/src/App.tsx"
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx",
+          "frontend/src/components/sections/TreatmentSection.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Add navigation icons on the home page representing each main section of the app (scanner, identify, habitats, prevention, treatment, guides, find local help) with clear visual indicators of where to start",
+        "summary": "When a quick tip icon is clicked, navigate directly to the corresponding section within the current educational content",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/HomePage.tsx"
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx",
+          "frontend/src/components/sections/TreatmentSection.tsx",
+          "frontend/src/components/pests/MiceContent.tsx",
+          "frontend/src/components/pests/CockroachesContent.tsx",
+          "frontend/src/components/pests/ScorpionsContent.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/HomePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-3",
-        "summary": "Implement smooth scroll behavior when clicking navigation icons on the home page to scroll to the corresponding section",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/HomePage.tsx",
-          "frontend/src/index.css"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/HomePage.tsx",
-          "frontend/src/index.css"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Add a persistent home button icon in the header or navigation that allows users to return to the home page from any section",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/Header.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/Header.tsx"
+          "frontend/src/components/sections/HabitatsSection.tsx",
+          "frontend/src/components/sections/IdentifySection.tsx",
+          "frontend/src/components/sections/PreventionSection.tsx",
+          "frontend/src/components/sections/TreatmentSection.tsx"
         ]
       }
     ]
@@ -65,10 +54,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/App.tsx",
-    "frontend/src/components/Header.tsx",
-    "frontend/src/components/HomePage.tsx",
-    "frontend/src/index.css",
+    "frontend/src/components/sections/HabitatsSection.tsx",
+    "frontend/src/components/sections/IdentifySection.tsx",
+    "frontend/src/components/sections/PreventionSection.tsx",
+    "frontend/src/components/sections/TreatmentSection.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

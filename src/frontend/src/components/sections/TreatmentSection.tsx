@@ -86,6 +86,13 @@ export function TreatmentSection() {
     }
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const renderChecklistItems = (items: string[], phase: string) => {
     return items.map((item, index) => {
       const itemId = generateItemId(phase, index);
@@ -149,7 +156,13 @@ export function TreatmentSection() {
       </Alert>
 
       <Alert className="border-primary/50 bg-primary/5">
-        <Flame className="h-4 w-4 text-primary" />
+        <button
+          onClick={() => scrollToSection('heat-treatment-basics')}
+          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
+          aria-label="Jump to heat treatment section"
+        >
+          <Flame className="h-4 w-4 text-primary" />
+        </button>
         <AlertDescription className="text-sm">
           High heat treatment is one of the most effective non-chemical methods for eliminating bed bugs.
           Proper preparation is essential for success.
@@ -164,7 +177,7 @@ export function TreatmentSection() {
         </AlertDescription>
       </Alert>
 
-      <Card>
+      <Card id="heat-treatment-basics">
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <img
@@ -395,11 +408,11 @@ export function TreatmentSection() {
 
       <Alert className="border-muted-foreground/30">
         <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>Professional Treatment Recommended</AlertTitle>
         <AlertDescription className="text-sm">
-          <strong>Professional Treatment Recommended:</strong> While these methods can be effective for minor
-          infestations, professional heat treatment services use specialized equipment to ensure complete
-          elimination. Professionals can monitor temperatures throughout the space and guarantee that all areas
-          reach lethal temperatures for the required duration.
+          While these DIY methods can help with minor infestations, professional pest control services have
+          specialized equipment and expertise to ensure complete elimination. For severe infestations or if
+          DIY methods are unsuccessful, contact a licensed pest control professional.
         </AlertDescription>
       </Alert>
     </div>

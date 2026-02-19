@@ -2,21 +2,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export function PreventionSection() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <img 
-          src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
-          alt="Quick tip" 
-          className="h-4 w-4"
-        />
+        <button
+          onClick={() => scrollToSection('travel-precautions')}
+          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
+          aria-label="Jump to prevention section"
+        >
+          <img 
+            src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
+            alt="Quick tip" 
+            className="h-4 w-4"
+          />
+        </button>
         <AlertDescription className="text-sm">
           Prevention is always easier than treatment. These strategies can help you avoid bringing bed bugs
           into your home or catching an infestation early.
         </AlertDescription>
       </Alert>
 
-      <Card>
+      <Card id="travel-precautions">
         <CardHeader>
           <CardTitle>Travel Precautions</CardTitle>
           <CardDescription>Protecting yourself when away from home</CardDescription>
@@ -91,99 +104,95 @@ export function PreventionSection() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Home Protection Strategies</CardTitle>
-          <CardDescription>Making your home less vulnerable</CardDescription>
+          <CardTitle>Home Protection</CardTitle>
+          <CardDescription>Reducing risk in your living space</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
-          <p>
-            <strong className="font-semibold text-foreground">Reduce Clutter:</strong> Minimize hiding spots
-            by keeping your home organized. Clutter provides more places for bed bugs to hide and makes
-            detection harder.
-          </p>
           <p>
             <strong className="font-semibold text-foreground">Mattress Encasements:</strong> Use bed
             bug-proof encasements on mattresses and box springs. These trap any existing bugs inside and
             prevent new ones from entering.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Regular Inspections:</strong> Check your
-            sleeping areas monthly for signs of bed bugs, especially if you travel frequently or live in a
-            multi-unit building.
+            <strong className="font-semibold text-foreground">Reduce Clutter:</strong> Minimize hiding spots
+            by keeping floors, closets, and storage areas organized and clutter-free.
           </p>
           <p>
             <strong className="font-semibold text-foreground">Seal Cracks:</strong> Caulk cracks and crevices
-            in walls, baseboards, and furniture to eliminate hiding spots and prevent movement between rooms.
+            in walls, baseboards, and around pipes to eliminate hiding places.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Regular Inspections:</strong> Check your
+            sleeping area monthly for signs of bed bugs, especially if you travel frequently or live in a
+            multi-unit building.
           </p>
           <p>
             <strong className="font-semibold text-foreground">Vacuum Regularly:</strong> Frequent vacuuming
-            can help remove bed bugs and their eggs before an infestation establishes. Focus on mattress
-            seams, furniture, and baseboards.
+            can help remove bed bugs and eggs before an infestation establishes. Dispose of vacuum bags
+            immediately in sealed plastic bags outside.
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Common Infestation Sources</CardTitle>
-          <CardDescription>Where bed bugs typically come from</CardDescription>
+          <CardTitle>Common Sources of Infestation</CardTitle>
+          <CardDescription>How bed bugs typically enter homes</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <p>
-            <strong className="font-semibold text-foreground">Travel & Accommodations:</strong> Hotels,
-            motels, hostels, and vacation rentals are common sources. Bed bugs can hitchhike in luggage and
-            clothing.
+            <strong className="font-semibold text-foreground">Travel:</strong> Hotels, motels, hostels, and
+            vacation rentals are common sources. Bed bugs hitchhike in luggage and clothing.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Secondhand Items:</strong> Used furniture,
-            mattresses, clothing, and other items can harbor bed bugs. Always inspect carefully before
-            bringing home.
+            <strong className="font-semibold text-foreground">Used Furniture:</strong> Secondhand mattresses,
+            couches, and other upholstered furniture can harbor bed bugs.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Visitors & Guests:</strong> Bed bugs can be
-            transported on clothing, bags, or belongings of visitors who have infestations in their homes.
+            <strong className="font-semibold text-foreground">Visitors:</strong> Guests who have bed bugs at
+            home can unknowingly bring them to your residence.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Multi-Unit Housing:</strong> Apartments,
-            condos, and dormitories are at higher risk as bed bugs can spread between units through walls and
-            shared spaces.
+            <strong className="font-semibold text-foreground">Shared Laundry:</strong> Laundromats and shared
+            laundry facilities can be transfer points if infested items are present.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Public Spaces:</strong> Movie theaters,
-            libraries, public transportation, and other shared spaces can occasionally be sources of bed bug
-            exposure.
+            <strong className="font-semibold text-foreground">Multi-Unit Buildings:</strong> Bed bugs can
+            travel between apartments through wall voids, electrical conduits, and shared spaces.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Public Transportation:</strong> Buses, trains,
+            and planes can harbor bed bugs in seats and luggage compartments.
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Early Detection Methods</CardTitle>
+          <CardTitle>Early Detection</CardTitle>
           <CardDescription>Catching infestations before they spread</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <p>
-            <strong className="font-semibold text-foreground">Visual Inspections:</strong> Regularly check
-            mattress seams, bed frames, and nearby furniture for live bugs, shed skins, eggs, or fecal
-            stains.
+            <strong className="font-semibold text-foreground">Know the Signs:</strong> Familiarize yourself
+            with bed bug appearance, fecal stains, shed skins, and bite patterns.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Interceptor Traps:</strong> Place bed bug
-            interceptors under bed legs to catch bugs attempting to climb up or down. Check traps weekly.
+            <strong className="font-semibold text-foreground">Inspect After Travel:</strong> Always check
+            luggage, clothing, and personal items after returning from trips.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Monitor Bites:</strong> Pay attention to
-            unexplained bites, especially in lines or clusters on exposed skin. Document patterns and
-            locations.
+            <strong className="font-semibold text-foreground">Monitor Sleeping Areas:</strong> Regularly
+            examine mattress seams, bed frames, and nearby furniture for signs of activity.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Professional Inspections:</strong> If you
-            suspect an infestation or live in high-risk housing, consider periodic professional inspections
-            with trained detection dogs or visual experts.
+            <strong className="font-semibold text-foreground">Use Interceptors:</strong> Place bed bug
+            interceptor traps under bed legs to catch bugs attempting to climb up or down.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Act Quickly:</strong> If you find any signs of
-            bed bugs, contact a pest control professional immediately. Early intervention is much easier and
-            less expensive than treating a severe infestation.
+            <strong className="font-semibold text-foreground">Act Quickly:</strong> If you suspect bed bugs,
+            investigate immediately. Early intervention is much easier and less costly than treating a
+            full-blown infestation.
           </p>
         </CardContent>
       </Card>

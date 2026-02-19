@@ -1,40 +1,24 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Bed bug treatment app with home page navigation",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-create-a-new-home-page-component-that-serves-as-the-landing-page-for-the-application-with-a-welcoming-introduction-to-the-bed-bug-educational-app",
-      "title": "Create a new home page component that serves as the landing page for the application with a welcoming introduction to the bed bug educational app",
+      "id": "feature-make-the-quick-tip-icon-lightbulb-icon-clickable-in-the-educational-content-sections",
+      "title": "Make the quick tip icon (lightbulb icon) clickable in the educational content sections",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-add-navigation-icons-on-the-home-page-representing-each-main-section-of-the-app-scanner-identify-habitats-prevention-treatment-guides-find-local-help-with-clear-visual-indicators-of-where-to-start",
-      "title": "Add navigation icons on the home page representing each main section of the app (scanner, identify, habitats, prevention, treatment, guides, find local help) with clear visual indicators of where to start",
+      "id": "feature-when-a-quick-tip-icon-is-clicked-navigate-directly-to-the-corresponding-section-within-the-current-educational-content",
+      "title": "When a quick tip icon is clicked, navigate directly to the corresponding section within the current educational content",
       "reqIds": [
         "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-smooth-scroll-behavior-when-clicking-navigation-icons-on-the-home-page-to-scroll-to-the-corresponding-section",
-      "title": "Implement smooth scroll behavior when clicking navigation icons on the home page to scroll to the corresponding section",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-persistent-home-button-icon-in-the-header-or-navigation-that-allows-users-to-return-to-the-home-page-from-any-section",
-      "title": "Add a persistent home button icon in the header or navigation that allows users to return to the home page from any section",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -42,12 +26,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add home page with navigation icons and home button",
+      "summary": "Make quick tip icon clickable with navigation to proper section",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Bed Bug Educational App",
+  "projectName": "Make quick tip icon clickable with section navigation",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

@@ -5,13 +5,13 @@ import { EducationalContent } from './components/EducationalContent';
 import { QrCodePage } from './components/QrCodePage';
 import { LocationFinder } from './components/LocationFinder';
 import { HomePage } from './components/HomePage';
-import { useHashRoute } from './hooks/useHashRoute';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { useHashRoute } from './hooks/useHashRoute';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5,
       refetchOnWindowFocus: false,
     },
   },
@@ -20,10 +20,10 @@ const queryClient = new QueryClient({
 function AppContent() {
   const { isRoute, currentHash } = useHashRoute();
 
-  // Render QR Code page when hash is /qr (handles both #qr and #/qr)
+  // Handle QR code page
   if (isRoute('/qr')) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1">
           <QrCodePage />
@@ -33,10 +33,10 @@ function AppContent() {
     );
   }
 
-  // Render Location Finder page when hash is /location-finder
+  // Handle Location Finder page
   if (isRoute('/location-finder')) {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1">
           <div className="container py-8">
@@ -50,10 +50,10 @@ function AppContent() {
     );
   }
 
-  // Render HomePage when hash is empty, /, or /home
+  // Handle home page
   if (isRoute('/') || isRoute('/home') || currentHash === '') {
     return (
-      <div className="flex min-h-screen flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1">
           <HomePage />
@@ -63,9 +63,9 @@ function AppContent() {
     );
   }
 
-  // Default main app content (educational tabs)
+  // All other routes show the educational content with header/footer
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1">
         <EducationalContent />

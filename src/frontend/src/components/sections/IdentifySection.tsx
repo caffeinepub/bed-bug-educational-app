@@ -2,21 +2,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export function IdentifySection() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <img 
-          src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
-          alt="Quick tip" 
-          className="h-4 w-4"
-        />
+        <button
+          onClick={() => scrollToSection('adult-bed-bugs')}
+          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
+          aria-label="Jump to identification section"
+        >
+          <img 
+            src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
+            alt="Quick tip" 
+            className="h-4 w-4"
+          />
+        </button>
         <AlertDescription className="text-sm">
           Early detection is crucial. Learning to identify bed bugs and their signs can help you catch an
           infestation before it becomes severe.
         </AlertDescription>
       </Alert>
 
-      <Card>
+      <Card id="adult-bed-bugs">
         <CardHeader>
           <CardTitle>Adult Bed Bugs</CardTitle>
           <CardDescription>What mature bed bugs look like</CardDescription>

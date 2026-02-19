@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add a home page with navigation icons for each main section and a persistent home button for easy navigation.
+**Goal:** Make quick tip icons clickable to enable direct navigation to their corresponding sections within educational content.
 
 **Planned changes:**
-- Create a new home page component as the landing page with welcoming introduction
-- Add navigation icons on the home page for each main section (scanner, identify, habitats, prevention, treatment, guides, find local help)
-- Implement smooth scroll behavior when clicking navigation icons to scroll to corresponding sections
-- Add a persistent home button icon in the header to return to the home page from any section
+- Add click handlers to quick tip icons in educational content sections
+- Implement smooth scroll navigation to target sections when icons are clicked
+- Add hover state to quick tip icons to indicate they are interactive
 
-**User-visible outcome:** Users will land on a welcoming home page with clear navigation icons to explore different sections, and can easily return to the home page using a persistent home button.
+**User-visible outcome:** Users can click on quick tip lightbulb icons to immediately jump to the relevant section within the current pest information page, making it easier to navigate to specific tips.

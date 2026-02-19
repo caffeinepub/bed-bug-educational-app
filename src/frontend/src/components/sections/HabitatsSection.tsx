@@ -2,21 +2,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export function HabitatsSection() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <img 
-          src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
-          alt="Quick tip" 
-          className="h-4 w-4"
-        />
+        <button
+          onClick={() => scrollToSection('common-hiding-spots')}
+          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
+          aria-label="Jump to habitats section"
+        >
+          <img 
+            src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
+            alt="Quick tip" 
+            className="h-4 w-4"
+          />
+        </button>
         <AlertDescription className="text-sm">
           Understanding where bed bugs live and how they behave helps you target inspections and treatments
           more effectively.
         </AlertDescription>
       </Alert>
 
-      <Card>
+      <Card id="common-hiding-spots">
         <CardHeader>
           <CardTitle>Common Hiding Spots</CardTitle>
           <CardDescription>Where bed bugs live in your home</CardDescription>

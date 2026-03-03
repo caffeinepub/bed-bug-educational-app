@@ -1,10 +1,15 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { rotateImage, enhanceImage, applyZoom } from '../utils/imageProcessing';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { applyZoom, enhanceImage, rotateImage } from "../utils/imageProcessing";
 
 export function useImageEditor(sourceImage: string | null) {
   const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [rotation, setRotation] = useState(0);
-  const [cropRect, setCropRect] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const [cropRect, setCropRect] = useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
   const [enhanceEnabled, setEnhanceEnabled] = useState(false);
   const [zoom, setZoom] = useState(1);
   const processingRef = useRef(false);
@@ -33,7 +38,7 @@ export function useImageEditor(sourceImage: string | null) {
 
       setProcessedImage(result);
     } catch (error) {
-      console.error('Error processing image:', error);
+      console.error("Error processing image:", error);
       setProcessedImage(sourceImage);
     } finally {
       processingRef.current = false;
@@ -63,15 +68,15 @@ export function useImageEditor(sourceImage: string | null) {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
             resolve(blob);
-          }, 'image/png');
+          }, "image/png");
         } else {
           resolve(null);
         }

@@ -1,9 +1,3 @@
-import { useState, useMemo } from 'react';
-import { Trash2, Eye, Calendar, ChevronUp, ChevronDown, Tag, X } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,31 +7,51 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { SavedScan } from '../hooks/useSavedScans';
-import { SavedScanTagsEditor } from './SavedScanTagsEditor';
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  Tag,
+  Trash2,
+  X,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import type { SavedScan } from "../hooks/useSavedScans";
+import { SavedScanTagsEditor } from "./SavedScanTagsEditor";
 
 interface SavedScansGalleryProps {
   savedScans: SavedScan[];
   onOpenScan: (scan: SavedScan) => void;
   onDeleteScan: (id: string) => void;
-  onMoveScan: (id: string, direction: 'up' | 'down') => void;
+  onMoveScan: (id: string, direction: "up" | "down") => void;
   onAddTag: (scanId: string, tag: string) => void;
   onRemoveTag: (scanId: string, tag: string) => void;
   onUpdateTag: (scanId: string, oldTag: string, newTag: string) => void;
 }
 
-export function SavedScansGallery({ 
-  savedScans, 
-  onOpenScan, 
-  onDeleteScan, 
+export function SavedScansGallery({
+  savedScans,
+  onOpenScan,
+  onDeleteScan,
   onMoveScan,
   onAddTag,
   onRemoveTag,
   onUpdateTag,
 }: SavedScansGalleryProps) {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
-  const [filterTag, setFilterTag] = useState('');
+  const [filterTag, setFilterTag] = useState("");
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -47,15 +61,16 @@ export function SavedScansGallery({
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
-    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-    
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined 
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? "s" : ""} ago`;
+    if (diffHours < 24)
+      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined,
     });
   };
 
@@ -77,9 +92,9 @@ export function SavedScansGallery({
   // Get all unique tags from all scans
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
-    savedScans.forEach(scan => {
-      (scan.tags || []).forEach(tag => tagSet.add(tag));
-    });
+    for (const scan of savedScans) {
+      for (const tag of scan.tags || []) tagSet.add(tag);
+    }
     return Array.from(tagSet).sort();
   }, [savedScans]);
 
@@ -89,13 +104,13 @@ export function SavedScansGallery({
       return savedScans;
     }
     const filterLower = filterTag.toLowerCase().trim();
-    return savedScans.filter(scan => 
-      (scan.tags || []).some(tag => tag.toLowerCase().includes(filterLower))
+    return savedScans.filter((scan) =>
+      (scan.tags || []).some((tag) => tag.toLowerCase().includes(filterLower)),
     );
   }, [savedScans, filterTag]);
 
   const handleClearFilter = () => {
-    setFilterTag('');
+    setFilterTag("");
   };
 
   const handleQuickFilterTag = (tag: string) => {
@@ -107,7 +122,9 @@ export function SavedScansGallery({
       <Card>
         <CardHeader>
           <CardTitle>Saved Scans</CardTitle>
-          <CardDescription>Your saved pest photos will appear here</CardDescription>
+          <CardDescription>
+            Your saved pest photos will appear here
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -128,7 +145,9 @@ export function SavedScansGallery({
       <Card>
         <CardHeader>
           <CardTitle>Saved Scans ({savedScans.length})</CardTitle>
-          <CardDescription>View and manage your saved pest photos</CardDescription>
+          <CardDescription>
+            View and manage your saved pest photos
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Filter UI */}
@@ -159,7 +178,7 @@ export function SavedScansGallery({
             </div>
             {allTags.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {allTags.map(tag => (
+                {allTags.map((tag) => (
                   <Badge
                     key={tag}
                     variant="outline"
@@ -180,8 +199,10 @@ export function SavedScansGallery({
 
           {/* Scans Grid */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredScans.map((scan, index) => {
-              const originalIndex = savedScans.findIndex(s => s.id === scan.id);
+            {filteredScans.map((scan, _index) => {
+              const originalIndex = savedScans.findIndex(
+                (s) => s.id === scan.id,
+              );
               return (
                 <div
                   key={scan.id}
@@ -204,7 +225,9 @@ export function SavedScansGallery({
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
                         <Tag className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-xs font-medium text-muted-foreground">Tags</span>
+                        <span className="text-xs font-medium text-muted-foreground">
+                          Tags
+                        </span>
                       </div>
                       <SavedScanTagsEditor
                         scanId={scan.id}
@@ -239,7 +262,7 @@ export function SavedScansGallery({
                     </div>
                     <div className="flex gap-2">
                       <Button
-                        onClick={() => onMoveScan(scan.id, 'up')}
+                        onClick={() => onMoveScan(scan.id, "up")}
                         variant="outline"
                         size="sm"
                         className="flex-1"
@@ -250,7 +273,7 @@ export function SavedScansGallery({
                         Move Up
                       </Button>
                       <Button
-                        onClick={() => onMoveScan(scan.id, 'down')}
+                        onClick={() => onMoveScan(scan.id, "down")}
                         variant="outline"
                         size="sm"
                         className="flex-1"
@@ -287,17 +310,26 @@ export function SavedScansGallery({
         </CardContent>
       </Card>
 
-      <AlertDialog open={deleteConfirmId !== null} onOpenChange={(open) => !open && handleCancelDelete()}>
+      <AlertDialog
+        open={deleteConfirmId !== null}
+        onOpenChange={(open) => !open && handleCancelDelete()}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Saved Scan?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently remove this scan from your saved photos. This action cannot be undone.
+              This will permanently remove this scan from your saved photos.
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleCancelDelete}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogCancel onClick={handleCancelDelete}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface UseGoogleMapsReturn {
   isLoaded: boolean;
@@ -6,7 +6,7 @@ interface UseGoogleMapsReturn {
 }
 
 // Google Maps API key - in production, this should be in environment variables
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8';
+const GOOGLE_MAPS_API_KEY = "AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8";
 
 let isScriptLoading = false;
 let isScriptLoaded = false;
@@ -48,12 +48,12 @@ function loadGoogleMapsScript(): Promise<void> {
     if (document.querySelector('script[src*="maps.googleapis.com"]')) {
       isScriptLoaded = true;
       isScriptLoading = false;
-      loadCallbacks.forEach((cb) => cb(null));
+      for (const cb of loadCallbacks) cb(null);
       loadCallbacks.length = 0;
       return;
     }
 
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
     script.async = true;
     script.defer = true;
@@ -61,15 +61,15 @@ function loadGoogleMapsScript(): Promise<void> {
     script.onload = () => {
       isScriptLoaded = true;
       isScriptLoading = false;
-      loadCallbacks.forEach((cb) => cb(null));
+      for (const cb of loadCallbacks) cb(null);
       loadCallbacks.length = 0;
     };
 
     script.onerror = () => {
-      const error = new Error('Failed to load Google Maps script');
+      const error = new Error("Failed to load Google Maps script");
       scriptLoadError = error;
       isScriptLoading = false;
-      loadCallbacks.forEach((cb) => cb(error));
+      for (const cb of loadCallbacks) cb(error);
       loadCallbacks.length = 0;
     };
 

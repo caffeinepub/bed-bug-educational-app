@@ -1,70 +1,89 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, Search, Home, Shield, Activity, BookOpen, MapPin } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Activity,
+  BookOpen,
+  CalendarCheck,
+  Camera,
+  Home,
+  MapPin,
+  Search,
+  Shield,
+} from "lucide-react";
+import { useState } from "react";
+import { AppointmentSchedulerDialog } from "./AppointmentSchedulerDialog";
 
 export function HomePage() {
+  const [appointmentDialogOpen, setAppointmentDialogOpen] = useState(false);
+
   const navigationItems = [
     {
-      id: 'scanner',
-      title: 'Scanner',
-      description: 'Take or upload photos to identify pests',
+      id: "scanner",
+      title: "Scanner",
+      description: "Take or upload photos to identify pests",
       icon: Camera,
-      hash: '#scanner',
-      color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-blue-50 dark:bg-blue-950/30',
+      hash: "#scanner",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-50 dark:bg-blue-950/30",
     },
     {
-      id: 'identify',
-      title: 'Identify',
-      description: 'Learn to recognize common pests',
+      id: "identify",
+      title: "Identify",
+      description: "Learn to recognize common pests",
       icon: Search,
-      hash: '#identify',
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/30',
+      hash: "#identify",
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-50 dark:bg-green-950/30",
     },
     {
-      id: 'habitats',
-      title: 'Habitats',
-      description: 'Discover where pests hide and live',
+      id: "habitats",
+      title: "Habitats",
+      description: "Discover where pests hide and live",
       icon: Home,
-      hash: '#habitats',
-      color: 'text-amber-600 dark:text-amber-400',
-      bgColor: 'bg-amber-50 dark:bg-amber-950/30',
+      hash: "#habitats",
+      color: "text-amber-600 dark:text-amber-400",
+      bgColor: "bg-amber-50 dark:bg-amber-950/30",
     },
     {
-      id: 'prevention',
-      title: 'Prevention',
-      description: 'Stop infestations before they start',
+      id: "prevention",
+      title: "Prevention",
+      description: "Stop infestations before they start",
       icon: Shield,
-      hash: '#prevention',
-      color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-950/30',
+      hash: "#prevention",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-50 dark:bg-purple-950/30",
     },
     {
-      id: 'treatment',
-      title: 'Treatment',
-      description: 'Safe and effective treatment methods',
+      id: "treatment",
+      title: "Treatment",
+      description: "Safe and effective treatment methods",
       icon: Activity,
-      hash: '#treatment',
-      color: 'text-red-600 dark:text-red-400',
-      bgColor: 'bg-red-50 dark:bg-red-950/30',
+      hash: "#treatment",
+      color: "text-red-600 dark:text-red-400",
+      bgColor: "bg-red-50 dark:bg-red-950/30",
     },
     {
-      id: 'guides',
-      title: 'Guides',
-      description: 'Download printable reference guides',
+      id: "guides",
+      title: "Guides",
+      description: "Download printable reference guides",
       icon: BookOpen,
-      hash: '#guides',
-      color: 'text-indigo-600 dark:text-indigo-400',
-      bgColor: 'bg-indigo-50 dark:bg-indigo-950/30',
+      hash: "#guides",
+      color: "text-indigo-600 dark:text-indigo-400",
+      bgColor: "bg-indigo-50 dark:bg-indigo-950/30",
     },
     {
-      id: 'findLocalHelp',
-      title: 'Find Local Help',
-      description: 'Locate professional pest control services',
+      id: "findLocalHelp",
+      title: "Find Local Help",
+      description: "Locate professional pest control services",
       icon: MapPin,
-      hash: '#findLocalHelp',
-      color: 'text-teal-600 dark:text-teal-400',
-      bgColor: 'bg-teal-50 dark:bg-teal-950/30',
+      hash: "#findLocalHelp",
+      color: "text-teal-600 dark:text-teal-400",
+      bgColor: "bg-teal-50 dark:bg-teal-950/30",
     },
   ];
 
@@ -78,14 +97,14 @@ export function HomePage() {
         {/* Hero Section */}
         <div className="mb-12 text-center">
           <div className="mb-6 flex justify-center gap-4">
-            <img 
-              src="/assets/generated/bed-bug-icon.dim_128x128.png" 
-              alt="Pest Control" 
+            <img
+              src="/assets/generated/bed-bug-icon.dim_128x128.png"
+              alt="Pest Control"
               className="h-20 w-20 object-contain"
             />
-            <img 
-              src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
-              alt="Quick Tips" 
+            <img
+              src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
+              alt="Quick Tips"
               className="h-20 w-20 object-contain"
             />
           </div>
@@ -93,14 +112,41 @@ export function HomePage() {
             Pest Control Guide
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Your comprehensive resource for identifying, preventing, and treating common household pests. 
-            Get expert guidance and connect with local professionals.
+            Your comprehensive resource for identifying, preventing, and
+            treating common household pests. Get expert guidance and connect
+            with local professionals.
           </p>
+        </div>
+
+        {/* Book Appointment Banner */}
+        <div className="mb-8">
+          <Card
+            className="cursor-pointer border-2 border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 transition-all hover:shadow-lg hover:scale-[1.01] active:scale-100"
+            onClick={() => setAppointmentDialogOpen(true)}
+          >
+            <CardContent className="flex items-center gap-4 py-5 px-6">
+              <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-orange-100 dark:bg-orange-900/50">
+                <CalendarCheck className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-lg font-semibold text-orange-800 dark:text-orange-200">
+                  Book a Community Health Appointment
+                </p>
+                <p className="text-sm text-orange-700 dark:text-orange-300">
+                  Schedule a pest management visit — pick your date, time, and
+                  address
+                </p>
+              </div>
+              <CalendarCheck className="h-5 w-5 flex-shrink-0 text-orange-500 dark:text-orange-400 opacity-60" />
+            </CardContent>
+          </Card>
         </div>
 
         {/* Navigation Grid */}
         <div className="mb-8">
-          <h2 className="mb-6 text-center text-2xl font-semibold">Where would you like to start?</h2>
+          <h2 className="mb-6 text-center text-2xl font-semibold">
+            Where would you like to start?
+          </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {navigationItems.map((item) => {
               const Icon = item.icon;
@@ -111,7 +157,9 @@ export function HomePage() {
                   onClick={() => handleNavigationClick(item.hash)}
                 >
                   <CardHeader>
-                    <div className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg ${item.bgColor}`}>
+                    <div
+                      className={`mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg ${item.bgColor}`}
+                    >
                       <Icon className={`h-6 w-6 ${item.color}`} />
                     </div>
                     <CardTitle className="text-xl">{item.title}</CardTitle>
@@ -122,6 +170,22 @@ export function HomePage() {
                 </Card>
               );
             })}
+
+            {/* Appointment Card in grid */}
+            <Card
+              className="cursor-pointer border-2 border-orange-200 dark:border-orange-800 transition-all hover:shadow-lg hover:scale-105 active:scale-100"
+              onClick={() => setAppointmentDialogOpen(true)}
+            >
+              <CardHeader>
+                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-orange-50 dark:bg-orange-950/30">
+                  <CalendarCheck className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                </div>
+                <CardTitle className="text-xl">Book Appointment</CardTitle>
+                <CardDescription className="text-base">
+                  Schedule help from Community Health services
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
         </div>
 
@@ -132,13 +196,15 @@ export function HomePage() {
             <div>
               <h4 className="mb-2 font-medium">18 Common Pests</h4>
               <p className="text-sm text-muted-foreground">
-                Detailed information on bed bugs, scorpions, mice, cockroaches, ants, spiders, and more
+                Detailed information on bed bugs, scorpions, mice, cockroaches,
+                ants, spiders, and more
               </p>
             </div>
             <div>
               <h4 className="mb-2 font-medium">Photo Scanner</h4>
               <p className="text-sm text-muted-foreground">
-                Use your camera or upload images to help identify pests in your home
+                Use your camera or upload images to help identify pests in your
+                home
               </p>
             </div>
             <div>
@@ -168,6 +234,12 @@ export function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Appointment Scheduler Dialog */}
+      <AppointmentSchedulerDialog
+        open={appointmentDialogOpen}
+        onOpenChange={setAppointmentDialogOpen}
+      />
     </div>
   );
 }

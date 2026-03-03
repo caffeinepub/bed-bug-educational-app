@@ -10,6 +10,24 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
+export interface Appointment {
+  'status' : AppointmentStatus,
+  'appointmentTimestamp' : bigint,
+  'submissionTimestamp' : bigint,
+  'homeAddress' : string,
+  'caller' : Principal,
+}
+export type AppointmentStatus = { 'completed' : null } |
+  { 'confirmed' : null } |
+  { 'pendingConfirmation' : null };
+export interface ChatMessage {
+  'id' : bigint,
+  'content' : string,
+  'timestamp' : bigint,
+  'threadId' : string,
+  'isTechnician' : boolean,
+  'senderId' : Principal,
+}
 export interface ContentSection {
   'id' : string,
   'title' : string,
@@ -54,6 +72,14 @@ export interface TransformationOutput {
   'body' : Uint8Array,
   'headers' : Array<http_header>,
 }
+export interface UserProfile {
+  'name' : string,
+  'technicianId' : [] | [string],
+  'isTechnician' : boolean,
+}
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
 export interface _CaffeineStorageCreateCertificateResult {
   'method' : string,
   'blob_hash' : string,
@@ -87,6 +113,7 @@ export interface _SERVICE {
     _CaffeineStorageRefillResult
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addTechnician' : ActorMethod<
     [
       string,
@@ -103,17 +130,30 @@ export interface _SERVICE {
     ],
     undefined
   >,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'confirmAppointment' : ActorMethod<[Principal], undefined>,
   'fetchZipCodeBoundary' : ActorMethod<[bigint, string], string>,
+  'getActiveTechniciansForChat' : ActorMethod<[], Array<string>>,
   'getAllGuides' : ActorMethod<[], Array<PrintableGuide>>,
   'getAllSections' : ActorMethod<[], Array<ContentSection>>,
+  'getAppointments' : ActorMethod<[], Array<Appointment>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getGuide' : ActorMethod<[string], [] | [PrintableGuide]>,
   'getGuidesByContentType' : ActorMethod<[ContentType], Array<PrintableGuide>>,
+  'getMessagesForThread' : ActorMethod<[string], Array<ChatMessage>>,
   'getSection' : ActorMethod<[string], [] | [ContentSection]>,
   'getSectionsByContentType' : ActorMethod<
     [ContentType],
     Array<ContentSection>
   >,
   'getTechniciansByZip' : ActorMethod<[bigint], Array<Technician>>,
+  'getThreadList' : ActorMethod<[], Array<string>>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'sendMessage' : ActorMethod<[boolean, string, string], undefined>,
+  'submitAppointment' : ActorMethod<[bigint, string], undefined>,
   'transform' : ActorMethod<[TransformationInput], TransformationOutput>,
 }
 export declare const idlService: IDL.ServiceClass;

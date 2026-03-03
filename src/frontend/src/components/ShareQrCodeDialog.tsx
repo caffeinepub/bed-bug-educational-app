@@ -1,32 +1,42 @@
-import { useState, useRef, useEffect } from 'react';
-import { Copy, Download, Share2, Check, ExternalLink, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useHashRoute } from '@/hooks/useHashRoute';
-import { getShareableUrl } from '@/utils/shareUrl';
-import { copyToClipboard } from '@/utils/clipboard';
-import { buildQrImageUrl, downloadQrCode } from '@/utils/qr';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useHashRoute } from "@/hooks/useHashRoute";
+import { copyToClipboard } from "@/utils/clipboard";
+import { buildQrImageUrl, downloadQrCode } from "@/utils/qr";
+import { getShareableUrl } from "@/utils/shareUrl";
+import {
+  AlertCircle,
+  Check,
+  Copy,
+  Download,
+  ExternalLink,
+  Share2,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface ShareQrCodeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps) {
-  const [appUrl, setAppUrl] = useState('');
+export function ShareQrCodeDialog({
+  open,
+  onOpenChange,
+}: ShareQrCodeDialogProps) {
+  const [appUrl, setAppUrl] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const [copyError, setCopyError] = useState('');
-  const [downloadError, setDownloadError] = useState('');
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
+  const [copyError, setCopyError] = useState("");
+  const [downloadError, setDownloadError] = useState("");
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
   const [qrLoadError, setQrLoadError] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const copyButtonRef = useRef<HTMLButtonElement>(null);
@@ -48,7 +58,7 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
         const qrApiUrl = buildQrImageUrl(appUrl, 400);
         setQrCodeDataUrl(qrApiUrl);
       } catch (err) {
-        console.error('Failed to generate QR code:', err);
+        console.error("Failed to generate QR code:", err);
         setQrLoadError(true);
       }
     };
@@ -68,15 +78,15 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
 
   const handleCopyLink = async () => {
     setCopySuccess(false);
-    setCopyError('');
+    setCopyError("");
 
     const result = await copyToClipboard(appUrl);
-    
+
     if (result.success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 3000);
     } else {
-      setCopyError(result.error || 'Failed to copy link');
+      setCopyError(result.error || "Failed to copy link");
     }
   };
 
@@ -84,19 +94,22 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
     if (!qrCodeDataUrl) return;
 
     setIsDownloading(true);
-    setDownloadError('');
+    setDownloadError("");
 
-    const result = await downloadQrCode(qrCodeDataUrl, 'pest-id-guide-qr-code.png');
-    
+    const result = await downloadQrCode(
+      qrCodeDataUrl,
+      "pest-id-guide-qr-code.png",
+    );
+
     setIsDownloading(false);
 
     if (!result.success) {
-      setDownloadError(result.error || 'Failed to download QR code');
+      setDownloadError(result.error || "Failed to download QR code");
     }
   };
 
   const handleOpenFullPage = () => {
-    navigate('/qr');
+    navigate("/qr");
     onOpenChange(false);
   };
 
@@ -109,7 +122,8 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
             Share App
           </DialogTitle>
           <DialogDescription>
-            Share this app with others by scanning the QR code or copying the link.
+            Share this app with others by scanning the QR code or copying the
+            link.
           </DialogDescription>
         </DialogHeader>
 
@@ -138,7 +152,9 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
               />
             ) : (
               <div className="flex h-[200px] w-[200px] items-center justify-center bg-muted">
-                <p className="text-sm text-muted-foreground">Loading QR code...</p>
+                <p className="text-sm text-muted-foreground">
+                  Loading QR code...
+                </p>
               </div>
             )}
           </div>
@@ -148,7 +164,8 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
             <Alert variant="destructive" className="w-full">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription className="text-xs">
-                QR code could not be generated. You can still copy the link below.
+                QR code could not be generated. You can still copy the link
+                below.
               </AlertDescription>
             </Alert>
           )}
@@ -156,7 +173,9 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
           {downloadError && (
             <Alert variant="destructive" className="w-full">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription className="text-xs">{downloadError}</AlertDescription>
+              <AlertDescription className="text-xs">
+                {downloadError}
+              </AlertDescription>
             </Alert>
           )}
 
@@ -182,7 +201,7 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
               ref={copyButtonRef}
               onClick={handleCopyLink}
               className="flex-1"
-              variant={copySuccess ? 'default' : 'outline'}
+              variant={copySuccess ? "default" : "outline"}
               aria-label="Copy link to clipboard"
             >
               {copySuccess ? (
@@ -206,7 +225,7 @@ export function ShareQrCodeDialog({ open, onOpenChange }: ShareQrCodeDialogProps
               disabled={!qrCodeDataUrl || qrLoadError || isDownloading}
             >
               <Download className="mr-2 h-4 w-4" />
-              {isDownloading ? 'Downloading...' : 'Download QR'}
+              {isDownloading ? "Downloading..." : "Download QR"}
             </Button>
           </div>
 

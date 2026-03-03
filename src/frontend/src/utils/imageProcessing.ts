@@ -1,9 +1,12 @@
-export async function rotateImage(imageDataUrl: string, degrees: number): Promise<string> {
+export async function rotateImage(
+  imageDataUrl: string,
+  degrees: number,
+): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       if (!ctx) {
         resolve(imageDataUrl);
         return;
@@ -20,7 +23,7 @@ export async function rotateImage(imageDataUrl: string, degrees: number): Promis
       ctx.rotate(rad);
       ctx.drawImage(img, -img.width / 2, -img.height / 2);
 
-      resolve(canvas.toDataURL('image/png'));
+      resolve(canvas.toDataURL("image/png"));
     };
     img.src = imageDataUrl;
   });
@@ -30,8 +33,8 @@ export async function enhanceImage(imageDataUrl: string): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       if (!ctx) {
         resolve(imageDataUrl);
         return;
@@ -49,24 +52,36 @@ export async function enhanceImage(imageDataUrl: string): Promise<string> {
       const brightness = 10;
 
       for (let i = 0; i < data.length; i += 4) {
-        data[i] = Math.min(255, Math.max(0, contrast * (data[i] - 128) + 128 + brightness));
-        data[i + 1] = Math.min(255, Math.max(0, contrast * (data[i + 1] - 128) + 128 + brightness));
-        data[i + 2] = Math.min(255, Math.max(0, contrast * (data[i + 2] - 128) + 128 + brightness));
+        data[i] = Math.min(
+          255,
+          Math.max(0, contrast * (data[i] - 128) + 128 + brightness),
+        );
+        data[i + 1] = Math.min(
+          255,
+          Math.max(0, contrast * (data[i + 1] - 128) + 128 + brightness),
+        );
+        data[i + 2] = Math.min(
+          255,
+          Math.max(0, contrast * (data[i + 2] - 128) + 128 + brightness),
+        );
       }
 
       ctx.putImageData(imageData, 0, 0);
-      resolve(canvas.toDataURL('image/png'));
+      resolve(canvas.toDataURL("image/png"));
     };
     img.src = imageDataUrl;
   });
 }
 
-export async function applyZoom(imageDataUrl: string, zoomLevel: number): Promise<string> {
+export async function applyZoom(
+  imageDataUrl: string,
+  zoomLevel: number,
+): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       if (!ctx) {
         resolve(imageDataUrl);
         return;
@@ -80,11 +95,11 @@ export async function applyZoom(imageDataUrl: string, zoomLevel: number): Promis
       const offsetX = (canvas.width - scaledWidth) / 2;
       const offsetY = (canvas.height - scaledHeight) / 2;
 
-      ctx.fillStyle = 'oklch(0.18 0.02 40)';
+      ctx.fillStyle = "oklch(0.18 0.02 40)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
 
-      resolve(canvas.toDataURL('image/png'));
+      resolve(canvas.toDataURL("image/png"));
     };
     img.src = imageDataUrl;
   });
@@ -92,13 +107,13 @@ export async function applyZoom(imageDataUrl: string, zoomLevel: number): Promis
 
 export async function cropImage(
   imageDataUrl: string,
-  cropRect: { x: number; y: number; width: number; height: number }
+  cropRect: { x: number; y: number; width: number; height: number },
 ): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       if (!ctx) {
         resolve(imageDataUrl);
         return;
@@ -116,10 +131,10 @@ export async function cropImage(
         0,
         0,
         cropRect.width,
-        cropRect.height
+        cropRect.height,
       );
 
-      resolve(canvas.toDataURL('image/png'));
+      resolve(canvas.toDataURL("image/png"));
     };
     img.src = imageDataUrl;
   });

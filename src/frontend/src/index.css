@@ -82,3 +82,20 @@ html {
 .checklist-item input[type="checkbox"] {
   @apply mt-1;
 }
+
+/* Live indicator pulse animation for chat FAB and badge */
+@keyframes pulse-green {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s ease-in-out infinite;
+}

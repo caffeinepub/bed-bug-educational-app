@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 /**
  * Custom hook for hash-based routing without adding router dependencies.
@@ -8,27 +8,27 @@ import { useState, useEffect } from 'react';
 
 function normalizeHash(hash: string): string {
   // Remove leading # if present
-  let normalized = hash.startsWith('#') ? hash.slice(1) : hash;
-  
+  let normalized = hash.startsWith("#") ? hash.slice(1) : hash;
+
   // Ensure leading slash
-  if (!normalized.startsWith('/')) {
-    normalized = '/' + normalized;
+  if (!normalized.startsWith("/")) {
+    normalized = `/${normalized}`;
   }
-  
+
   // Treat empty as root
-  if (normalized === '/') {
-    return '/';
+  if (normalized === "/") {
+    return "/";
   }
-  
+
   return normalized;
 }
 
 export function useHashRoute() {
   const [currentHash, setCurrentHash] = useState(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return normalizeHash(window.location.hash);
     }
-    return '/';
+    return "/";
   });
 
   useEffect(() => {
@@ -39,8 +39,8 @@ export function useHashRoute() {
     // Handle initial load
     handleHashChange();
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   const navigate = (path: string) => {
@@ -49,7 +49,7 @@ export function useHashRoute() {
   };
 
   const goBack = () => {
-    window.location.hash = '/';
+    window.location.hash = "/";
   };
 
   return {

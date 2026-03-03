@@ -1,32 +1,41 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export function IdentifySection() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
   return (
     <div className="space-y-6">
       <Alert className="border-primary/50 bg-primary/5">
-        <button
-          onClick={() => scrollToSection('adult-bed-bugs')}
-          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
-          aria-label="Jump to identification section"
-        >
-          <img 
-            src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png" 
-            alt="Quick tip" 
-            className="h-4 w-4"
-          />
-        </button>
-        <AlertDescription className="text-sm">
-          Early detection is crucial. Learning to identify bed bugs and their signs can help you catch an
-          infestation before it becomes severe.
-        </AlertDescription>
+        <div className="flex items-start gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToSection("adult-bed-bugs")}
+            className="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70 mt-0.5"
+            aria-label="Jump to identification section"
+          >
+            <img
+              src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
+              alt="Quick tip"
+              className="h-5 w-5"
+            />
+          </button>
+          <AlertDescription className="text-sm flex-1">
+            Early detection is crucial. Learning to identify bed bugs and their
+            signs can help you catch an infestation before it becomes severe.
+          </AlertDescription>
+        </div>
       </Alert>
 
       <Card id="adult-bed-bugs">
@@ -44,16 +53,21 @@ export function IdentifySection() {
           </div>
           <div className="space-y-3 text-sm">
             <p>
-              <strong className="font-semibold text-foreground">Size:</strong> Adult bed bugs are about 4-5mm
-              long (roughly the size of an apple seed).
+              <strong className="font-semibold text-foreground">Size:</strong>{" "}
+              Adult bed bugs are about 4-5mm long (roughly the size of an apple
+              seed).
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Color:</strong> Reddish-brown, flat, and oval-shaped.
-              After feeding, they become more elongated and darker.
+              <strong className="font-semibold text-foreground">Color:</strong>{" "}
+              Reddish-brown, flat, and oval-shaped. After feeding, they become
+              more elongated and darker.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Features:</strong> Six legs, antennae, and a
-              segmented body. They cannot fly or jump but can crawl quickly.
+              <strong className="font-semibold text-foreground">
+                Features:
+              </strong>{" "}
+              Six legs, antennae, and a segmented body. They cannot fly or jump
+              but can crawl quickly.
             </p>
           </div>
         </CardContent>
@@ -74,17 +88,22 @@ export function IdentifySection() {
           </div>
           <div className="space-y-3 text-sm">
             <p>
-              <strong className="font-semibold text-foreground">Eggs:</strong> Tiny (1mm), white, and
-              pearl-like. Often found in clusters in cracks and crevices.
+              <strong className="font-semibold text-foreground">Eggs:</strong>{" "}
+              Tiny (1mm), white, and pearl-like. Often found in clusters in
+              cracks and crevices.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Nymphs:</strong> Smaller, lighter-colored
-              versions of adults. They molt five times before reaching maturity, requiring a blood meal
-              between each stage.
+              <strong className="font-semibold text-foreground">Nymphs:</strong>{" "}
+              Smaller, lighter-colored versions of adults. They molt five times
+              before reaching maturity, requiring a blood meal between each
+              stage.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Development:</strong> Under ideal conditions,
-              bed bugs can develop from egg to adult in as little as 5 weeks.
+              <strong className="font-semibold text-foreground">
+                Development:
+              </strong>{" "}
+              Under ideal conditions, bed bugs can develop from egg to adult in
+              as little as 5 weeks.
             </p>
           </div>
         </CardContent>
@@ -106,11 +125,12 @@ export function IdentifySection() {
             </div>
             <div className="space-y-2 text-sm">
               <p>
-                Bites often appear in a line or cluster, typically on exposed skin during sleep. They may be
-                red, itchy, and slightly raised.
+                Bites often appear in a line or cluster, typically on exposed
+                skin during sleep. They may be red, itchy, and slightly raised.
               </p>
               <p className="text-muted-foreground">
-                Note: Not everyone reacts to bed bug bites, and reactions vary by individual.
+                Note: Not everyone reacts to bed bug bites, and reactions vary
+                by individual.
               </p>
             </div>
           </CardContent>
@@ -131,8 +151,9 @@ export function IdentifySection() {
             </div>
             <div className="space-y-2 text-sm">
               <p>
-                Look for small, dark spots (digested blood) on mattresses, sheets, and nearby furniture.
-                These stains may bleed on fabric like a marker.
+                Look for small, dark spots (digested blood) on mattresses,
+                sheets, and nearby furniture. These stains may bleed on fabric
+                like a marker.
               </p>
             </div>
           </CardContent>
@@ -154,11 +175,12 @@ export function IdentifySection() {
           </div>
           <div className="space-y-2 text-sm">
             <p>
-              Small blood spots on sheets or pillowcases can occur when bed bugs are crushed during sleep or
-              from bite wounds.
+              Small blood spots on sheets or pillowcases can occur when bed bugs
+              are crushed during sleep or from bite wounds.
             </p>
             <p>
-              Check your bedding regularly, especially along seams and in corners where bed bugs tend to hide.
+              Check your bedding regularly, especially along seams and in
+              corners where bed bugs tend to hide.
             </p>
           </div>
         </CardContent>
@@ -179,12 +201,13 @@ export function IdentifySection() {
           </div>
           <div className="space-y-2 text-sm">
             <p>
-              Eggs are extremely small (about 1mm), white, and sticky. They're often laid in protected areas
-              like mattress seams, furniture joints, and behind baseboards.
+              Eggs are extremely small (about 1mm), white, and sticky. They're
+              often laid in protected areas like mattress seams, furniture
+              joints, and behind baseboards.
             </p>
             <p>
-              You may also find shed skins (exoskeletons) from nymphs as they molt and grow. These are
-              translucent and light-colored.
+              You may also find shed skins (exoskeletons) from nymphs as they
+              molt and grow. These are translucent and light-colored.
             </p>
           </div>
         </CardContent>

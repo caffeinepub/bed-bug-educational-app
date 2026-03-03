@@ -19,6 +19,11 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
+export const UserRole = IDL.Variant({
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+  'guest' : IDL.Null,
+});
 export const ContentType = IDL.Variant({
   'mouse' : IDL.Null,
   'bedBugs' : IDL.Null,
@@ -42,6 +47,31 @@ export const ContentSection = IDL.Record({
   'content' : IDL.Text,
   'contentType' : ContentType,
   'images' : IDL.Vec(ExternalBlob),
+});
+export const AppointmentStatus = IDL.Variant({
+  'completed' : IDL.Null,
+  'confirmed' : IDL.Null,
+  'pendingConfirmation' : IDL.Null,
+});
+export const Appointment = IDL.Record({
+  'status' : AppointmentStatus,
+  'appointmentTimestamp' : IDL.Int,
+  'submissionTimestamp' : IDL.Int,
+  'homeAddress' : IDL.Text,
+  'caller' : IDL.Principal,
+});
+export const UserProfile = IDL.Record({
+  'name' : IDL.Text,
+  'technicianId' : IDL.Opt(IDL.Text),
+  'isTechnician' : IDL.Bool,
+});
+export const ChatMessage = IDL.Record({
+  'id' : IDL.Nat,
+  'content' : IDL.Text,
+  'timestamp' : IDL.Int,
+  'threadId' : IDL.Text,
+  'isTechnician' : IDL.Bool,
+  'senderId' : IDL.Principal,
 });
 export const Technician = IDL.Record({
   'id' : IDL.Text,
@@ -102,6 +132,7 @@ export const idlService = IDL.Service({
       [],
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+  '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addTechnician' : IDL.Func(
       [
         IDL.Text,
@@ -119,13 +150,24 @@ export const idlService = IDL.Service({
       [],
       [],
     ),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'confirmAppointment' : IDL.Func([IDL.Principal], [], []),
   'fetchZipCodeBoundary' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Text], []),
+  'getActiveTechniciansForChat' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
   'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
   'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
+  'getAppointments' : IDL.Func([], [IDL.Vec(Appointment)], ['query']),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
   'getGuidesByContentType' : IDL.Func(
       [ContentType],
       [IDL.Vec(PrintableGuide)],
+      ['query'],
+    ),
+  'getMessagesForThread' : IDL.Func(
+      [IDL.Text],
+      [IDL.Vec(ChatMessage)],
       ['query'],
     ),
   'getSection' : IDL.Func([IDL.Text], [IDL.Opt(ContentSection)], ['query']),
@@ -135,6 +177,16 @@ export const idlService = IDL.Service({
       ['query'],
     ),
   'getTechniciansByZip' : IDL.Func([IDL.Nat], [IDL.Vec(Technician)], ['query']),
+  'getThreadList' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
+  'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'sendMessage' : IDL.Func([IDL.Bool, IDL.Text, IDL.Text], [], []),
+  'submitAppointment' : IDL.Func([IDL.Int, IDL.Text], [], []),
   'transform' : IDL.Func(
       [TransformationInput],
       [TransformationOutput],
@@ -155,6 +207,11 @@ export const idlFactory = ({ IDL }) => {
   const _CaffeineStorageRefillResult = IDL.Record({
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
+  });
+  const UserRole = IDL.Variant({
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+    'guest' : IDL.Null,
   });
   const ContentType = IDL.Variant({
     'mouse' : IDL.Null,
@@ -179,6 +236,31 @@ export const idlFactory = ({ IDL }) => {
     'content' : IDL.Text,
     'contentType' : ContentType,
     'images' : IDL.Vec(ExternalBlob),
+  });
+  const AppointmentStatus = IDL.Variant({
+    'completed' : IDL.Null,
+    'confirmed' : IDL.Null,
+    'pendingConfirmation' : IDL.Null,
+  });
+  const Appointment = IDL.Record({
+    'status' : AppointmentStatus,
+    'appointmentTimestamp' : IDL.Int,
+    'submissionTimestamp' : IDL.Int,
+    'homeAddress' : IDL.Text,
+    'caller' : IDL.Principal,
+  });
+  const UserProfile = IDL.Record({
+    'name' : IDL.Text,
+    'technicianId' : IDL.Opt(IDL.Text),
+    'isTechnician' : IDL.Bool,
+  });
+  const ChatMessage = IDL.Record({
+    'id' : IDL.Nat,
+    'content' : IDL.Text,
+    'timestamp' : IDL.Int,
+    'threadId' : IDL.Text,
+    'isTechnician' : IDL.Bool,
+    'senderId' : IDL.Principal,
   });
   const Technician = IDL.Record({
     'id' : IDL.Text,
@@ -236,6 +318,7 @@ export const idlFactory = ({ IDL }) => {
         [],
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+    '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addTechnician' : IDL.Func(
         [
           IDL.Text,
@@ -253,13 +336,28 @@ export const idlFactory = ({ IDL }) => {
         [],
         [],
       ),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'confirmAppointment' : IDL.Func([IDL.Principal], [], []),
     'fetchZipCodeBoundary' : IDL.Func([IDL.Nat, IDL.Text], [IDL.Text], []),
+    'getActiveTechniciansForChat' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Text)],
+        ['query'],
+      ),
     'getAllGuides' : IDL.Func([], [IDL.Vec(PrintableGuide)], ['query']),
     'getAllSections' : IDL.Func([], [IDL.Vec(ContentSection)], ['query']),
+    'getAppointments' : IDL.Func([], [IDL.Vec(Appointment)], ['query']),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getGuide' : IDL.Func([IDL.Text], [IDL.Opt(PrintableGuide)], ['query']),
     'getGuidesByContentType' : IDL.Func(
         [ContentType],
         [IDL.Vec(PrintableGuide)],
+        ['query'],
+      ),
+    'getMessagesForThread' : IDL.Func(
+        [IDL.Text],
+        [IDL.Vec(ChatMessage)],
         ['query'],
       ),
     'getSection' : IDL.Func([IDL.Text], [IDL.Opt(ContentSection)], ['query']),
@@ -273,6 +371,16 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(Technician)],
         ['query'],
       ),
+    'getThreadList' : IDL.Func([], [IDL.Vec(IDL.Text)], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
+    'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'sendMessage' : IDL.Func([IDL.Bool, IDL.Text, IDL.Text], [], []),
+    'submitAppointment' : IDL.Func([IDL.Int, IDL.Text], [], []),
     'transform' : IDL.Func(
         [TransformationInput],
         [TransformationOutput],

@@ -1,8 +1,8 @@
-import { useState, useRef, KeyboardEvent } from 'react';
-import { Plus, X, Edit2, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Check, Edit2, Plus, X } from "lucide-react";
+import { type KeyboardEvent, useRef, useState } from "react";
 
 interface SavedScanTagsEditorProps {
   scanId: string;
@@ -19,9 +19,9 @@ export function SavedScanTagsEditor({
   onRemoveTag,
   onUpdateTag,
 }: SavedScanTagsEditorProps) {
-  const [newTagInput, setNewTagInput] = useState('');
+  const [newTagInput, setNewTagInput] = useState("");
   const [editingTag, setEditingTag] = useState<string | null>(null);
-  const [editValue, setEditValue] = useState('');
+  const [editValue, setEditValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const editInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,16 +29,16 @@ export function SavedScanTagsEditor({
     const trimmedTag = newTagInput.trim();
     if (trimmedTag && !tags.includes(trimmedTag)) {
       onAddTag(scanId, trimmedTag);
-      setNewTagInput('');
+      setNewTagInput("");
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleAddTag();
-    } else if (e.key === 'Escape') {
-      setNewTagInput('');
+    } else if (e.key === "Escape") {
+      setNewTagInput("");
       inputRef.current?.blur();
     }
   };
@@ -55,19 +55,19 @@ export function SavedScanTagsEditor({
       onUpdateTag(scanId, editingTag, trimmedValue);
     }
     setEditingTag(null);
-    setEditValue('');
+    setEditValue("");
   };
 
   const handleCancelEdit = () => {
     setEditingTag(null);
-    setEditValue('');
+    setEditValue("");
   };
 
   const handleEditKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleSaveEdit();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       e.preventDefault();
       handleCancelEdit();
     }

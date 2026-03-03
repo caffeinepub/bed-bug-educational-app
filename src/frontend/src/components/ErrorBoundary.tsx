@@ -1,7 +1,14 @@
-import React, { Component, ReactNode } from 'react';
-import { AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertTriangle } from "lucide-react";
+import type React from "react";
+import { Component, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -27,14 +34,14 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error boundary caught an error:', error, errorInfo);
+    console.error("Error boundary caught an error:", error, errorInfo);
   }
 
   handleReset = () => {
     this.setState({ hasError: false, error: undefined });
     // Navigate to main app
-    if (typeof window !== 'undefined') {
-      window.location.hash = '/';
+    if (typeof window !== "undefined") {
+      window.location.hash = "/";
     }
   };
 
@@ -58,11 +65,14 @@ export class ErrorBoundary extends Component<Props, State> {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                We apologize for the inconvenience. Please try returning to the main app.
+                We apologize for the inconvenience. Please try returning to the
+                main app.
               </p>
               {this.state.error && (
                 <details className="text-xs text-muted-foreground">
-                  <summary className="cursor-pointer font-medium">Error details</summary>
+                  <summary className="cursor-pointer font-medium">
+                    Error details
+                  </summary>
                   <pre className="mt-2 overflow-auto rounded bg-muted p-2">
                     {this.state.error.message}
                   </pre>

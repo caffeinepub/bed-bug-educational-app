@@ -1,252 +1,380 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Flame, AlertTriangle, RotateCcw, Info } from 'lucide-react';
-import { useHeatTreatmentChecklistProgress } from '@/hooks/useHeatTreatmentChecklistProgress';
-import { useHeatTreatmentChecklistReminder } from '@/hooks/useHeatTreatmentChecklistReminder';
-import { HeatTreatmentChecklistReminderDialog } from './HeatTreatmentChecklistReminderDialog';
-
-// Checklist data structure
-const CHECKLIST_DATA = {
-  before: [
-    'Remove all bedding, curtains, and washable items for dryer treatment',
-    'Clear clutter from floors, closets, and under beds',
-    'Pull furniture away from walls (at least 3 feet)',
-    'Remove items from drawers and closets',
-    'Open all drawers, closets, and cabinets to allow heat circulation',
-    'Spread out contents of drawers and closets so heat can reach all surfaces',
-    'Vacuum thoroughly, then seal and dispose of vacuum bag outside',
-    'Remove or protect heat-sensitive items (electronics, computers, tablets, phones, TVs, gaming consoles)',
-    'Remove pressurized containers (aerosol cans, fire extinguishers, propane tanks, compressed air)',
-    'Remove candles, crayons, vinyl records, and wax-based items that may melt',
-    'Remove medications, vitamins, and supplements (heat can reduce effectiveness)',
-    'Remove perishable food items, chocolate, and temperature-sensitive groceries',
-    'Remove houseplants (high heat will damage or kill them)',
-    'Relocate pets, fish tanks, and pet supplies to a safe location',
-    'Remove artwork, photographs, and important documents that may be damaged by heat',
-    'Remove batteries and battery-powered devices',
-    'Turn off or adjust thermostats and HVAC systems as directed by treatment provider',
-    'Disable smoke detectors temporarily (coordinate with treatment provider and local fire department if required)',
-    'Unplug power strips, surge protectors, and non-essential electronics',
-    'Remove window treatments or open blinds to allow even heat distribution',
-    'Ensure clear access to all rooms, including attics, basements, and crawl spaces',
-    'Remove all firearms and ammunition and any other items that could explode',
-  ],
-  during: [
-    'Maintain room temperature above 120°F for at least 4 hours (professional treatment)',
-    'Use fans to circulate heat evenly throughout the space',
-    'Monitor temperatures with thermometers in multiple locations',
-    'Keep doors and windows closed to maintain heat',
-    'Only the heat treatment technician is allowed in the home while it is being heat treated',
-  ],
-  after: [
-    'Allow room to cool before re-entering',
-    'Inspect for any surviving bed bugs',
-    'Install mattress encasements on treated beds',
-    'Only return sealed, treated items to the room',
-    'Continue monitoring for 2-3 weeks to ensure complete elimination',
-  ],
-};
-
-// Generate stable IDs for each checklist item
-const generateItemId = (phase: string, index: number) => `${phase}-${index}`;
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useHeatTreatmentChecklistProgress } from "@/hooks/useHeatTreatmentChecklistProgress";
+import { useHeatTreatmentChecklistReminder } from "@/hooks/useHeatTreatmentChecklistReminder";
+import { HeatTreatmentChecklistReminderDialog } from "./HeatTreatmentChecklistReminderDialog";
 
 export function TreatmentSection() {
-  const { toggleItem, isItemCompleted, resetAll, getCompletionStats, isLoaded, isPersistenceAvailable } =
-    useHeatTreatmentChecklistProgress();
-
-  const {
-    isConfirmed,
-    isReminderOpen,
-    isLoaded: isReminderLoaded,
-    isPersistenceAvailable: isReminderPersistenceAvailable,
-    confirm,
-    cancel,
-    showReminder,
-  } = useHeatTreatmentChecklistReminder();
-
-  // Calculate all item IDs for stats
-  const allItemIds = [
-    ...CHECKLIST_DATA.before.map((_, i) => generateItemId('before', i)),
-    ...CHECKLIST_DATA.during.map((_, i) => generateItemId('during', i)),
-    ...CHECKLIST_DATA.after.map((_, i) => generateItemId('after', i)),
+  const checklistItems = [
+    { id: "remove-clutter", label: "Remove clutter from floors and surfaces" },
+    {
+      id: "wash-bedding",
+      label: "Wash all bedding, curtains, and clothing in hot water",
+    },
+    {
+      id: "vacuum-thoroughly",
+      label: "Vacuum all floors, furniture, and mattresses",
+    },
+    { id: "seal-items", label: "Seal cleaned items in plastic bags" },
+    {
+      id: "move-furniture",
+      label: "Move furniture away from walls (6-12 inches)",
+    },
+    {
+      id: "remove-heat-sensitive",
+      label:
+        "Remove heat-sensitive items (candles, plants, medications, electronics)",
+    },
+    {
+      id: "remove-pets",
+      label: "Remove all pets and arrange alternative care",
+    },
+    {
+      id: "turn-off-ac",
+      label: "Turn off air conditioning and heating systems",
+    },
+    { id: "open-drawers", label: "Open all drawers, closets, and cabinets" },
+    {
+      id: "remove-wall-items",
+      label: "Remove items from walls (pictures, mirrors, decorations)",
+    },
   ];
 
-  const stats = getCompletionStats(allItemIds);
+  const { isItemCompleted, toggleItem, resetAll, getCompletionStats } =
+    useHeatTreatmentChecklistProgress();
 
-  // Checklist is locked until user confirms the reminder
-  const isChecklistLocked = !isConfirmed;
+  const { isConfirmed, isReminderOpen, confirm, cancel, showReminder } =
+    useHeatTreatmentChecklistReminder();
 
-  const handleToggleItem = (itemId: string) => {
-    // Only allow toggling if checklist is unlocked
-    if (!isChecklistLocked) {
-      toggleItem(itemId);
-    }
-  };
+  const stats = getCompletionStats(checklistItems.map((item) => item.id));
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
-  const renderChecklistItems = (items: string[], phase: string) => {
-    return items.map((item, index) => {
-      const itemId = generateItemId(phase, index);
-      const isCompleted = isItemCompleted(itemId);
-
-      return (
-        <li key={itemId} className="flex items-start gap-2 group">
-          <Checkbox
-            id={itemId}
-            checked={isCompleted}
-            onCheckedChange={() => handleToggleItem(itemId)}
-            className="mt-0.5 flex-shrink-0"
-            aria-label={item}
-            disabled={isChecklistLocked}
-            aria-disabled={isChecklistLocked}
-          />
-          <Label
-            htmlFor={itemId}
-            className={`text-sm leading-relaxed ${
-              isCompleted ? 'checklist-item-completed' : ''
-            } ${isChecklistLocked ? 'cursor-default opacity-60' : 'cursor-pointer'}`}
-          >
-            {item}
-          </Label>
-        </li>
-      );
-    });
-  };
-
-  const showPersistenceWarning = !isPersistenceAvailable || !isReminderPersistenceAvailable;
-
   return (
     <div className="space-y-6">
-      <HeatTreatmentChecklistReminderDialog
-        open={isReminderOpen}
-        onConfirm={confirm}
-        onCancel={cancel}
-      />
-
-      {showPersistenceWarning && (
-        <Alert variant="destructive">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Storage Unavailable</AlertTitle>
-          <AlertDescription>
-            Checklist progress and reminder confirmation may not persist on this device or browser. Your progress will be available during this session only.
-          </AlertDescription>
-        </Alert>
-      )}
-
-      <Alert variant="destructive">
-        <AlertTriangle className="h-5 w-5" />
-        <AlertTitle className="text-base font-semibold">Warning: Do Not Use Bed Bug Bombs or Store-Bought Chemicals</AlertTitle>
-        <AlertDescription className="text-sm space-y-2 mt-2">
-          <p>
-            <strong>Bed bug bombs and store-bought household chemicals do not work.</strong> These products only make bed bugs more resistant to chemicals and can spread the infestation to other areas of your home as bed bugs flee from the spray.
-          </p>
-          <p>
-            <strong>Recommended Alternative:</strong> Use diatomaceous earth (food-grade) as a safer, more effective option. Apply it sparingly in cracks, crevices, and along baseboards where bed bugs travel. Use a powder puffer sprayer or sprinkle it lightly in targeted areas. Diatomaceous earth works by damaging the bed bugs' protective outer coating, causing them to dehydrate.
-          </p>
-        </AlertDescription>
-      </Alert>
-
       <Alert className="border-primary/50 bg-primary/5">
-        <button
-          onClick={() => scrollToSection('heat-treatment-basics')}
-          className="h-4 w-4 flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70"
-          aria-label="Jump to heat treatment section"
-        >
-          <Flame className="h-4 w-4 text-primary" />
-        </button>
-        <AlertDescription className="text-sm">
-          High heat treatment is one of the most effective non-chemical methods for eliminating bed bugs.
-          Proper preparation is essential for success.
-        </AlertDescription>
+        <div className="flex items-start gap-3">
+          <button
+            type="button"
+            onClick={() => scrollToSection("heat-treatment-basics")}
+            className="flex-shrink-0 cursor-pointer transition-opacity hover:opacity-70 mt-0.5"
+            aria-label="Jump to treatment section"
+          >
+            <img
+              src="/assets/generated/bed-bugs-quick-tip-icon.dim_128x128.png"
+              alt="Quick tip"
+              className="h-5 w-5"
+            />
+          </button>
+          <AlertDescription className="text-sm flex-1">
+            Heat treatment is the most effective non-chemical method for
+            eliminating bed bugs. Professional treatment can eradicate all life
+            stages in a single session.
+          </AlertDescription>
+        </div>
       </Alert>
 
       <Alert variant="destructive">
-        <AlertTriangle className="h-4 w-4" />
         <AlertDescription className="text-sm">
-          <strong>Important:</strong> For severe infestations, professional pest control is strongly
-          recommended. These guidelines are for supplementary treatment and prevention.
+          <strong className="font-semibold">Warning:</strong> Do NOT use bed bug
+          bombs or foggers. These products are ineffective against bed bugs and
+          can spread the infestation by causing bugs to scatter into walls and
+          adjacent rooms. They also pose health risks and fire hazards.
         </AlertDescription>
       </Alert>
 
       <Card id="heat-treatment-basics">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3">
+          <CardTitle>Heat Treatment Basics</CardTitle>
+          <CardDescription>
+            How professional heat treatment works
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="overflow-hidden rounded-lg border bg-muted/30">
             <img
               src="/assets/generated/high-heat-treatment-icon.dim_128x128.png"
-              alt="High heat treatment"
-              className="h-8 w-8 object-contain"
+              alt="Heat treatment equipment"
+              className="h-auto w-full object-cover"
             />
-            Heat Treatment Basics
-          </CardTitle>
-          <CardDescription>Why heat works against bed bugs</CardDescription>
+          </div>
+          <div className="space-y-3 text-sm">
+            <p>
+              <strong className="font-semibold text-foreground">
+                Temperature Requirements:
+              </strong>{" "}
+              Professional heat treatment raises the temperature of your home to
+              120-135°F (49-57°C) for several hours. This temperature is lethal
+              to bed bugs at all life stages, including eggs.
+            </p>
+            <p>
+              <strong className="font-semibold text-foreground">
+                Treatment Duration:
+              </strong>{" "}
+              A typical heat treatment takes 6-8 hours, including setup,
+              heating, and cool-down time.
+            </p>
+            <p>
+              <strong className="font-semibold text-foreground">
+                Effectiveness:
+              </strong>{" "}
+              When performed correctly by professionals, heat treatment has a
+              97-100% success rate in a single treatment.
+            </p>
+            <p>
+              <strong className="font-semibold text-foreground">
+                Penetration:
+              </strong>{" "}
+              Heat penetrates into cracks, crevices, furniture, and other hiding
+              spots where bed bugs shelter, reaching areas that chemical
+              treatments may miss.
+            </p>
+            <p>
+              <strong className="font-semibold text-foreground">
+                No Residue:
+              </strong>{" "}
+              Unlike chemical treatments, heat leaves no residue and is safe for
+              people, pets, and the environment once the space cools down.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Room Preparation Checklist</CardTitle>
+          <CardDescription>
+            {isConfirmed
+              ? `Essential steps before heat treatment (${stats.completed}/${stats.total} complete - ${stats.percentage}%)`
+              : "Review safety guidance before accessing checklist"}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {!isConfirmed ? (
+            <div className="space-y-4">
+              <Alert className="border-warning/50 bg-warning/5">
+                <AlertDescription className="text-sm">
+                  Before preparing your home for heat treatment, please review
+                  important safety information and professional guidance.
+                </AlertDescription>
+              </Alert>
+              <Button onClick={showReminder} className="w-full">
+                Review Safety Guidance & Access Checklist
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-3">
+                {checklistItems.map((item) => (
+                  <div key={item.id} className="flex items-start space-x-3">
+                    <Checkbox
+                      id={item.id}
+                      checked={isItemCompleted(item.id)}
+                      onCheckedChange={() => toggleItem(item.id)}
+                      className="mt-1"
+                    />
+                    <label
+                      htmlFor={item.id}
+                      className="text-sm leading-relaxed cursor-pointer select-none"
+                    >
+                      {item.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t">
+                <span className="text-sm text-muted-foreground">
+                  Progress: {stats.completed} of {stats.total} items complete
+                </span>
+                <Button variant="outline" size="sm" onClick={resetAll}>
+                  Reset All
+                </Button>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>What to Expect During Treatment</CardTitle>
+          <CardDescription>The heat treatment process</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <p>
-            <strong className="font-semibold text-foreground">Lethal Temperature:</strong> Bed bugs and their
-            eggs die when exposed to temperatures of 113°F (45°C) or higher for 90+ minutes, or 118°F (48°C)
-            for 20 minutes.
+            <strong className="font-semibold text-foreground">
+              Setup (1-2 hours):
+            </strong>{" "}
+            Technicians will place industrial heaters and fans throughout your
+            home, along with temperature sensors to monitor heat distribution.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Penetrating Heat:</strong> Heat treatment is
-            effective because it penetrates into cracks, crevices, and materials where bed bugs hide.
+            <strong className="font-semibold text-foreground">
+              Heating Phase (4-6 hours):
+            </strong>{" "}
+            The temperature will gradually rise to the target range. Technicians
+            monitor temperatures continuously to ensure all areas reach lethal
+            levels.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">No Resistance:</strong> Unlike chemical
-            treatments, bed bugs cannot develop resistance to heat.
+            <strong className="font-semibold text-foreground">
+              Holding Period:
+            </strong>{" "}
+            Once target temperatures are reached, they're maintained for 1-2
+            hours to ensure complete eradication, including eggs in deep hiding
+            spots.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Immediate Results:</strong> Heat kills bed bugs
-            at all life stages (eggs, nymphs, adults) on contact when proper temperatures are maintained.
+            <strong className="font-semibold text-foreground">
+              Cool Down:
+            </strong>{" "}
+            After treatment, your home will need time to cool before re-entry.
+            Technicians will inform you when it's safe to return.
           </p>
           <p>
-            <strong className="font-semibold text-foreground">Professional Whole-Home Heat Treatment:</strong> A heat assault machine is a highly effective professional solution for defeating bed bugs. This specialized equipment supplies high heat at 120 to 145 degrees Fahrenheit throughout the entire home. The system uses hoses connected to radiator-style fans that distribute consistent heat to every room for approximately 8 to 10 hours of continuous treatment. When performed by trained professionals, this whole-home heat treatment method is one of the most powerful approaches to completely eliminate bed bug infestations.
+            <strong className="font-semibold text-foreground">
+              Post-Treatment:
+            </strong>{" "}
+            You can typically return home the same day. No additional cleaning
+            is required, though you may want to vacuum to remove dead bugs.
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Dryer Treatment</CardTitle>
-          <CardDescription>Using high heat to treat fabrics and clothing</CardDescription>
+          <CardTitle>Items to Remove Before Treatment</CardTitle>
+          <CardDescription>
+            Heat-sensitive items that must be removed
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm">
+          <p>
+            <strong className="font-semibold text-foreground">
+              Electronics:
+            </strong>{" "}
+            Computers, TVs, gaming consoles, tablets, phones, and other
+            electronic devices can be damaged by high heat.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Medications:
+            </strong>{" "}
+            Prescription and over-the-counter medications, vitamins, and
+            supplements should be removed.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Perishables:
+            </strong>{" "}
+            Food items, especially those in plastic containers, chocolate, and
+            anything that can melt or spoil.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Cosmetics & Toiletries:
+            </strong>{" "}
+            Makeup, lotions, aerosol cans, and other personal care items that
+            may be heat-sensitive.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Plants & Pets:
+            </strong>{" "}
+            All living things must be removed, including houseplants, pets, and
+            aquarium fish.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Wax & Vinyl:
+            </strong>{" "}
+            Candles, vinyl records, wax figurines, and similar items that can
+            melt or warp.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Pressurized Containers:
+            </strong>{" "}
+            Aerosol cans, fire extinguishers, propane tanks, and other
+            pressurized items pose explosion risks.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Firearms & Ammunition:
+            </strong>{" "}
+            All firearms, ammunition, and explosive materials must be removed
+            for safety.
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>DIY Heat Treatment (Small Items)</CardTitle>
+          <CardDescription>Treating individual items at home</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="overflow-hidden rounded-lg border bg-muted/30">
-            <img
-              src="/assets/generated/high-heat-dryer.dim_400x300.jpg"
-              alt="Clothes dryer for heat treatment"
-              className="h-auto w-full object-cover"
-            />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="overflow-hidden rounded-lg border bg-muted/30">
+              <img
+                src="/assets/generated/high-heat-dryer.dim_400x300.jpg"
+                alt="Clothes dryer for heat treatment"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+            <div className="overflow-hidden rounded-lg border bg-muted/30">
+              <img
+                src="/assets/generated/sealed-bags-treatment.dim_500x400.jpg"
+                alt="Items sealed in bags for treatment"
+                className="h-auto w-full object-cover"
+              />
+            </div>
           </div>
           <div className="space-y-3 text-sm">
             <p>
-              <strong className="font-semibold text-foreground">Preparation:</strong> Remove all bedding,
-              clothing, curtains, and washable fabric items from infested areas.
+              <strong className="font-semibold text-foreground">
+                Dryer Method:
+              </strong>{" "}
+              Wash and dry clothing, bedding, and fabric items on the highest
+              heat setting for at least 30 minutes. This kills all bed bug life
+              stages.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Washing:</strong> Wash items in hot water (at
-              least 120°F/49°C) if fabric care labels allow. This helps kill bed bugs before drying.
+              <strong className="font-semibold text-foreground">
+                Sealed Bag Method:
+              </strong>{" "}
+              For items that can't be washed, seal them in black plastic bags
+              and place in direct sunlight or a hot car (interior temperature
+              must reach 120°F) for several hours.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Drying:</strong> Dry items on the highest
-              heat setting for at least 30 minutes. Larger loads may require 45-60 minutes to ensure all
-              items reach lethal temperatures.
+              <strong className="font-semibold text-foreground">
+                Steam Cleaning:
+              </strong>{" "}
+              Use a commercial steamer to treat mattresses, furniture, and
+              carpets. The steam temperature must reach at least 160°F at the
+              surface.
             </p>
             <p>
-              <strong className="font-semibold text-foreground">Delicate Items:</strong> For items that can't
-              be washed, place them directly in the dryer on high heat for 30-45 minutes.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Verify Temperature:</strong> Ensure your
-              dryer reaches at least 120°F. Some older or smaller dryers may not get hot enough.
+              <strong className="font-semibold text-foreground">
+                Limitations:
+              </strong>{" "}
+              DIY methods work for individual items but cannot treat an entire
+              home effectively. Professional treatment is necessary for
+              whole-home infestations.
             </p>
           </div>
         </CardContent>
@@ -254,167 +382,113 @@ export function TreatmentSection() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Sealing & Storage</CardTitle>
-          <CardDescription>Protecting treated items</CardDescription>
+          <CardTitle>Why Professional Treatment is Recommended</CardTitle>
+          <CardDescription>The importance of expert service</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-hidden rounded-lg border bg-muted/30">
-            <img
-              src="/assets/generated/sealed-bags-treatment.dim_500x400.jpg"
-              alt="Sealed plastic bags for treated items"
-              className="h-auto w-full object-cover"
-            />
-          </div>
-          <div className="space-y-3 text-sm">
-            <p>
-              <strong className="font-semibold text-foreground">Immediate Sealing:</strong> As soon as items
-              come out of the dryer, place them directly into clean, sealed plastic bags or containers.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Bag Quality:</strong> Use heavy-duty plastic
-              bags or bins with tight-fitting lids. Avoid bags with holes or weak seals.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Labeling:</strong> Clearly label bags as
-              "TREATED" with the date to avoid confusion and prevent re-contamination.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Storage Duration:</strong> Keep items sealed
-              until the infestation is completely eliminated (typically 2-3 weeks after final treatment).
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Clean Storage Area:</strong> Store sealed
-              items in a clean, uninfested area away from the treatment zone.
-            </p>
-          </div>
+        <CardContent className="space-y-3 text-sm">
+          <p>
+            <strong className="font-semibold text-foreground">
+              Specialized Equipment:
+            </strong>{" "}
+            Professional heat treatment requires industrial heaters, fans, and
+            monitoring equipment that homeowners don't have access to.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Even Heat Distribution:
+            </strong>{" "}
+            Professionals ensure heat reaches every corner, crack, and crevice
+            in your home, including inside walls and furniture.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Temperature Monitoring:
+            </strong>{" "}
+            Technicians use multiple sensors to verify that lethal temperatures
+            are reached and maintained throughout the treatment area.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">Safety:</strong>{" "}
+            Professionals know how to safely heat your home without causing fire
+            hazards or damaging your property.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Guaranteed Results:
+            </strong>{" "}
+            Most professional services offer warranties or guarantees, providing
+            follow-up treatments if needed.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Time & Stress:
+            </strong>{" "}
+            Professional treatment is completed in one day, whereas DIY methods
+            may take weeks or months with uncertain results.
+          </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Steam Cleaning</CardTitle>
-          <CardDescription>Treating furniture and surfaces</CardDescription>
+          <CardTitle>Post-Treatment Care</CardTitle>
+          <CardDescription>
+            After the heat treatment is complete
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-hidden rounded-lg border bg-muted/30">
-            <img
-              src="/assets/generated/steam-cleaning.dim_500x400.jpg"
-              alt="Steam cleaner for bed bug treatment"
-              className="h-auto w-full object-cover"
-            />
-          </div>
-          <div className="space-y-3 text-sm">
-            <p>
-              <strong className="font-semibold text-foreground">Equipment:</strong> Use a commercial-grade
-              steam cleaner that produces steam at 160-180°F (71-82°C) at the tip.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Target Areas:</strong> Focus on mattress
-              seams, box spring edges, bed frames, furniture joints, baseboards, and carpet edges.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Technique:</strong> Move the steamer slowly
-              (1 inch per second) to ensure adequate heat penetration. Use a low moisture setting to avoid
-              damaging materials.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Drying:</strong> Allow treated areas to dry
-              completely before replacing bedding or using furniture to prevent mold growth.
-            </p>
-            <p>
-              <strong className="font-semibold text-foreground">Limitations:</strong> Steam may not penetrate
-              deeply into thick materials. Combine with other methods for comprehensive treatment.
-            </p>
-          </div>
+        <CardContent className="space-y-3 text-sm">
+          <p>
+            <strong className="font-semibold text-foreground">
+              Immediate Return:
+            </strong>{" "}
+            You can typically return home the same day once the space has cooled
+            to a safe temperature (usually 2-3 hours after treatment ends).
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Vacuuming:
+            </strong>{" "}
+            Vacuum thoroughly to remove dead bed bugs, shed skins, and eggs.
+            Dispose of vacuum bags immediately in sealed plastic bags outside.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Monitoring:
+            </strong>{" "}
+            Continue to inspect your sleeping areas regularly for the next few
+            weeks. While heat treatment is highly effective, a small number of
+            bugs may have been missed if they were in protected areas.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Mattress Encasements:
+            </strong>{" "}
+            Consider using bed bug-proof mattress and box spring encasements to
+            prevent future infestations and trap any remaining bugs.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Prevention:
+            </strong>{" "}
+            Follow prevention strategies to avoid re-infestation, especially if
+            you live in multi-unit housing or travel frequently.
+          </p>
+          <p>
+            <strong className="font-semibold text-foreground">
+              Follow-Up:
+            </strong>{" "}
+            If you notice any signs of bed bugs within the warranty period,
+            contact your pest control company immediately for follow-up
+            treatment.
+          </p>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <CardTitle>Room Preparation Checklist</CardTitle>
-              <CardDescription>
-                Steps before heat treatment
-                {isLoaded && stats.total > 0 && (
-                  <span className="ml-2 text-xs font-medium">
-                    ({stats.completed}/{stats.total} completed · {stats.percentage}%)
-                  </span>
-                )}
-              </CardDescription>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              {isReminderLoaded && isConfirmed && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={showReminder}
-                  className="text-muted-foreground hover:text-foreground"
-                  title="Show safety reminder"
-                >
-                  <Info className="h-4 w-4" />
-                </Button>
-              )}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={resetAll}
-                disabled={!isLoaded || stats.completed === 0}
-                className="flex-shrink-0"
-              >
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Reset
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {isChecklistLocked && (
-            <Alert className="border-amber-500/50 bg-amber-500/5">
-              <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-500" />
-              <AlertDescription className="text-sm">
-                <strong className="font-semibold">Safety Reminder Required:</strong> Please review and
-                acknowledge the safety reminder before using this checklist.{' '}
-                <Button
-                  variant="link"
-                  size="sm"
-                  onClick={showReminder}
-                  className="h-auto p-0 text-amber-700 dark:text-amber-400 underline"
-                >
-                  Show reminder
-                </Button>
-              </AlertDescription>
-            </Alert>
-          )}
-
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-base font-semibold mb-3 text-foreground">Before Treatment</h3>
-              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.before, 'before')}</ul>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold mb-3 text-foreground">During Treatment</h3>
-              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.during, 'during')}</ul>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold mb-3 text-foreground">After Treatment</h3>
-              <ul className="space-y-2.5">{renderChecklistItems(CHECKLIST_DATA.after, 'after')}</ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Alert className="border-muted-foreground/30">
-        <AlertTriangle className="h-4 w-4" />
-        <AlertTitle>Professional Treatment Recommended</AlertTitle>
-        <AlertDescription className="text-sm">
-          While these DIY methods can help with minor infestations, professional pest control services have
-          specialized equipment and expertise to ensure complete elimination. For severe infestations or if
-          DIY methods are unsuccessful, contact a licensed pest control professional.
-        </AlertDescription>
-      </Alert>
+      <HeatTreatmentChecklistReminderDialog
+        open={isReminderOpen}
+        onConfirm={confirm}
+        onCancel={cancel}
+      />
     </div>
   );
 }

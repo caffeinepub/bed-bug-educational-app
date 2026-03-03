@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import * as safeStorage from '@/utils/safeStorage';
+import * as safeStorage from "@/utils/safeStorage";
+import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = 'heat-treatment-checklist-reminder-confirmed';
+const STORAGE_KEY = "heat-treatment-checklist-reminder-confirmed";
 
 export function useHeatTreatmentChecklistReminder() {
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -32,11 +32,11 @@ export function useHeatTreatmentChecklistReminder() {
   const confirm = useCallback(() => {
     setIsConfirmed(true);
     setIsReminderOpen(false);
-    
+
     if (isPersistenceAvailable) {
       const result = safeStorage.setItem(STORAGE_KEY, true);
       if (!result.success) {
-        console.error('Failed to persist reminder confirmation:', result.error);
+        console.error("Failed to persist reminder confirmation:", result.error);
         setIsPersistenceAvailable(false);
       }
     }

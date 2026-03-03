@@ -7,8 +7,8 @@
  * Gets the shareable app URL (origin without hash).
  */
 export function getShareableUrl(): string {
-  if (typeof window === 'undefined') {
-    return '';
+  if (typeof window === "undefined") {
+    return "";
   }
   return window.location.origin;
 }
@@ -17,8 +17,8 @@ export function getShareableUrl(): string {
  * Gets the full app URL including the current hash.
  */
 export function getFullAppUrl(): string {
-  if (typeof window === 'undefined') {
-    return '';
+  if (typeof window === "undefined") {
+    return "";
   }
   return window.location.href;
 }

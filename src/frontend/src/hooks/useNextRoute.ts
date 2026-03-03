@@ -1,23 +1,23 @@
-import { useHashRoute } from './useHashRoute';
+import { useHashRoute } from "./useHashRoute";
 
 export function useNextRoute() {
   const { currentHash } = useHashRoute();
 
   const getNextRoute = (): string => {
-    const hash = currentHash.replace('/', '').replace('#', '');
-    
+    const hash = currentHash.replace("/", "").replace("#", "");
+
     const routeOrder = [
-      'scanner',
-      'identify',
-      'habitats',
-      'prevention',
-      'treatment',
-      'guides',
-      'findLocalHelp',
+      "scanner",
+      "identify",
+      "habitats",
+      "prevention",
+      "treatment",
+      "guides",
+      "findLocalHelp",
     ];
 
     const currentIndex = routeOrder.indexOf(hash);
-    
+
     if (currentIndex === -1 || currentIndex === routeOrder.length - 1) {
       return routeOrder[0];
     }

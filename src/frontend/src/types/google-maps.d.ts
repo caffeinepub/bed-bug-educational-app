@@ -3,6 +3,7 @@
 
 declare namespace google {
   namespace maps {
+    // biome-ignore lint/suspicious/noShadowRestrictedNames: Google Maps API requires `Map` class name
     class Map {
       constructor(mapDiv: HTMLElement, opts?: MapOptions);
       fitBounds(bounds: LatLngBounds | LatLngBoundsLiteral): void;
@@ -103,8 +104,8 @@ declare namespace google {
           request: AutocompletionRequest,
           callback: (
             predictions: AutocompletePrediction[] | null,
-            status: PlacesServiceStatus
-          ) => void
+            status: PlacesServiceStatus,
+          ) => void,
         ): void;
       }
 
@@ -114,8 +115,8 @@ declare namespace google {
           request: PlaceDetailsRequest,
           callback: (
             place: PlaceResult | null,
-            status: PlacesServiceStatus
-          ) => void
+            status: PlacesServiceStatus,
+          ) => void,
         ): void;
       }
 
@@ -161,13 +162,13 @@ declare namespace google {
       }
 
       enum PlacesServiceStatus {
-        OK = 'OK',
-        ZERO_RESULTS = 'ZERO_RESULTS',
-        INVALID_REQUEST = 'INVALID_REQUEST',
-        OVER_QUERY_LIMIT = 'OVER_QUERY_LIMIT',
-        REQUEST_DENIED = 'REQUEST_DENIED',
-        UNKNOWN_ERROR = 'UNKNOWN_ERROR',
-        NOT_FOUND = 'NOT_FOUND',
+        OK = "OK",
+        ZERO_RESULTS = "ZERO_RESULTS",
+        INVALID_REQUEST = "INVALID_REQUEST",
+        OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT",
+        REQUEST_DENIED = "REQUEST_DENIED",
+        UNKNOWN_ERROR = "UNKNOWN_ERROR",
+        NOT_FOUND = "NOT_FOUND",
       }
     }
   }

@@ -1,29 +1,38 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Download, FileText, Loader2, Info } from 'lucide-react';
-import { useGuidesByContentType } from '@/hooks/useQueries';
-import { ContentType } from '../backend';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useGuidesByContentType } from "@/hooks/useQueries";
+import { Download, FileText, Info, Loader2 } from "lucide-react";
+import type { ContentType } from "../backend";
 
 interface PrintableGuidesProps {
   contentType: ContentType;
   sectionTitle: string;
 }
 
-export function PrintableGuides({ contentType, sectionTitle }: PrintableGuidesProps) {
+export function PrintableGuides({
+  contentType,
+  sectionTitle,
+}: PrintableGuidesProps) {
   const { data: guides, isLoading } = useGuidesByContentType(contentType);
 
   const handleDownload = async (guide: any) => {
     try {
       const url = guide.file.getDirectURL();
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.download = `${guide.title.replace(/\s+/g, '-').toLowerCase()}.pdf`;
+      link.download = `${guide.title.replace(/\s+/g, "-").toLowerCase()}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('Error downloading guide:', error);
+      console.error("Error downloading guide:", error);
     }
   };
 
@@ -50,7 +59,8 @@ export function PrintableGuides({ contentType, sectionTitle }: PrintableGuidesPr
           <Alert>
             <Info className="h-4 w-4" />
             <AlertDescription>
-              Check back soon for PDF guides you can download and print for offline reference.
+              Check back soon for PDF guides you can download and print for
+              offline reference.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -63,7 +73,8 @@ export function PrintableGuides({ contentType, sectionTitle }: PrintableGuidesPr
       <Alert>
         <Info className="h-4 w-4" />
         <AlertDescription>
-          Download these guides for offline reference. Perfect for printing and keeping handy during inspections or treatments.
+          Download these guides for offline reference. Perfect for printing and
+          keeping handy during inspections or treatments.
         </AlertDescription>
       </Alert>
 
@@ -84,7 +95,11 @@ export function PrintableGuides({ contentType, sectionTitle }: PrintableGuidesPr
               </div>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => handleDownload(guide)} className="w-full" variant="outline">
+              <Button
+                onClick={() => handleDownload(guide)}
+                className="w-full"
+                variant="outline"
+              >
                 <Download className="mr-2 h-4 w-4" />
                 Download PDF
               </Button>

@@ -1,6 +1,12 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertTriangle, Eye, Home, Shield, Phone } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertTriangle, Eye, Home, Phone, Shield } from "lucide-react";
 
 export function ScorpionsContent() {
   return (
@@ -9,7 +15,9 @@ export function ScorpionsContent() {
         <AlertTriangle className="h-4 w-4" />
         <AlertTitle>Important Safety Notice</AlertTitle>
         <AlertDescription>
-          Scorpions can deliver painful and potentially dangerous stings. If stung, seek medical attention immediately, especially for children, elderly, or those with allergies.
+          Scorpions can deliver painful and potentially dangerous stings. If
+          stung, seek medical attention immediately, especially for children,
+          elderly, or those with allergies.
         </AlertDescription>
       </Alert>
 
@@ -19,25 +27,42 @@ export function ScorpionsContent() {
             <Eye className="h-5 w-5" />
             Identifying Scorpions
           </CardTitle>
-          <CardDescription>Learn to recognize scorpions and their characteristics</CardDescription>
+          <CardDescription>
+            Learn to recognize scorpions and their characteristics
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h4 className="mb-2 font-semibold">Physical Characteristics</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Eight legs and two pincers (pedipalps) at the front</li>
-              <li>• Segmented tail that curves over the back, ending in a stinger</li>
+              <li>
+                • Segmented tail that curves over the back, ending in a stinger
+              </li>
               <li>• Size ranges from 1 to 8 inches depending on species</li>
               <li>• Colors vary: tan, brown, yellow, or black</li>
-              <li>• Glow under ultraviolet (UV) light due to fluorescent compounds</li>
+              <li>
+                • Glow under ultraviolet (UV) light due to fluorescent compounds
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-2 font-semibold">Common Species in North America</h4>
+            <h4 className="mb-2 font-semibold">
+              Common Species in North America
+            </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• <strong>Arizona Bark Scorpion:</strong> Most venomous in the U.S., light brown/yellow, 2-3 inches</li>
-              <li>• <strong>Striped Bark Scorpion:</strong> Dark stripes on back, 2-3 inches, common in southern states</li>
-              <li>• <strong>Giant Desert Hairy Scorpion:</strong> Largest in North America, up to 6 inches, less dangerous</li>
+              <li>
+                • <strong>Arizona Bark Scorpion:</strong> Most venomous in the
+                U.S., light brown/yellow, 2-3 inches
+              </li>
+              <li>
+                • <strong>Striped Bark Scorpion:</strong> Dark stripes on back,
+                2-3 inches, common in southern states
+              </li>
+              <li>
+                • <strong>Giant Desert Hairy Scorpion:</strong> Largest in North
+                America, up to 6 inches, less dangerous
+              </li>
             </ul>
           </div>
           <div>
@@ -58,7 +83,9 @@ export function ScorpionsContent() {
             <Home className="h-5 w-5" />
             Habitats & Behavior
           </CardTitle>
-          <CardDescription>Where scorpions live and how they behave</CardDescription>
+          <CardDescription>
+            Where scorpions live and how they behave
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -100,19 +127,27 @@ export function ScorpionsContent() {
             <Shield className="h-5 w-5" />
             Prevention & Safety
           </CardTitle>
-          <CardDescription>How to prevent scorpion encounters and stay safe</CardDescription>
+          <CardDescription>
+            How to prevent scorpion encounters and stay safe
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h4 className="mb-2 font-semibold">Home Prevention</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Seal cracks and crevices in walls, foundations, and around windows/doors</li>
+              <li>
+                • Seal cracks and crevices in walls, foundations, and around
+                windows/doors
+              </li>
               <li>• Install weather stripping and door sweeps</li>
               <li>• Repair torn window screens</li>
               <li>• Remove debris, woodpiles, and rocks near the home</li>
               <li>• Keep vegetation trimmed away from the house</li>
               <li>• Store firewood at least 30 feet from the home</li>
-              <li>• Use yellow or sodium vapor outdoor lights (less attractive to insects)</li>
+              <li>
+                • Use yellow or sodium vapor outdoor lights (less attractive to
+                insects)
+              </li>
             </ul>
           </div>
           <div>
@@ -122,8 +157,12 @@ export function ScorpionsContent() {
               <li>• Keep beds away from walls</li>
               <li>• Don't walk barefoot at night</li>
               <li>• Use a UV flashlight to check for scorpions at night</li>
-              <li>• Store items in sealed plastic containers, not cardboard boxes</li>
-              <li>• Keep closets and storage areas organized and clutter-free</li>
+              <li>
+                • Store items in sealed plastic containers, not cardboard boxes
+              </li>
+              <li>
+                • Keep closets and storage areas organized and clutter-free
+              </li>
             </ul>
           </div>
           <div>
@@ -144,13 +183,17 @@ export function ScorpionsContent() {
             <Phone className="h-5 w-5" />
             What to Do If You Find Scorpions
           </CardTitle>
-          <CardDescription>Steps to take when encountering scorpions</CardDescription>
+          <CardDescription>
+            Steps to take when encountering scorpions
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h4 className="mb-2 font-semibold">Immediate Actions</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Do not attempt to handle or kill scorpions with bare hands</li>
+              <li>
+                • Do not attempt to handle or kill scorpions with bare hands
+              </li>
               <li>• Use a long-handled tool or vacuum to remove them</li>
               <li>• Capture in a jar if possible for identification</li>
               <li>• Check for additional scorpions in the area</li>
@@ -165,15 +208,22 @@ export function ScorpionsContent() {
               <li>• Seek immediate medical attention, especially for:</li>
               <li className="ml-4">- Children under 6 years old</li>
               <li className="ml-4">- Elderly individuals</li>
-              <li className="ml-4">- Anyone with severe symptoms (difficulty breathing, muscle twitching, unusual eye movements)</li>
+              <li className="ml-4">
+                - Anyone with severe symptoms (difficulty breathing, muscle
+                twitching, unusual eye movements)
+              </li>
               <li>• Call Poison Control: 1-800-222-1222</li>
             </ul>
           </div>
           <div>
             <h4 className="mb-2 font-semibold">Professional Control</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Contact a licensed pest control professional for infestations</li>
-              <li>• Consider regular perimeter treatments in scorpion-prone areas</li>
+              <li>
+                • Contact a licensed pest control professional for infestations
+              </li>
+              <li>
+                • Consider regular perimeter treatments in scorpion-prone areas
+              </li>
               <li>• Ask about UV light inspections to locate scorpions</li>
               <li>• Discuss long-term prevention strategies</li>
             </ul>

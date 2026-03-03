@@ -1,10 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { AlertCircle, ArrowLeft, MapPin, Search, X } from 'lucide-react';
-import { useGoogleMaps } from '../hooks/useGoogleMaps';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { AlertCircle, ArrowLeft, MapPin, Search, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useGoogleMaps } from "../hooks/useGoogleMaps";
 
 interface SearchResult {
   placeId: string;
@@ -21,19 +27,25 @@ export function LocationFinder() {
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
-  const autocompleteRef = useRef<google.maps.places.AutocompleteService | null>(null);
-  const placesServiceRef = useRef<google.maps.places.PlacesService | null>(null);
-  
+  const autocompleteRef = useRef<google.maps.places.AutocompleteService | null>(
+    null,
+  );
+  const placesServiceRef = useRef<google.maps.places.PlacesService | null>(
+    null,
+  );
+
   const { isLoaded, loadError } = useGoogleMaps();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [_searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
-  const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
+  const [selectedResult, setSelectedResult] = useState<SearchResult | null>(
+    null,
+  );
 
   // Handle back navigation
   const handleBack = () => {
-    window.location.hash = '';
+    window.location.hash = "";
   };
 
   // Initialize map
@@ -56,19 +68,26 @@ export function LocationFinder() {
         // Initialize services
         infoWindowRef.current = new google.maps.InfoWindow();
         autocompleteRef.current = new google.maps.places.AutocompleteService();
-        placesServiceRef.current = new google.maps.places.PlacesService(mapInstanceRef.current);
+        placesServiceRef.current = new google.maps.places.PlacesService(
+          mapInstanceRef.current,
+        );
       }
 
       setMapError(null);
     } catch (err) {
-      console.error('Error initializing map:', err);
-      setMapError('Failed to initialize map. Please try again.');
+      console.error("Error initializing map:", err);
+      setMapError("Failed to initialize map. Please try again.");
     }
   }, [isLoaded]);
 
   // Handle search
   const handleSearch = async () => {
-    if (!searchQuery.trim() || !autocompleteRef.current || !placesServiceRef.current || !mapInstanceRef.current) {
+    if (
+      !searchQuery.trim() ||
+      !autocompleteRef.current ||
+      !placesServiceRef.current ||
+      !mapInstanceRef.current
+    ) {
       return;
     }
 
@@ -81,40 +100,55 @@ export function LocationFinder() {
       autocompleteRef.current.getPlacePredictions(
         {
           input: searchQuery,
-          types: ['geocode', 'establishment'],
+          types: ["geocode", "establishment"],
         },
         (predictions, status) => {
-          if (status !== google.maps.places.PlacesServiceStatus.OK || !predictions) {
+          if (
+            status !== google.maps.places.PlacesServiceStatus.OK ||
+            !predictions
+          ) {
             setIsSearching(false);
-            if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-              setMapError('No results found. Try a different search term.');
+            if (
+              status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS
+            ) {
+              setMapError("No results found. Try a different search term.");
             } else {
-              setMapError('Search failed. Please try again.');
+              setMapError("Search failed. Please try again.");
             }
             return;
           }
 
           // Get details for the first result
-          if (predictions.length > 0 && placesServiceRef.current && mapInstanceRef.current) {
+          if (
+            predictions.length > 0 &&
+            placesServiceRef.current &&
+            mapInstanceRef.current
+          ) {
             const firstPrediction = predictions[0];
-            
+
             placesServiceRef.current.getDetails(
               {
                 placeId: firstPrediction.place_id,
-                fields: ['name', 'formatted_address', 'geometry'],
+                fields: ["name", "formatted_address", "geometry"],
               },
               (place, detailStatus) => {
                 setIsSearching(false);
 
-                if (detailStatus !== google.maps.places.PlacesServiceStatus.OK || !place || !place.geometry?.location) {
-                  setMapError('Failed to get location details. Please try again.');
+                if (
+                  detailStatus !== google.maps.places.PlacesServiceStatus.OK ||
+                  !place ||
+                  !place.geometry?.location
+                ) {
+                  setMapError(
+                    "Failed to get location details. Please try again.",
+                  );
                   return;
                 }
 
                 const result: SearchResult = {
                   placeId: firstPrediction.place_id,
-                  name: place.name || 'Unknown',
-                  address: place.formatted_address || 'Address not available',
+                  name: place.name || "Unknown",
+                  address: place.formatted_address || "Address not available",
                   location: {
                     lat: place.geometry.location.lat(),
                     lng: place.geometry.location.lng(),
@@ -127,18 +161,18 @@ export function LocationFinder() {
 
                 // Add marker and center map
                 addMarker(result);
-              }
+              },
             );
           } else {
             setIsSearching(false);
-            setMapError('No results found. Try a different search term.');
+            setMapError("No results found. Try a different search term.");
           }
-        }
+        },
       );
     } catch (err) {
-      console.error('Search error:', err);
+      console.error("Search error:", err);
       setIsSearching(false);
-      setMapError('Search failed. Please try again.');
+      setMapError("Search failed. Please try again.");
     }
   };
 
@@ -147,7 +181,7 @@ export function LocationFinder() {
     if (!mapInstanceRef.current) return;
 
     // Clear existing markers
-    markersRef.current.forEach((marker) => marker.setMap(null));
+    for (const marker of markersRef.current) marker.setMap(null);
     markersRef.current = [];
 
     // Create new marker
@@ -159,7 +193,7 @@ export function LocationFinder() {
     });
 
     // Add click listener
-    marker.addListener('click', () => {
+    marker.addListener("click", () => {
       const contentString = `
         <div style="padding: 8px; max-width: 300px;">
           <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1a1a1a;">
@@ -202,20 +236,20 @@ export function LocationFinder() {
 
   // Handle Enter key
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
 
   // Clear search
   const handleClear = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setSearchResults([]);
     setSelectedResult(null);
     setMapError(null);
-    
+
     // Clear markers
-    markersRef.current.forEach((marker) => marker.setMap(null));
+    for (const marker of markersRef.current) marker.setMap(null);
     markersRef.current = [];
 
     // Reset map view
@@ -249,7 +283,8 @@ export function LocationFinder() {
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Failed to load Google Maps. Please check your internet connection and try again.
+              Failed to load Google Maps. Please check your internet connection
+              and try again.
             </AlertDescription>
           </Alert>
         </CardContent>
@@ -280,7 +315,7 @@ export function LocationFinder() {
         <CardContent>
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
-              <div className="mb-2 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
+              <div className="mb-2 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent" />
               <p className="text-sm text-muted-foreground">Loading map...</p>
             </div>
           </div>
@@ -343,7 +378,7 @@ export function LocationFinder() {
           >
             {isSearching ? (
               <>
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"></div>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent" />
                 Searching...
               </>
             ) : (
@@ -369,7 +404,9 @@ export function LocationFinder() {
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <h4 className="font-semibold break-words">{selectedResult.name}</h4>
+                <h4 className="font-semibold break-words">
+                  {selectedResult.name}
+                </h4>
                 <p className="text-sm text-muted-foreground mt-1 break-words">
                   {selectedResult.address}
                 </p>
@@ -383,7 +420,7 @@ export function LocationFinder() {
           <div
             ref={mapRef}
             className="h-[500px] w-full rounded-lg border"
-            style={{ minHeight: '500px' }}
+            style={{ minHeight: "500px" }}
           />
         </div>
       </CardContent>

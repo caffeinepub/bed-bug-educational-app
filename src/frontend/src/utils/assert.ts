@@ -7,7 +7,10 @@
  * Asserts that a condition is truthy, throwing an error if not.
  * Useful for runtime invariant checks.
  */
-export function invariant(condition: unknown, message: string): asserts condition {
+export function invariant(
+  condition: unknown,
+  message: string,
+): asserts condition {
   if (!condition) {
     throw new Error(`Invariant violation: ${message}`);
   }
@@ -30,6 +33,9 @@ export function isDefined<T>(value: T | null | undefined): value is T {
 /**
  * Safely gets a value or returns a default.
  */
-export function getOrDefault<T>(value: T | null | undefined, defaultValue: T): T {
+export function getOrDefault<T>(
+  value: T | null | undefined,
+  defaultValue: T,
+): T {
   return isDefined(value) ? value : defaultValue;
 }

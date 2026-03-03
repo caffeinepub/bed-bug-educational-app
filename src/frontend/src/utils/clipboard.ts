@@ -14,44 +14,43 @@ export interface ClipboardResult {
 export async function copyToClipboard(text: string): Promise<ClipboardResult> {
   try {
     // Try modern clipboard API first
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
       return { success: true };
     }
 
     // Fallback for older browsers
-    const textArea = document.createElement('textarea');
+    const textArea = document.createElement("textarea");
     textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
 
     try {
-      const successful = document.execCommand('copy');
+      const successful = document.execCommand("copy");
       document.body.removeChild(textArea);
-      
+
       if (successful) {
         return { success: true };
-      } else {
-        return {
-          success: false,
-          error: 'Failed to copy. Please copy the text manually.',
-        };
       }
-    } catch (err) {
+      return {
+        success: false,
+        error: "Failed to copy. Please copy the text manually.",
+      };
+    } catch (_err) {
       document.body.removeChild(textArea);
       return {
         success: false,
-        error: 'Failed to copy. Please copy the text manually.',
+        error: "Failed to copy. Please copy the text manually.",
       };
     }
-  } catch (err) {
+  } catch (_err) {
     return {
       success: false,
-      error: 'Failed to copy. Please copy the text manually.',
+      error: "Failed to copy. Please copy the text manually.",
     };
   }
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import * as safeStorage from '@/utils/safeStorage';
+import * as safeStorage from "@/utils/safeStorage";
+import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = 'heat-treatment-checklist-progress';
+const STORAGE_KEY = "heat-treatment-checklist-progress";
 
 export interface ChecklistProgress {
   [itemId: string]: boolean;
@@ -27,47 +27,59 @@ export function useHeatTreatmentChecklistProgress() {
   }, []);
 
   // Save to localStorage whenever progress changes
-  const persistProgress = useCallback((newProgress: ChecklistProgress) => {
-    if (isPersistenceAvailable) {
-      const result = safeStorage.setItem(STORAGE_KEY, newProgress);
-      if (!result.success) {
-        console.error('Failed to persist checklist progress:', result.error);
-        setIsPersistenceAvailable(false);
+  const persistProgress = useCallback(
+    (newProgress: ChecklistProgress) => {
+      if (isPersistenceAvailable) {
+        const result = safeStorage.setItem(STORAGE_KEY, newProgress);
+        if (!result.success) {
+          console.error("Failed to persist checklist progress:", result.error);
+          setIsPersistenceAvailable(false);
+        }
       }
-    }
-  }, [isPersistenceAvailable]);
+    },
+    [isPersistenceAvailable],
+  );
 
-  const toggleItem = useCallback((itemId: string) => {
-    setProgress(prev => {
-      const newProgress = {
-        ...prev,
-        [itemId]: !prev[itemId],
-      };
-      persistProgress(newProgress);
-      return newProgress;
-    });
-  }, [persistProgress]);
+  const toggleItem = useCallback(
+    (itemId: string) => {
+      setProgress((prev) => {
+        const newProgress = {
+          ...prev,
+          [itemId]: !prev[itemId],
+        };
+        persistProgress(newProgress);
+        return newProgress;
+      });
+    },
+    [persistProgress],
+  );
 
-  const isItemCompleted = useCallback((itemId: string): boolean => {
-    return progress[itemId] === true;
-  }, [progress]);
+  const isItemCompleted = useCallback(
+    (itemId: string): boolean => {
+      return progress[itemId] === true;
+    },
+    [progress],
+  );
 
   const resetAll = useCallback(() => {
     setProgress({});
     persistProgress({});
   }, [persistProgress]);
 
-  const getCompletionStats = useCallback((allItemIds: string[]) => {
-    const completed = allItemIds.filter(id => progress[id] === true).length;
-    const total = allItemIds.length;
-    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+  const getCompletionStats = useCallback(
+    (allItemIds: string[]) => {
+      const completed = allItemIds.filter((id) => progress[id] === true).length;
+      const total = allItemIds.length;
+      const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-    return {
-      completed,
-      total,
-      percentage,
-    };
-  }, [progress]);
+      return {
+        completed,
+        total,
+        percentage,
+      };
+    },
+    [progress],
+  );
 
   return {
     toggleItem,

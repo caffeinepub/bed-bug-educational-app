@@ -1,6 +1,12 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Eye, Home, Shield, Phone, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertCircle, Eye, Home, Phone, Shield } from "lucide-react";
 
 export function BeetlesContent() {
   return (
@@ -9,7 +15,9 @@ export function BeetlesContent() {
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Quick Tip</AlertTitle>
         <AlertDescription>
-          Many beetle species can infest homes, damaging stored foods, fabrics, and wood. Proper identification helps determine the best control method.
+          Many beetle species can infest homes, damaging stored foods, fabrics,
+          and wood. Proper identification helps determine the best control
+          method.
         </AlertDescription>
       </Alert>
 
@@ -19,34 +27,63 @@ export function BeetlesContent() {
             <Eye className="h-5 w-5" />
             Identifying Beetles
           </CardTitle>
-          <CardDescription>Learn to recognize common household beetles</CardDescription>
+          <CardDescription>
+            Learn to recognize common household beetles
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h4 className="mb-2 font-semibold">General Characteristics</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Hard, shell-like wing covers (elytra) that meet in a straight line down the back</li>
+              <li>
+                • Hard, shell-like wing covers (elytra) that meet in a straight
+                line down the back
+              </li>
               <li>• Six legs and two antennae</li>
-              <li>• Size varies from 1/16 inch to over 1 inch depending on species</li>
-              <li>• Colors range from black and brown to metallic or patterned</li>
+              <li>
+                • Size varies from 1/16 inch to over 1 inch depending on species
+              </li>
+              <li>
+                • Colors range from black and brown to metallic or patterned
+              </li>
               <li>• Complete metamorphosis: egg, larva (grub), pupa, adult</li>
             </ul>
           </div>
           <div>
             <h4 className="mb-2 font-semibold">Common Indoor Beetle Types</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• <strong>Carpet Beetles:</strong> Small (1/8 inch), round, varied patterns, damage fabrics</li>
-              <li>• <strong>Cigarette/Drugstore Beetles:</strong> Tiny (1/10 inch), reddish-brown, infest stored foods</li>
-              <li>• <strong>Flour Beetles:</strong> Small (1/8 inch), reddish-brown, found in grain products</li>
-              <li>• <strong>Grain Weevils:</strong> Small (1/8 inch), dark with elongated snout, infest whole grains</li>
-              <li>• <strong>Ground Beetles:</strong> Medium to large (1/2 to 1 inch), black, usually harmless</li>
-              <li>• <strong>Ladybugs (Asian Lady Beetles):</strong> Round (1/4 inch), orange/red with spots, overwinter indoors</li>
+              <li>
+                • <strong>Carpet Beetles:</strong> Small (1/8 inch), round,
+                varied patterns, damage fabrics
+              </li>
+              <li>
+                • <strong>Cigarette/Drugstore Beetles:</strong> Tiny (1/10
+                inch), reddish-brown, infest stored foods
+              </li>
+              <li>
+                • <strong>Flour Beetles:</strong> Small (1/8 inch),
+                reddish-brown, found in grain products
+              </li>
+              <li>
+                • <strong>Grain Weevils:</strong> Small (1/8 inch), dark with
+                elongated snout, infest whole grains
+              </li>
+              <li>
+                • <strong>Ground Beetles:</strong> Medium to large (1/2 to 1
+                inch), black, usually harmless
+              </li>
+              <li>
+                • <strong>Ladybugs (Asian Lady Beetles):</strong> Round (1/4
+                inch), orange/red with spots, overwinter indoors
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="mb-2 font-semibold">Signs of Beetle Infestation</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Live or dead beetles in pantries, closets, or windowsills</li>
+              <li>
+                • Live or dead beetles in pantries, closets, or windowsills
+              </li>
               <li>• Larvae (small grubs) in stored foods or fabrics</li>
               <li>• Holes or damage in fabrics, carpets, or stored products</li>
               <li>• Fine powder or frass near infested items</li>
@@ -63,7 +100,9 @@ export function BeetlesContent() {
             <Home className="h-5 w-5" />
             Sources & Attractants
           </CardTitle>
-          <CardDescription>Where beetles come from and what attracts them</CardDescription>
+          <CardDescription>
+            Where beetles come from and what attracts them
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -80,7 +119,10 @@ export function BeetlesContent() {
           <div>
             <h4 className="mb-2 font-semibold">Indoor Attractants</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Stored food products (grains, cereals, flour, spices, pet food)</li>
+              <li>
+                • Stored food products (grains, cereals, flour, spices, pet
+                food)
+              </li>
               <li>• Natural fiber materials (wool, silk, fur, feathers)</li>
               <li>• Carpets and rugs, especially wool or wool-blend</li>
               <li>• Dead insects and organic debris</li>
@@ -114,7 +156,10 @@ export function BeetlesContent() {
           <div>
             <h4 className="mb-2 font-semibold">Food Storage & Kitchen</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Store dry goods in airtight glass, metal, or heavy plastic containers</li>
+              <li>
+                • Store dry goods in airtight glass, metal, or heavy plastic
+                containers
+              </li>
               <li>• Inspect groceries before bringing them home</li>
               <li>• Rotate stored foods regularly (first in, first out)</li>
               <li>• Clean up spills and crumbs immediately</li>
@@ -126,21 +171,31 @@ export function BeetlesContent() {
           <div>
             <h4 className="mb-2 font-semibold">Fabric & Carpet Protection</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Vacuum carpets, rugs, and upholstered furniture regularly</li>
-              <li>• Clean clothing before storing, especially items with stains</li>
+              <li>
+                • Vacuum carpets, rugs, and upholstered furniture regularly
+              </li>
+              <li>
+                • Clean clothing before storing, especially items with stains
+              </li>
               <li>• Store natural fiber items in sealed containers or bags</li>
               <li>• Regularly inspect stored fabrics for damage</li>
-              <li>• Remove lint, hair, and debris from closets and storage areas</li>
+              <li>
+                • Remove lint, hair, and debris from closets and storage areas
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="mb-2 font-semibold">Home Maintenance</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Seal cracks and gaps around windows, doors, and foundations</li>
+              <li>
+                • Seal cracks and gaps around windows, doors, and foundations
+              </li>
               <li>• Install or repair window and door screens</li>
               <li>• Caulk openings around utility lines and pipes</li>
               <li>• Use door sweeps on exterior doors</li>
-              <li>• Reduce outdoor lighting or use yellow bulbs (less attractive)</li>
+              <li>
+                • Reduce outdoor lighting or use yellow bulbs (less attractive)
+              </li>
               <li>• Keep firewood stored away from the house</li>
               <li>• Inspect plants and flowers before bringing them indoors</li>
             </ul>
@@ -154,13 +209,18 @@ export function BeetlesContent() {
             <Phone className="h-5 w-5" />
             What to Do If Found
           </CardTitle>
-          <CardDescription>Steps to take when you discover beetles</CardDescription>
+          <CardDescription>
+            Steps to take when you discover beetles
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <h4 className="mb-2 font-semibold">Immediate Actions</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Identify the beetle species if possible (helps determine treatment)</li>
+              <li>
+                • Identify the beetle species if possible (helps determine
+                treatment)
+              </li>
               <li>• Locate the source of the infestation</li>
               <li>• Isolate infested items to prevent spread</li>
               <li>• Vacuum beetles and larvae thoroughly</li>
@@ -174,27 +234,44 @@ export function BeetlesContent() {
               <li>• Check all nearby food items, even sealed packages</li>
               <li>• Empty and clean all pantry shelves with hot soapy water</li>
               <li>• Vacuum all cracks and crevices in pantry area</li>
-              <li>• Wipe down all food containers before returning to pantry</li>
-              <li>• Consider freezing questionable items for 4 days to kill eggs/larvae</li>
+              <li>
+                • Wipe down all food containers before returning to pantry
+              </li>
+              <li>
+                • Consider freezing questionable items for 4 days to kill
+                eggs/larvae
+              </li>
             </ul>
           </div>
           <div>
             <h4 className="mb-2 font-semibold">For Fabric-Damaging Beetles</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Wash infested fabrics in hot water (120°F or higher) if safe</li>
+              <li>
+                • Wash infested fabrics in hot water (120°F or higher) if safe
+              </li>
               <li>• Dry clean items that cannot be washed</li>
-              <li>• Freeze items for at least 72 hours to kill all life stages</li>
+              <li>
+                • Freeze items for at least 72 hours to kill all life stages
+              </li>
               <li>• Steam clean carpets and upholstered furniture</li>
               <li>• Discard heavily damaged items in sealed bags</li>
-              <li>• Vacuum thoroughly, including under furniture and along baseboards</li>
+              <li>
+                • Vacuum thoroughly, including under furniture and along
+                baseboards
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-2 font-semibold">For Occasional Invaders (Ground Beetles, Ladybugs)</h4>
+            <h4 className="mb-2 font-semibold">
+              For Occasional Invaders (Ground Beetles, Ladybugs)
+            </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>• Vacuum or sweep up beetles and release outside</li>
               <li>• Seal entry points to prevent future invasions</li>
-              <li>• These beetles are generally harmless and don't reproduce indoors</li>
+              <li>
+                • These beetles are generally harmless and don't reproduce
+                indoors
+              </li>
               <li>• Avoid crushing ladybugs (they can stain and emit odor)</li>
             </ul>
           </div>

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, MapPin } from 'lucide-react';
-import type { Technician } from '../backend';
-import { useGoogleMaps } from '../hooks/useGoogleMaps';
-import type { ZipBoundaryCoordinate } from '../hooks/useQueries';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertCircle, MapPin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import type { Technician } from "../backend";
+import { useGoogleMaps } from "../hooks/useGoogleMaps";
+import type { ZipBoundaryCoordinate } from "../hooks/useQueries";
 
 interface TechnicianMapProps {
   technicians: Technician[];
@@ -13,7 +13,12 @@ interface TechnicianMapProps {
   boundaryError?: boolean;
 }
 
-export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoading, boundaryError }: TechnicianMapProps) {
+export function TechnicianMap({
+  technicians,
+  boundaryCoordinates,
+  isBoundaryLoading,
+  boundaryError,
+}: TechnicianMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.Marker[]>([]);
@@ -29,7 +34,7 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
 
     try {
       // Clear existing markers
-      markersRef.current.forEach((marker) => marker.setMap(null));
+      for (const marker of markersRef.current) marker.setMap(null);
       markersRef.current = [];
 
       // Clear existing polygon
@@ -40,22 +45,29 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
 
       // Calculate bounds including both technicians and boundary
       const bounds = new google.maps.LatLngBounds();
-      
+
       // Add technician locations to bounds
-      technicians.forEach((tech) => {
+      for (const tech of technicians) {
         bounds.extend(new google.maps.LatLng(tech.latitude, tech.longitude));
-      });
+      }
 
       // Add boundary coordinates to bounds if available
       if (boundaryCoordinates && boundaryCoordinates.length > 0) {
-        console.log(`Adding ${boundaryCoordinates.length} boundary coordinates to map`);
-        boundaryCoordinates.forEach((coord) => {
-          if (typeof coord.latitude === 'number' && typeof coord.longitude === 'number') {
-            bounds.extend(new google.maps.LatLng(coord.latitude, coord.longitude));
+        console.log(
+          `Adding ${boundaryCoordinates.length} boundary coordinates to map`,
+        );
+        for (const coord of boundaryCoordinates) {
+          if (
+            typeof coord.latitude === "number" &&
+            typeof coord.longitude === "number"
+          ) {
+            bounds.extend(
+              new google.maps.LatLng(coord.latitude, coord.longitude),
+            );
           } else {
-            console.warn('Invalid coordinate format:', coord);
+            console.warn("Invalid coordinate format:", coord);
           }
-        });
+        }
       }
 
       const center = bounds.getCenter();
@@ -75,43 +87,53 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
       }
 
       // Render zip code boundary polygon if available
-      if (boundaryCoordinates && boundaryCoordinates.length > 0 && mapInstanceRef.current) {
+      if (
+        boundaryCoordinates &&
+        boundaryCoordinates.length > 0 &&
+        mapInstanceRef.current
+      ) {
         try {
           const polygonPath = boundaryCoordinates
-            .filter((coord) => typeof coord.latitude === 'number' && typeof coord.longitude === 'number')
+            .filter(
+              (coord) =>
+                typeof coord.latitude === "number" &&
+                typeof coord.longitude === "number",
+            )
             .map((coord) => ({
               lat: coord.latitude,
               lng: coord.longitude,
             }));
 
-          console.log(`Creating polygon with ${polygonPath.length} valid coordinates`);
+          console.log(
+            `Creating polygon with ${polygonPath.length} valid coordinates`,
+          );
 
           if (polygonPath.length > 0) {
             polygonRef.current = new google.maps.Polygon({
               paths: polygonPath,
-              strokeColor: '#2563eb',
+              strokeColor: "#2563eb",
               strokeOpacity: 1.0,
               strokeWeight: 2,
-              fillColor: '#3b82f6',
+              fillColor: "#3b82f6",
               fillOpacity: 0.2,
               map: mapInstanceRef.current,
             });
-            console.log('Polygon successfully created and added to map');
+            console.log("Polygon successfully created and added to map");
           } else {
-            console.warn('No valid coordinates to create polygon');
+            console.warn("No valid coordinates to create polygon");
           }
         } catch (polygonError) {
-          console.error('Error creating polygon:', polygonError);
+          console.error("Error creating polygon:", polygonError);
         }
       } else {
-        console.log('No boundary coordinates available for polygon rendering');
+        console.log("No boundary coordinates available for polygon rendering");
       }
 
       // Fit bounds to show all markers and polygon
       mapInstanceRef.current.fitBounds(bounds);
 
       // Add markers for each technician
-      technicians.forEach((tech) => {
+      for (const tech of technicians) {
         const marker = new google.maps.Marker({
           position: { lat: tech.latitude, lng: tech.longitude },
           map: mapInstanceRef.current,
@@ -120,7 +142,7 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
         });
 
         // Add click listener to show info window
-        marker.addListener('click', () => {
+        marker.addListener("click", () => {
           const contentString = `
             <div style="padding: 8px; max-width: 300px;">
               <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1a1a1a;">
@@ -139,16 +161,20 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
                 </span>
               </div>
               <div style="font-size: 14px; color: #6b6b6b;">
-                ${tech.city && tech.city !== 'unknown' ? tech.city + ', ' : ''}${tech.state && tech.state !== 'unknown' ? tech.state + ' ' : ''}${tech.zipCode}
+                ${tech.city && tech.city !== "unknown" ? `${tech.city}, ` : ""}${tech.state && tech.state !== "unknown" ? `${tech.state} ` : ""}${tech.zipCode}
               </div>
-              ${tech.specialties ? `
+              ${
+                tech.specialties
+                  ? `
                 <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e5e5;">
                   <strong style="font-size: 14px; color: #4a4a4a;">Specialties:</strong>
                   <div style="font-size: 14px; color: #6b6b6b; margin-top: 4px;">
                     ${tech.specialties}
                   </div>
                 </div>
-              ` : ''}
+              `
+                  : ""
+              }
             </div>
           `;
 
@@ -159,19 +185,19 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
         });
 
         markersRef.current.push(marker);
-      });
+      }
 
       setMapError(null);
     } catch (err) {
-      console.error('Error initializing map:', err);
-      setMapError('Failed to initialize map. Please try again.');
+      console.error("Error initializing map:", err);
+      setMapError("Failed to initialize map. Please try again.");
     }
 
     // Cleanup function
     return () => {
-      markersRef.current.forEach((marker) => marker.setMap(null));
+      for (const marker of markersRef.current) marker.setMap(null);
       markersRef.current = [];
-      
+
       if (polygonRef.current) {
         polygonRef.current.setMap(null);
         polygonRef.current = null;
@@ -184,7 +210,8 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          Failed to load Google Maps. Please check your internet connection and try again.
+          Failed to load Google Maps. Please check your internet connection and
+          try again.
         </AlertDescription>
       </Alert>
     );
@@ -205,7 +232,7 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
         <CardContent className="pt-6">
           <div className="flex items-center justify-center py-8">
             <div className="text-center">
-              <div className="mb-2 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
+              <div className="mb-2 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent" />
               <p className="text-sm text-muted-foreground">Loading map...</p>
             </div>
           </div>
@@ -235,7 +262,7 @@ export function TechnicianMap({ technicians, boundaryCoordinates, isBoundaryLoad
         <div
           ref={mapRef}
           className="h-[500px] w-full rounded-lg"
-          style={{ minHeight: '500px' }}
+          style={{ minHeight: "500px" }}
         />
         {isBoundaryLoading && (
           <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 rounded-md bg-background/90 px-3 py-2 text-sm shadow-md">

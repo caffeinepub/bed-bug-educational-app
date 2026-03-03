@@ -1,21 +1,27 @@
-import { useState, useRef, useEffect } from 'react';
-import { Copy, Download, ArrowLeft, Check, AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useHashRoute } from '@/hooks/useHashRoute';
-import { getShareableUrl } from '@/utils/shareUrl';
-import { copyToClipboard } from '@/utils/clipboard';
-import { buildQrImageUrl, downloadQrCode } from '@/utils/qr';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useHashRoute } from "@/hooks/useHashRoute";
+import { copyToClipboard } from "@/utils/clipboard";
+import { buildQrImageUrl, downloadQrCode } from "@/utils/qr";
+import { getShareableUrl } from "@/utils/shareUrl";
+import { AlertCircle, ArrowLeft, Check, Copy, Download } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export function QrCodePage() {
-  const [appUrl, setAppUrl] = useState('');
+  const [appUrl, setAppUrl] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-  const [copyError, setCopyError] = useState('');
-  const [downloadError, setDownloadError] = useState('');
-  const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
+  const [copyError, setCopyError] = useState("");
+  const [downloadError, setDownloadError] = useState("");
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
   const [qrLoadError, setQrLoadError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -40,7 +46,7 @@ export function QrCodePage() {
         setQrCodeDataUrl(qrApiUrl);
         setIsLoading(false);
       } catch (err) {
-        console.error('Failed to generate QR code:', err);
+        console.error("Failed to generate QR code:", err);
         setQrLoadError(true);
         setIsLoading(false);
       }
@@ -58,15 +64,15 @@ export function QrCodePage() {
 
   const handleCopyLink = async () => {
     setCopySuccess(false);
-    setCopyError('');
+    setCopyError("");
 
     const result = await copyToClipboard(appUrl);
-    
+
     if (result.success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 3000);
     } else {
-      setCopyError(result.error || 'Failed to copy link');
+      setCopyError(result.error || "Failed to copy link");
     }
   };
 
@@ -74,14 +80,17 @@ export function QrCodePage() {
     if (!qrCodeDataUrl) return;
 
     setIsDownloading(true);
-    setDownloadError('');
+    setDownloadError("");
 
-    const result = await downloadQrCode(qrCodeDataUrl, 'pest-id-guide-qr-code.png');
-    
+    const result = await downloadQrCode(
+      qrCodeDataUrl,
+      "pest-id-guide-qr-code.png",
+    );
+
     setIsDownloading(false);
 
     if (!result.success) {
-      setDownloadError(result.error || 'Failed to download QR code');
+      setDownloadError(result.error || "Failed to download QR code");
     }
   };
 
@@ -111,11 +120,16 @@ export function QrCodePage() {
 
       <Card>
         <CardHeader>
-          <CardTitle ref={titleRef} tabIndex={-1} className="text-2xl focus:outline-none">
+          <CardTitle
+            ref={titleRef}
+            tabIndex={-1}
+            className="text-2xl focus:outline-none"
+          >
             Share this App
           </CardTitle>
           <CardDescription>
-            Share this pest identification and guide app with others by scanning the QR code or copying the link below.
+            Share this pest identification and guide app with others by scanning
+            the QR code or copying the link below.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -127,7 +141,9 @@ export function QrCodePage() {
             >
               {isLoading ? (
                 <div className="flex h-[280px] w-[280px] items-center justify-center bg-muted">
-                  <p className="text-sm text-muted-foreground">Loading QR code...</p>
+                  <p className="text-sm text-muted-foreground">
+                    Loading QR code...
+                  </p>
                 </div>
               ) : qrLoadError ? (
                 <div className="flex h-[280px] w-[280px] flex-col items-center justify-center gap-3 bg-muted p-4">
@@ -151,7 +167,9 @@ export function QrCodePage() {
                 />
               ) : (
                 <div className="flex h-[280px] w-[280px] items-center justify-center bg-muted">
-                  <p className="text-sm text-muted-foreground">QR code unavailable</p>
+                  <p className="text-sm text-muted-foreground">
+                    QR code unavailable
+                  </p>
                 </div>
               )}
             </div>
@@ -167,7 +185,8 @@ export function QrCodePage() {
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                The QR code could not be generated. The QR service may be unavailable. You can still copy the link below.
+                The QR code could not be generated. The QR service may be
+                unavailable. You can still copy the link below.
               </AlertDescription>
             </Alert>
           )}
@@ -198,7 +217,7 @@ export function QrCodePage() {
             <Button
               onClick={handleCopyLink}
               className="flex-1"
-              variant={copySuccess ? 'default' : 'outline'}
+              variant={copySuccess ? "default" : "outline"}
               aria-label="Copy link to clipboard"
             >
               {copySuccess ? (
@@ -219,18 +238,20 @@ export function QrCodePage() {
               className="flex-1"
               variant="outline"
               aria-label="Download QR code as PNG image"
-              disabled={isLoading || !qrCodeDataUrl || qrLoadError || isDownloading}
+              disabled={
+                isLoading || !qrCodeDataUrl || qrLoadError || isDownloading
+              }
             >
               <Download className="mr-2 h-4 w-4" />
-              {isDownloading ? 'Downloading...' : 'Download QR Code'}
+              {isDownloading ? "Downloading..." : "Download QR Code"}
             </Button>
           </div>
 
           {/* Feedback Messages */}
           {copySuccess && (
-            <p className="text-center text-sm text-green-600 dark:text-green-400" role="status">
+            <output className="block text-center text-sm text-green-600 dark:text-green-400">
               Link copied to clipboard successfully!
-            </p>
+            </output>
           )}
           {copyError && (
             <p className="text-center text-sm text-destructive" role="alert">

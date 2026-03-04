@@ -124,6 +124,11 @@ const PEST_BUTTONS = [
     label: "Ticks",
     img: "/assets/generated/tick-icon.dim_128x128.png",
   },
+  {
+    id: "batbugs",
+    label: "Bat Bugs",
+    img: "/assets/generated/bat-bug-icon-transparent.dim_128x128.png",
+  },
 ] as const;
 
 // Pixel-color heuristic to identify likely pest from photo
@@ -183,6 +188,7 @@ async function analyzePestFromImage(imageDataUrl: string): Promise<string> {
         woodbeetles: isBrown && !isDark ? 4 : isBrown ? 3 : 1,
         blackstinkbugs: isDark && isGray ? 4 : isDark ? 2 : 1,
         largeflies: isGray ? 4 : brightness > 120 ? 2 : 1,
+        batbugs: isBrown ? 4 : isDark ? 3 : 1,
       };
 
       // Add random tie-breaking to avoid always picking the same pest

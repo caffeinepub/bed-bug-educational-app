@@ -17,6 +17,7 @@ import { PhotoScanner } from "./PhotoScanner";
 import { PrintableGuides } from "./PrintableGuides";
 import { TechnicianFinder } from "./TechnicianFinder";
 import { ArmyAntsContent } from "./pests/ArmyAntsContent";
+import { BatBugsContent } from "./pests/BatBugsContent";
 import { BeetlesContent } from "./pests/BeetlesContent";
 import { BlackAntsContent } from "./pests/BlackAntsContent";
 import { BlackStinkBugsContent } from "./pests/BlackStinkBugsContent";
@@ -59,6 +60,7 @@ export function EducationalContent() {
     | "housefly"
     | "largeflies"
     | "ticks"
+    | "batbugs"
   >("bedbugs");
   const { currentHash } = useHashRoute();
 
@@ -102,6 +104,7 @@ export function EducationalContent() {
       "housefly",
       "largeflies",
       "ticks",
+      "batbugs",
     ] as const;
     if (pestParam && (validPests as readonly string[]).includes(pestParam)) {
       setSelectedPest(pestParam as (typeof validPests)[number]);
@@ -364,6 +367,18 @@ export function EducationalContent() {
         />
         <span className="text-xs">Ticks</span>
       </Button>
+      <Button
+        variant={selectedPest === "batbugs" ? "default" : "outline"}
+        onClick={() => setSelectedPest("batbugs")}
+        className="h-20 flex-col gap-2"
+      >
+        <img
+          src="/assets/generated/bat-bug-icon-transparent.dim_128x128.png"
+          alt="Bat Bugs"
+          className="h-6 w-6 object-contain"
+        />
+        <span className="text-xs">Bat Bugs</span>
+      </Button>
     </div>
   );
 
@@ -405,6 +420,8 @@ export function EducationalContent() {
         return <LargeFliesContent />;
       case "ticks":
         return <TicksContent />;
+      case "batbugs":
+        return <BatBugsContent />;
       default:
         return null;
     }

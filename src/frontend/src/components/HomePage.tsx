@@ -194,10 +194,10 @@ export function HomePage() {
           <h3 className="mb-4 text-xl font-semibold">What You'll Find Here</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-              <h4 className="mb-2 font-medium">18 Common Pests</h4>
+              <h4 className="mb-2 font-medium">19 Common Pests</h4>
               <p className="text-sm text-muted-foreground">
-                Detailed information on bed bugs, scorpions, mice, cockroaches,
-                ants, spiders, and more
+                Detailed information on bed bugs, bat bugs, scorpions, mice,
+                cockroaches, ants, spiders, and more
               </p>
             </div>
             <div>

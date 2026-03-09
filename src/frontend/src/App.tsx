@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
 });
 
 function AppContent() {
-  const { isRoute, currentHash } = useHashRoute();
+  const { isRoute } = useHashRoute();
 
   // Handle QR code page
   if (isRoute("/qr")) {
@@ -54,7 +54,7 @@ function AppContent() {
   }
 
   // Handle home page
-  if (isRoute("/") || isRoute("/home") || currentHash === "") {
+  if (isRoute("/") || isRoute("/home")) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />

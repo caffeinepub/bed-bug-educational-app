@@ -43,9 +43,9 @@ export function LocationFinder() {
     null,
   );
 
-  // Handle back navigation
+  // Handle back navigation — always go to the home page
   const handleBack = () => {
-    window.location.hash = "";
+    window.location.hash = "/";
   };
 
   // Initialize map
@@ -270,6 +270,7 @@ export function LocationFinder() {
               onClick={handleBack}
               className="flex-shrink-0"
               aria-label="Go back"
+              data-ocid="location.back.button"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -303,6 +304,7 @@ export function LocationFinder() {
               onClick={handleBack}
               className="flex-shrink-0"
               aria-label="Go back"
+              data-ocid="location.back.button"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -334,6 +336,7 @@ export function LocationFinder() {
             onClick={handleBack}
             className="flex-shrink-0"
             aria-label="Go back"
+            data-ocid="location.back.button"
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -358,6 +361,7 @@ export function LocationFinder() {
               onKeyPress={handleKeyPress}
               disabled={isSearching}
               className="pr-10"
+              data-ocid="location.search.input"
             />
             {searchQuery && (
               <Button
@@ -375,6 +379,7 @@ export function LocationFinder() {
             onClick={handleSearch}
             disabled={!searchQuery.trim() || isSearching}
             className="gap-2"
+            data-ocid="location.search.primary_button"
           >
             {isSearching ? (
               <>
@@ -392,7 +397,7 @@ export function LocationFinder() {
 
         {/* Error Message */}
         {mapError && (
-          <Alert variant="destructive">
+          <Alert variant="destructive" data-ocid="location.search.error_state">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{mapError}</AlertDescription>
           </Alert>
@@ -421,6 +426,7 @@ export function LocationFinder() {
             ref={mapRef}
             className="h-[500px] w-full rounded-lg border"
             style={{ minHeight: "500px" }}
+            data-ocid="location.map_marker"
           />
         </div>
       </CardContent>

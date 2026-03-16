@@ -1,4 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,8 +14,11 @@ import { useOnUnmount } from "@/utils/useOnUnmount";
 import {
   AlertCircle,
   Camera,
+  CheckCircle2,
   ChevronDown,
+  ChevronUp,
   Download,
+  Lightbulb,
   Loader2,
   RotateCw,
   Save,
@@ -131,84 +135,290 @@ const PEST_BUTTONS = [
   },
 ] as const;
 
-// Pixel-color heuristic to identify likely pest from photo
-async function analyzePestFromImage(imageDataUrl: string): Promise<string> {
+type PestId = (typeof PEST_BUTTONS)[number]["id"];
+
+interface PestCandidate {
+  id: PestId;
+  confidence: number;
+}
+
+function analyzeQuadrant(
+  data: Uint8ClampedArray,
+  startIdx: number,
+  quadrantSize: number,
+  fullWidth: number,
+) {
+  let totalR = 0;
+  let totalG = 0;
+  let totalB = 0;
+  let count = 0;
+  let darkCount = 0;
+  let brownCount = 0;
+  let grayCount = 0;
+  let warmCount = 0;
+  let edgeCount = 0;
+  const pixels: number[] = [];
+
+  for (let row = 0; row < quadrantSize; row++) {
+    for (let col = 0; col < quadrantSize; col++) {
+      const pixelIdx = (startIdx + row * fullWidth + col) * 4;
+      const r = data[pixelIdx];
+      const g = data[pixelIdx + 1];
+      const b = data[pixelIdx + 2];
+      const brightness = (r + g + b) / 3;
+      totalR += r;
+      totalG += g;
+      totalB += b;
+      pixels.push(brightness);
+      count++;
+      if (brightness < 100) darkCount++;
+      if (r > g + 20 && b < r - 30) brownCount++;
+      if (Math.abs(r - g) < 25 && Math.abs(g - b) < 25 && Math.abs(r - b) < 25)
+        grayCount++;
+      if (r > 140 && g > 80 && b < 100) warmCount++;
+    }
+  }
+
+  for (let row = 1; row < quadrantSize - 1; row++) {
+    for (let col = 1; col < quadrantSize - 1; col++) {
+      const idx = row * quadrantSize + col;
+      const diff =
+        Math.abs(pixels[idx] - pixels[idx - 1]) +
+        Math.abs(pixels[idx] - pixels[idx + 1]) +
+        Math.abs(pixels[idx] - pixels[idx - quadrantSize]) +
+        Math.abs(pixels[idx] - pixels[idx + quadrantSize]);
+      if (diff > 80) edgeCount++;
+    }
+  }
+
+  const mean = pixels.reduce((a, b) => a + b, 0) / pixels.length;
+  const variance =
+    pixels.reduce((acc, v) => acc + (v - mean) ** 2, 0) / pixels.length;
+
+  return {
+    avgR: totalR / count,
+    avgG: totalG / count,
+    avgB: totalB / count,
+    darkRatio: darkCount / count,
+    brownRatio: brownCount / count,
+    grayRatio: grayCount / count,
+    warmRatio: warmCount / count,
+    edgeDensity: edgeCount / count,
+    variance,
+    brightness: (totalR + totalG + totalB) / (count * 3),
+  };
+}
+
+async function analyzePestFromImage(
+  imageDataUrl: string,
+): Promise<PestCandidate[]> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
+      const SIZE = 64;
+      const HALF = SIZE / 2;
       const canvas = document.createElement("canvas");
-      canvas.width = 64;
-      canvas.height = 64;
+      canvas.width = SIZE;
+      canvas.height = SIZE;
       const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, 0, 0, 64, 64);
-      const data = ctx.getImageData(0, 0, 64, 64).data;
+      ctx.drawImage(img, 0, 0, SIZE, SIZE);
+      const imageData = ctx.getImageData(0, 0, SIZE, SIZE);
+      const data = imageData.data;
 
-      let totalR = 0;
-      let totalG = 0;
-      let totalB = 0;
-      let count = 0;
-      for (let i = 0; i < data.length; i += 4) {
-        totalR += data[i];
-        totalG += data[i + 1];
-        totalB += data[i + 2];
-        count++;
-      }
-      const avgR = totalR / count;
-      const avgG = totalG / count;
-      const avgB = totalB / count;
+      const q1 = analyzeQuadrant(data, 0, HALF, SIZE);
+      const q2 = analyzeQuadrant(data, HALF, HALF, SIZE);
+      const q3 = analyzeQuadrant(data, HALF * SIZE, HALF, SIZE);
+      const q4 = analyzeQuadrant(data, HALF * SIZE + HALF, HALF, SIZE);
+
+      const avgR = (q1.avgR + q2.avgR + q3.avgR + q4.avgR) / 4;
+      const avgG = (q1.avgG + q2.avgG + q3.avgG + q4.avgG) / 4;
+      const avgB = (q1.avgB + q2.avgB + q3.avgB + q4.avgB) / 4;
       const brightness = (avgR + avgG + avgB) / 3;
-      const rDom = avgR > avgG && avgR > avgB;
-      const gDom = avgG > avgR && avgG > avgB;
-      const bDom = avgB > avgR && avgB > avgG;
-      const isWarm = avgR > 140 && avgG > 100 && avgB < 100;
-      const isDark = brightness < 80;
-      const isBrown = avgR > 100 && avgG > 60 && avgB < 80 && avgR > avgG;
-      const isGray = Math.abs(avgR - avgG) < 20 && Math.abs(avgG - avgB) < 20;
+      const darkRatio =
+        (q1.darkRatio + q2.darkRatio + q3.darkRatio + q4.darkRatio) / 4;
+      const brownRatio =
+        (q1.brownRatio + q2.brownRatio + q3.brownRatio + q4.brownRatio) / 4;
+      const grayRatio =
+        (q1.grayRatio + q2.grayRatio + q3.grayRatio + q4.grayRatio) / 4;
+      const warmRatio =
+        (q1.warmRatio + q2.warmRatio + q3.warmRatio + q4.warmRatio) / 4;
+      const edgeDensity =
+        (q1.edgeDensity + q2.edgeDensity + q3.edgeDensity + q4.edgeDensity) / 4;
+      const variance =
+        (q1.variance + q2.variance + q3.variance + q4.variance) / 4;
 
-      // Suppress unused variable warnings — these are part of the heuristic
-      void bDom;
+      const smallBody = brightness > 180;
+      const veryDark = darkRatio > 0.55;
+      const moderateDark = darkRatio > 0.3;
+      const highBrown = brownRatio > 0.25;
+      const moderateBrown = brownRatio > 0.1;
+      const highGray = grayRatio > 0.4;
+      const highEdge = edgeDensity > 0.08;
+      const highVariance = variance > 1200;
+      const warmDominant = warmRatio > 0.2;
+      const reddish = avgR > avgG + 15 && avgR > avgB + 20;
+      const almostBlack = darkRatio > 0.65;
 
-      // Heuristic pest scoring based on color profiles
-      const scores: Record<string, number> = {
-        bedbugs: isBrown ? 5 : isDark ? 3 : 1,
-        cockroaches: isBrown && isDark ? 5 : isDark ? 3 : 1,
-        spiders: isDark && isGray ? 4 : isDark ? 3 : 1,
-        mice: isGray ? 4 : brightness > 150 ? 2 : 1,
-        scorpions: isWarm ? 4 : isBrown ? 3 : 1,
-        headlice: brightness > 160 ? 4 : isBrown ? 3 : 1,
-        ticks: isDark && isBrown ? 5 : isDark ? 3 : 1,
-        housefly: isGray && isDark ? 4 : isGray ? 3 : 1,
-        earwigs: isDark && rDom ? 4 : isDark ? 3 : 1,
-        blackants: isDark && !isBrown ? 5 : isDark ? 3 : 1,
-        redants: rDom ? 5 : isWarm ? 3 : 1,
-        armyants: isDark && isBrown ? 4 : isDark ? 2 : 1,
-        carpenterants: isDark && isGray ? 4 : isDark ? 2 : 1,
-        mothslarvae: gDom || (brightness > 140 && !rDom) ? 4 : 1,
-        beetles: isDark && !isBrown && !isGray ? 4 : isDark ? 2 : 1,
-        woodbeetles: isBrown && !isDark ? 4 : isBrown ? 3 : 1,
-        blackstinkbugs: isDark && isGray ? 4 : isDark ? 2 : 1,
-        largeflies: isGray ? 4 : brightness > 120 ? 2 : 1,
-        batbugs: isBrown ? 4 : isDark ? 3 : 1,
+      const quadBrightMax = Math.max(
+        q1.brightness,
+        q2.brightness,
+        q3.brightness,
+        q4.brightness,
+      );
+      const quadBrightMin = Math.min(
+        q1.brightness,
+        q2.brightness,
+        q3.brightness,
+        q4.brightness,
+      );
+      const elongated = quadBrightMax - quadBrightMin > 60;
+
+      const rawScores: Record<PestId, number> = {
+        bedbugs:
+          (highBrown ? 30 : moderateBrown ? 15 : 0) +
+          (moderateDark ? 25 : 0) +
+          (highEdge ? 10 : 0) +
+          (smallBody ? 15 : 0) +
+          (highVariance ? 5 : 0),
+        cockroaches:
+          (veryDark ? 30 : moderateDark ? 15 : 0) +
+          (highBrown && moderateDark ? 20 : highBrown ? 10 : 0) +
+          (highVariance ? 15 : 0) +
+          (highEdge ? 10 : 0),
+        ticks:
+          (moderateDark ? 20 : 0) +
+          (highBrown ? 25 : moderateBrown ? 10 : 0) +
+          (smallBody ? 20 : 0) +
+          (highEdge ? 10 : 0),
+        spiders:
+          (highGray ? 20 : 0) +
+          (highEdge ? 30 : 0) +
+          (elongated ? 20 : 0) +
+          (moderateDark ? 10 : 0),
+        mice:
+          (highGray ? 25 : 0) +
+          (!veryDark && brightness > 100 ? 20 : 0) +
+          (!highEdge ? 15 : 0) +
+          (warmRatio > 0.1 && warmRatio < 0.3 ? 10 : 0),
+        scorpions:
+          (warmDominant ? 30 : 0) +
+          (highBrown ? 15 : 0) +
+          (highVariance ? 15 : 0) +
+          (elongated ? 15 : 0),
+        headlice:
+          (smallBody ? 25 : 0) +
+          (brightness > 140 && brownRatio > 0.05 ? 20 : 0) +
+          (highEdge ? 10 : 0) +
+          (!veryDark ? 10 : 0),
+        redants:
+          (reddish ? 35 : 0) +
+          (warmDominant ? 20 : 0) +
+          (highEdge ? 10 : 0) +
+          (smallBody ? 10 : 0),
+        blackants:
+          (almostBlack ? 35 : veryDark ? 20 : 0) +
+          (!highBrown ? 15 : 0) +
+          (highEdge ? 15 : 0) +
+          (smallBody ? 10 : 0),
+        carpenterants:
+          (veryDark ? 25 : moderateDark ? 15 : 0) +
+          (!smallBody ? 15 : 0) +
+          (highEdge ? 10 : 0) +
+          (highGray ? 10 : 0),
+        armyants:
+          (moderateDark ? 20 : 0) +
+          (highBrown ? 20 : 0) +
+          (highVariance ? 15 : 0) +
+          (highEdge ? 10 : 0),
+        earwigs:
+          (reddish && moderateDark ? 30 : 0) +
+          (elongated ? 25 : 0) +
+          (highVariance ? 15 : 0) +
+          (moderateBrown ? 10 : 0),
+        housefly:
+          (highGray ? 25 : 0) +
+          (moderateDark ? 15 : 0) +
+          (!smallBody ? 10 : 0) +
+          (highEdge ? 10 : 0),
+        largeflies:
+          (highGray ? 20 : 0) +
+          (brightness > 80 && brightness < 160 ? 20 : 0) +
+          (!smallBody ? 15 : 0) +
+          (highEdge ? 10 : 0),
+        mothslarvae:
+          (brightness > 160 && !veryDark ? 30 : 0) +
+          (grayRatio < 0.2 && brownRatio < 0.15 ? 20 : 0) +
+          (!highEdge ? 15 : 0) +
+          (!reddish ? 10 : 0),
+        beetles:
+          (veryDark ? 25 : moderateDark ? 10 : 0) +
+          (highEdge ? 20 : 0) +
+          (!highBrown ? 15 : 0) +
+          (highVariance ? 15 : 0),
+        woodbeetles:
+          (highBrown ? 30 : moderateBrown ? 15 : 0) +
+          (elongated ? 15 : 0) +
+          (!veryDark ? 10 : 0) +
+          (highVariance ? 10 : 0),
+        blackstinkbugs:
+          (veryDark ? 25 : 0) +
+          (highGray ? 15 : 0) +
+          (!elongated ? 15 : 0) +
+          (highVariance ? 10 : 0),
+        batbugs:
+          (highBrown ? 25 : moderateBrown ? 15 : 0) +
+          (moderateDark ? 20 : 0) +
+          (smallBody ? 20 : 0) +
+          (highVariance ? 5 : 0),
       };
 
-      // Add random tie-breaking to avoid always picking the same pest
-      const pestIds = Object.keys(scores);
-      const randomBoost = pestIds[Math.floor(Math.random() * pestIds.length)];
-      scores[randomBoost] = (scores[randomBoost] || 1) + 1;
+      const maxRaw = Math.max(...Object.values(rawScores));
+      const minRaw = Math.min(...Object.values(rawScores));
+      const range = maxRaw - minRaw || 1;
 
-      const best = pestIds.reduce((a, b) => (scores[a] >= scores[b] ? a : b));
-      resolve(best);
+      const candidates: PestCandidate[] = (
+        Object.entries(rawScores) as [PestId, number][]
+      )
+        .map(([id, score]) => ({
+          id,
+          confidence: Math.round(20 + ((score - minRaw) / range) * 75),
+        }))
+        .sort((a, b) => b.confidence - a.confidence)
+        .slice(0, 3);
+
+      resolve(candidates);
     };
     img.src = imageDataUrl;
   });
+}
+
+const PHOTO_TIPS = [
+  "Ensure the pest is clearly visible and in focus",
+  "Use good lighting — natural light or a flashlight works well",
+  "Get as close as possible to fill the frame with the pest",
+  "Avoid blurry or dark photos for best identification",
+  "If unsure, tap 'Choose manually' to browse all pests",
+];
+
+function getConfidenceColor(confidence: number): string {
+  if (confidence >= 70) return "bg-green-500";
+  if (confidence >= 40) return "bg-yellow-500";
+  return "bg-orange-500";
+}
+
+function getConfidenceLabel(confidence: number): string {
+  if (confidence >= 70) return "High confidence";
+  if (confidence >= 40) return "Moderate confidence";
+  return "Low confidence";
 }
 
 export function PhotoScanner() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [autoDetectedPest, setAutoDetectedPest] = useState<string | null>(null);
+  const [pestCandidates, setPestCandidates] = useState<PestCandidate[]>([]);
   const [showManualGrid, setShowManualGrid] = useState(false);
+  const [showTips, setShowTips] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -257,26 +467,21 @@ export function PhotoScanner() {
     isPersistenceAvailable,
   } = useSavedScans();
 
-  // Ensure camera is stopped on unmount
   useOnUnmount(() => {
-    if (isActive) {
-      stopCamera();
-    }
+    if (isActive) stopCamera();
   });
 
-  // Helper: trigger analysis after an image is set
   const triggerAnalysis = useCallback((imageDataUrl: string) => {
     setIsAnalyzing(true);
-    setAutoDetectedPest(null);
+    setPestCandidates([]);
     setShowManualGrid(false);
-    // Minimum visible scanning duration for UX feedback
     const analysisStart = Date.now();
-    analyzePestFromImage(imageDataUrl).then((pestId) => {
+    analyzePestFromImage(imageDataUrl).then((candidates) => {
       const elapsed = Date.now() - analysisStart;
-      const remaining = Math.max(0, 1500 - elapsed);
+      const remaining = Math.max(0, 2000 - elapsed);
       setTimeout(() => {
         setIsAnalyzing(false);
-        setAutoDetectedPest(pestId);
+        setPestCandidates(candidates);
       }, remaining);
     });
   }, []);
@@ -300,10 +505,7 @@ export function PhotoScanner() {
 
   const handleOpenCamera = useCallback(async () => {
     setShowCamera(true);
-    const success = await startCamera();
-    if (!success) {
-      console.error("Camera failed to start");
-    }
+    await startCamera();
   }, [startCamera]);
 
   const handleCloseCamera = useCallback(async () => {
@@ -327,31 +529,16 @@ export function PhotoScanner() {
   }, [capturePhoto, stopCamera, triggerAnalysis]);
 
   const handleDelete = useCallback(async () => {
-    if (isActive) {
-      await stopCamera();
-    }
+    if (isActive) await stopCamera();
     setSelectedImage(null);
     setShowCamera(false);
-    setAutoDetectedPest(null);
+    setPestCandidates([]);
     setIsAnalyzing(false);
     setShowManualGrid(false);
     resetEditor();
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
     toast.success("Photo cleared");
   }, [isActive, stopCamera, resetEditor]);
-
-  const _handleReset = useCallback(() => {
-    setSelectedImage(null);
-    setAutoDetectedPest(null);
-    setIsAnalyzing(false);
-    setShowManualGrid(false);
-    resetEditor();
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }, [resetEditor]);
 
   const handleDownload = useCallback(async () => {
     const blob = await exportImage();
@@ -424,11 +611,6 @@ export function PhotoScanner() {
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-  // Look up detected pest details
-  const detectedPestInfo = autoDetectedPest
-    ? (PEST_BUTTONS.find((p) => p.id === autoDetectedPest) ?? null)
-    : null;
-
   return (
     <div className="space-y-6">
       {!isPersistenceAvailable && (
@@ -449,8 +631,8 @@ export function PhotoScanner() {
             Photo Scanner
           </CardTitle>
           <CardDescription>
-            Capture or upload a photo of a pest — we'll automatically identify
-            it and take you straight to prevention info.
+            Capture or upload a photo of a pest — our multi-feature analyzer
+            identifies it and shows you the top matches with confidence scores.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -495,6 +677,39 @@ export function PhotoScanner() {
                   </AlertDescription>
                 </Alert>
               )}
+
+              {/* Photo tips collapsible */}
+              <div className="rounded-lg border border-border bg-muted/40">
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-foreground hover:bg-muted/60 transition-colors rounded-lg"
+                  onClick={() => setShowTips((v) => !v)}
+                  data-ocid="scanner.tips.toggle"
+                >
+                  <span className="flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4 text-yellow-500" />
+                    Tips for better identification
+                  </span>
+                  {showTips ? (
+                    <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </button>
+                {showTips && (
+                  <ul className="px-4 pb-4 space-y-2">
+                    {PHOTO_TIPS.map((tip) => (
+                      <li
+                        key={tip}
+                        className="flex items-start gap-2 text-sm text-muted-foreground"
+                      >
+                        <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           )}
 
@@ -574,7 +789,7 @@ export function PhotoScanner() {
                 />
               </div>
 
-              {/* === SCANNING STATE === */}
+              {/* SCANNING STATE */}
               {isAnalyzing && (
                 <Card
                   className="border-2 border-primary/40 bg-primary/5"
@@ -588,10 +803,11 @@ export function PhotoScanner() {
                       </div>
                       <div>
                         <p className="font-semibold text-foreground text-lg">
-                          Analyzing your photo…
+                          Scanning photo…
                         </p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          Scanning pixel patterns to identify the pest
+                          Analyzing color patterns, edges, and texture to
+                          identify the pest
                         </p>
                       </div>
                     </div>
@@ -599,86 +815,133 @@ export function PhotoScanner() {
                 </Card>
               )}
 
-              {/* === AUTO-DETECT RESULT === */}
-              {!isAnalyzing &&
-                autoDetectedPest &&
-                !showManualGrid &&
-                detectedPestInfo && (
-                  <Card
-                    className="border-2 border-emerald-500/50 bg-emerald-50/60 dark:bg-emerald-950/30"
-                    data-ocid="scanner.auto_result.card"
-                  >
-                    <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-2 text-base text-emerald-800 dark:text-emerald-300">
-                        <ScanSearch className="h-5 w-5 flex-shrink-0" />
-                        Pest Identified!
-                      </CardTitle>
-                      <CardDescription className="text-emerald-700 dark:text-emerald-400">
-                        Based on your photo, we identified this pest.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {/* Identified pest card */}
-                      <div className="flex items-center gap-4 rounded-xl border border-emerald-300/60 bg-white/70 dark:bg-emerald-900/20 px-4 py-3">
-                        <img
-                          src={detectedPestInfo.img}
-                          alt={detectedPestInfo.label}
-                          className="h-14 w-14 object-contain flex-shrink-0"
-                        />
-                        <div className="min-w-0">
-                          <p className="font-bold text-foreground text-lg leading-tight">
-                            {detectedPestInfo.label}
-                          </p>
-                          <p className="text-sm text-muted-foreground mt-0.5 leading-snug">
-                            We identified this as a{" "}
-                            <strong>{detectedPestInfo.label}</strong>. Tap below
-                            to see identification info and prevention tips.
-                          </p>
+              {/* TOP 3 CANDIDATES */}
+              {!isAnalyzing && pestCandidates.length > 0 && !showManualGrid && (
+                <Card
+                  className="border-2 border-primary/40"
+                  data-ocid="scanner.results.card"
+                >
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <ScanSearch className="h-5 w-5 text-primary" />
+                      Pest Identification Results
+                    </CardTitle>
+                    <CardDescription>
+                      Top matches based on photo analysis. Tap "View Info" to
+                      learn more about each pest.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {pestCandidates.map((candidate, index) => {
+                      const pestInfo = PEST_BUTTONS.find(
+                        (p) => p.id === candidate.id,
+                      );
+                      if (!pestInfo) return null;
+                      const isTop = index === 0;
+                      return (
+                        <div
+                          key={candidate.id}
+                          className={`rounded-xl border p-3 transition-colors ${
+                            isTop
+                              ? "border-primary/60 bg-primary/5"
+                              : "border-border bg-card"
+                          }`}
+                          data-ocid={`scanner.result.item.${index + 1}`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={pestInfo.img}
+                              alt={pestInfo.label}
+                              className={`object-contain flex-shrink-0 ${
+                                isTop ? "h-14 w-14" : "h-10 w-10"
+                              }`}
+                            />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap mb-1">
+                                <span
+                                  className={`font-semibold ${
+                                    isTop ? "text-base" : "text-sm"
+                                  } text-foreground`}
+                                >
+                                  {pestInfo.label}
+                                </span>
+                                {isTop && (
+                                  <Badge className="bg-primary text-primary-foreground text-xs">
+                                    Most Likely
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${getConfidenceColor(candidate.confidence)}`}
+                                    style={{
+                                      width: `${candidate.confidence}%`,
+                                    }}
+                                  />
+                                </div>
+                                <span className="text-xs font-medium text-muted-foreground w-10 text-right flex-shrink-0">
+                                  {candidate.confidence}%
+                                </span>
+                              </div>
+                              <p className="text-xs text-muted-foreground">
+                                {getConfidenceLabel(candidate.confidence)}
+                              </p>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant={isTop ? "default" : "outline"}
+                              className="flex-shrink-0"
+                              onClick={() => {
+                                window.location.href = `${window.location.pathname}?pest=${pestInfo.id}#identify`;
+                              }}
+                              data-ocid={`scanner.result.primary_button.${index + 1}`}
+                            >
+                              <Search className="mr-1.5 h-3.5 w-3.5" />
+                              View Info
+                            </Button>
+                          </div>
                         </div>
-                      </div>
+                      );
+                    })}
 
-                      {/* Actions */}
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <Button
-                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-                          size="lg"
-                          onClick={() => {
-                            window.location.href = `${window.location.pathname}?pest=${detectedPestInfo.id}#identify`;
-                          }}
-                          data-ocid="scanner.auto_result.primary_button"
-                        >
-                          <Search className="mr-2 h-4 w-4" />
-                          View {detectedPestInfo.label} Info
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="lg"
-                          className="flex-1 border-emerald-400/60 text-emerald-800 hover:bg-emerald-100/60 dark:text-emerald-300 dark:hover:bg-emerald-900/30"
-                          onClick={() => setShowManualGrid(true)}
-                          data-ocid="scanner.auto_result.secondary_button"
-                        >
-                          <ChevronDown className="mr-2 h-4 w-4" />
-                          Not right? Choose manually
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full text-muted-foreground hover:text-foreground mt-1"
+                      onClick={() => setShowManualGrid(true)}
+                      data-ocid="scanner.results.secondary_button"
+                    >
+                      <ChevronDown className="mr-2 h-4 w-4" />
+                      None of these — pick manually
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
 
-              {/* === MANUAL GRID (shown when user clicks "Not right?") === */}
+              {/* MANUAL GRID */}
               {showManualGrid && (
                 <Card
                   className="border-2 border-primary/60 bg-primary/5"
                   data-ocid="scanner.manual_grid.panel"
                 >
                   <CardHeader className="pb-3">
-                    <CardTitle className="flex items-center gap-2 text-base">
-                      <Search className="h-5 w-5 text-primary" />
-                      What pest did you find? Tap to identify it.
-                    </CardTitle>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="flex items-center gap-2 text-base">
+                        <Search className="h-5 w-5 text-primary" />
+                        Choose pest manually
+                      </CardTitle>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowManualGrid(false)}
+                        data-ocid="scanner.manual_grid.close_button"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <CardDescription>
-                      Select the pest that matches what you photographed —
-                      you'll go straight to identification and prevention info.
+                      Select the pest that matches what you photographed.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
